@@ -1,0 +1,33 @@
+h1 {
+  background-color: blueviolet;
+}
+
+.container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dakoku-btn {
+  text-align: center;
+  color: #f8f8ff;
+}
+
+.dakoku-btn button {
+  font-size: 50px;
+  width: 400px;
+  height: 200px;
+  margin-top: 50px;
+}
+
+.sub-btn {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+.sub-btn button {
+  width: 100px;
+  height: 50px;
+}
