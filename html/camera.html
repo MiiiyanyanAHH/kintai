@@ -1,12 +1,26 @@
-<script src="jsQR.js"></script>
 <!---->
+<!DOCTYPE html>
+<html lang="jp">
 
-<div id="wrapper">
-  <!--QR読み込みのためのカメラ映像を表示する-->
-  <video src="video" autoplay muted playsinline></video>
-  <!--要素をもとにカメラ映像を表示する-->
-  <canvas id="camera-canvas"></canvas>
-  <!--QRコードの周りに赤枠を表示するための-->
-  <canvas id="rect-canvas"></canvas>
-  
-</div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/jsQR.js"></script>
+  <script src="../js/qr.js"></script>
+  <link rel="stylesheet" href="../css/camera.css">
+  <title>QR読み取り画面</title>
+</head>
+
+<body>
+  <div id="wrapper">
+    <!--QR読み込みのためのカメラ映像を表示する-->
+    <video src="video" autoplay muted playsinline></video>
+    <!--要素をもとにカメラ映像を表示する-->
+    <canvas id="camera-canvas"></canvas>
+    <!--QRコードの周りに赤枠を表示するための-->
+    <canvas id="rect-canvas"></canvas>
+  </div>
+
+</body>
+
+</html>
