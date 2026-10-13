@@ -1,3 +1,4 @@
+/**/
 #wrapper{
   position: relative;
 }
@@ -12,14 +13,16 @@
 #camera-canvas{
   position: absolute;
   top: 0px;
-  left: 0px;
-  z-index: 50;
+  left: 50%;
+  transform: translateX(-50%) scaleX(-1);
+  z-index: 50;/*要素を重ねたとき奥側に表示*/
 }
 
 #rect-canvas{
   position: absolute;
   top: 0px;
-  left:0px;
+  left:50%;
+  transform: translateX(-50%) scaleX(-1);
   z-index: 100;
 }
 
@@ -27,5 +30,16 @@
   position: absolute;
   top: 500px;
   left: 0px;
+}
+
+
+#title{
+  size: 64px;
+  text-align: center;
+}
+
+#subtitle{
+  size: 40px;
+  text-align: center;
 }
 
