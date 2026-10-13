@@ -1,0 +1,62 @@
+USE kintai_db;
+
+--社員テーブル
+CREATE TABLE employees(
+  employee_id VARCHAR(20) PRIMARY KEY,
+  employee_name VARCHAR(100) NOT NULL,
+  hire_date DATE NOT NULL,
+  retire_date DATE
+);
+
+--管理者テーブル
+CREATE TABLE administrators(
+  employee_id VARCHAR(20) NOT NULL,
+  admin_id VARCHAR(20) PRIMARY KEY,
+  password VARCHAR(200) NOT NULL,
+  active TINYINT(1) NOT NULL DEFAULT 1,
+  authority VARCHAR(30) NOT NULL,
+  FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
+);
+
+--QRコードテーブル
+CREATE TABLE qu_codes(
+  employee_id VARCHAR(20) NOT NULL,
+  qr_date DATE NOT NULL,
+  PRIMARY KEY (employee_id,qr_date),
+  FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
+);
+
+--勤怠テーブル
+CREATE TABLE attendance (
+  employee_id VARCHAR(20) NOT NULL,
+  work_date DATE NOT NULL,
+  start_plan TIME,
+  end_plan TIME,
+  work_type VARCHAR(30),
+  PRIMARY KEY (employee_id,work_date),
+  FOREIGN KEY(employee_id)
+  REFERENCES employees(employee_id)
+);
+
+--出退勤ログテーブル
+CREATE TABLE attendance_logs (
+    employee_id VARCHAR(20) NOT NULL,
+    time_stamp DATETIME NOT NULL,
+    time_type VARCHAR(30) NOT NULL,
+    FOREIGN KEY (employee_id)
+        REFERENCES employees(employee_id)
+);
+
+--修正ログテーブル
+CREATE TABLE correction_logs (
+    employee_id VARCHAR(20) NOT NULL,
+    admin_id VARCHAR(20) NOT NULL,
+    changed_at DATETIME NOT NULL,
+    changed_item VARCHAR(100) NOT NULL,
+    new_value VARCHAR(255),
+    operation_type VARCHAR(30) NOT NULL,
+    FOREIGN KEY (employee_id)
+        REFERENCES employees(employee_id),
+    FOREIGN KEY (admin_id)
+        REFERENCES administrators(admin_id)
+);
