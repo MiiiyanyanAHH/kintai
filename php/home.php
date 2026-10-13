@@ -2,7 +2,7 @@
 <html lang="ja">
 
 <head>
-  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="../css/home.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ホーム｜勤怠管理システム きんたくん</title>
@@ -17,8 +17,9 @@
     <div class="sub-btn">
       <a href="kanri.html"><button>管理者画面</button></a>
     </div>
+    <?php include('footer.php');?>
   </div>
-  <?php include('footer.php');?>
+  
 </body>
 
 </html>
