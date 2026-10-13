@@ -3,10 +3,10 @@ const video = document.getElementById('video');
 let contentWidth;
 let contentHeight;
 
-const media = naviigator.mediaDevices.getUserMedia({ audio: false, video: {width:640,height:480}}).then((stream) =>{
+const media = navigator.mediaDevices.getUserMedia({ audio: false, video: {width:640,height:480}}).then((stream) =>{
   video.srcObject = stream;
   video.onloadeddata = () =>{
-    video.onplay();
+    //video.onplay();
     contentWidth = video.clientWidth;
     contentHeight = video.clientHeight;
     canvasUpdate();
@@ -29,19 +29,21 @@ const canvasUpdate = () =>{
 //QRコードの検出
 const rectCvs = document.getElementById('rect-canvas');
 const rectCtx = rectCvs.getContext('2d');
-const chexkImage = () => {
+const checkImage = () => {
   //imageDataを作る
   const imageData = ctx.getImageData(0,0,contentWidth,contentHeight);
   //jsQRに渡す
-  const code = jsQR(imageData.data, contentWidth, dcontentheight);
+  const code = jsQR(imageData.data, contentWidth, contentHeight);
   
   //検出結果に合わせて処理を実施
   if(code){
     console.log("QRcodeが見つかりました", code);
     drawRect(code.location);
+    document.getElementById('qr-msg').textContent = `QRコード：${code.data}`;
   } else {
     console.log("QRcodeが見つかりません", code);
     rectCtx.clearRect(0,0,contentWidth, contentHeight);
+    document.getElementById('qr-msg').textContent = `QRコード：見つかりません`;
   }
   setTimeout(()=>{checkImage()},500);
 }

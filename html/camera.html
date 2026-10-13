@@ -5,22 +5,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="../js/jsQR.js"></script>
-  <script src="../js/qr.js"></script>
   <link rel="stylesheet" href="../css/camera.css">
   <title>QR読み取り画面</title>
 </head>
 
 <body>
+  <h1 id="title">勤怠管理システム　きんたくん</h1>
+  <h2 id="subtitle">QRコードをかざしてください</h2>
   <div id="wrapper">
     <!--QR読み込みのためのカメラ映像を表示する-->
-    <video src="video" autoplay muted playsinline></video>
+    <video id="video" autoplay muted playsinline></video>
     <!--要素をもとにカメラ映像を表示する-->
     <canvas id="camera-canvas"></canvas>
     <!--QRコードの周りに赤枠を表示するための-->
     <canvas id="rect-canvas"></canvas>
+    <span id="qr-msg">QRコード:が見つかりません</span>
   </div>
-
+  <script src="../js/jsQR.js"></script>
+  <script src="../js/qr.js"></script>
 </body>
 
 </html>
