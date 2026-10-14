@@ -12,9 +12,9 @@ body{
   box-sizing: border-box;
 }
 
-.container h3,
-.container p {
-  font-size: clamp(24px, 4vw, 70px);
+.time_label,
+.time{
+  font-size: clamp(24px, 4vw, 30px);
   text-align: center;
 }
 
@@ -23,6 +23,6 @@ body{
   margin-top: clamp(20px, 5vw, 100px);
   width: clamp(80px, 15vw, 300px);
   height: auto;
-  left: 720px;
+  align-self: center;
 }
 
