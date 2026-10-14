@@ -1,4 +1,4 @@
-USE kintai_db;
+USE kinta_db;
 
 --社員テーブル
 CREATE TABLE employees(
