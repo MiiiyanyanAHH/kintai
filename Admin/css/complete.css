@@ -1,6 +1,28 @@
-img {
-  width: 500px;
-  height: 500px;
-  position: relative;
-  
+html,
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.container h3,
+.container p {
+  font-size: clamp(24px, 4vw, 70px);
+  text-align: center;
+}
+
+.container img {
+  position: relative;
+  margin-top: clamp(20px, 5vw, 100px);
+  width: clamp(80px, 15vw, 300px);
+  height: auto;
+  left: 720px;
+}
+

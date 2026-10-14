@@ -1,3 +1,4 @@
+html,
 body{
   margin: 0;
   padding: 0;
@@ -5,7 +6,7 @@ body{
 }
 
 h1 {
-  font-size: clamp(24px, 4vw, 70px);
+  font-size: clamp(24px, 4vw, 70px); /*最小値、推奨値、最大値の値を指定。画面幅などの変化に合わせて値を自動調整*/
   text-align: center;
   margin-top: clamp(20px, 5vw, 100px);
 }
@@ -13,15 +14,15 @@ h1 {
 .container {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+  flex-direction: column; /*縦方向に並べる*/
+  box-sizing: border-box; /*幅や高さにpadding・borderを含めて計算する*/
 }
 
 .dakoku-btn {
   text-align: center;
   color: #f8f8ff;
 
-  /* 中央のコンテンツを自動的に広げるためにflex-growを使います */
+  /* 中央のコンテンツを自動的に広げるためにflex-growを使用 */
   flex: 1; 
   display: flex;
   flex-direction: column;
