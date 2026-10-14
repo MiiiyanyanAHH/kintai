@@ -1,12 +1,13 @@
 body{
   margin: 0;
+  padding: 0;
   height: 100%;
 }
 
 h1 {
-  font-size: 70px;
+  font-size: clamp(24px, 4vw, 70px);
   text-align: center;
-  margin-top: 100px;
+  margin-top: clamp(20px, 5vw, 100px);
 }
 
 .container {
@@ -27,13 +28,13 @@ h1 {
   justify-content: center;
   align-items: center;
   min-height: 0;
-  margin-top: -200px;
 }
 
 .dakoku-btn button {
-  font-size: 70px;
-  width: 400px;
-  height: 200px;
+  font-size: clamp(24px, 4vw, 70px);
+  width: min(80vw, 400px);
+  aspect-ratio: 2/1;
+  height: auto;
   margin-top: 0px;/*50px*/
 }
 
@@ -44,10 +45,10 @@ h1 {
 }
 
 .sub-btn button {
-  width: 150px;
-  height: 70px;
+  width: clamp(100px, 12vw, 150px);
+  height: clamp(45px, 6vw, 70px);
   font-weight: bold;
-  font-size: 23px;
+  font-size: clamp(14px, 1.5vw, 23px);
 }
 
 footer {
