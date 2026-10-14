@@ -13,11 +13,11 @@
   <h1 id="title">勤怠管理システム　きんたくん</h1>
   <h2 id="subtitle">QRコードをかざしてください</h2>
   <div id="wrapper">
-    <!--QR読み込みのためのカメラ映像を表示する-->
+    <!--QR読み込みのためのカメラ映像を表示するvideo要素-->
     <video id="video" autoplay muted playsinline></video>
-    <!--要素をもとにカメラ映像を表示する-->
+    <!--要素をもとにカメラ映像を表示するcanvas要素-->
     <canvas id="camera-canvas"></canvas>
-    <!--QRコードの周りに赤枠を表示するための-->
+    <!--QRコードの周りに赤枠を表示するためのcanvas要素-->
     <canvas id="rect-canvas"></canvas>
     <span id="qr-msg">QRコード:が見つかりません</span>
   </div>
