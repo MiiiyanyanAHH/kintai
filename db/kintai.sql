@@ -20,7 +20,7 @@ CREATE TABLE administrators(
 );
 
 --QRコードテーブル
-CREATE TABLE qu_codes(
+CREATE TABLE qr_codes(
   employee_id CHAR(6) NOT NULL,
   qr_date DATE NOT NULL,
   PRIMARY KEY (employee_id,qr_date),
