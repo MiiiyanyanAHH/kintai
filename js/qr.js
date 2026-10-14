@@ -1,12 +1,20 @@
+//jsQRライブラリがQRコードを解析44行目
+//gr-msgという場所に文字列を表示
+//キャンバスとはWebページ上に画像を書くための領域
+
+//codeが読み取り結果を保持している
+//code.dataはQRに入っていた文字列
+
+
+
 //Webカメラの起動
 const video = document.getElementById('video');
 let contentWidth;
 let contentHeight;
-
+//映像を取得、音声はなし映像のサイズを指定
 const media = navigator.mediaDevices.getUserMedia({ audio: false, video: {width:640,height:480}}).then((stream) =>{
   video.srcObject = stream;
   video.onloadeddata = () =>{
-    //video.onplay();
     contentWidth = video.clientWidth;
     contentHeight = video.clientHeight;
     canvasUpdate();
@@ -16,7 +24,7 @@ const media = navigator.mediaDevices.getUserMedia({ audio: false, video: {width:
   console.log(e);
 });
 
-//カメラ映像のキャンバス表示
+//videoカメラ映像のキャンバス表示
 const cvs = document.getElementById('camera-canvas');
 const ctx = cvs.getContext('2d');
 const canvasUpdate = () =>{
@@ -30,9 +38,9 @@ const canvasUpdate = () =>{
 const rectCvs = document.getElementById('rect-canvas');
 const rectCtx = rectCvs.getContext('2d');
 const checkImage = () => {
-  //imageDataを作る
+  //映像の画像データの取り出し
   const imageData = ctx.getImageData(0,0,contentWidth,contentHeight);
-  //jsQRに渡す
+  //jsQRが画像解析し、解析した文字列をcodeに返す
   const code = jsQR(imageData.data, contentWidth, contentHeight);
   
   //検出結果に合わせて処理を実施
@@ -45,7 +53,7 @@ const checkImage = () => {
     rectCtx.clearRect(0,0,contentWidth, contentHeight);
     document.getElementById('qr-msg').textContent = `QRコード：見つかりません`;
   }
-  setTimeout(()=>{checkImage()},500);
+  setTimeout(()=>{checkImage()},500);//0.5秒
 }
 
 //四辺形の描画
