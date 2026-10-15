@@ -5,13 +5,15 @@
     <title>Loading</title>
     <link rel = "stylesheet" href = "../css/loading.css">
 </head>
+
 <body>
-  
   <div class = "loading">
-    <p>Loading...</p>
+    <div class="pie-loader">
+      <p>Loading...</p>
+    </div>
   </div>
 
-  <div class="pie-loader"></div>
+  
 
 </body>
 </html>

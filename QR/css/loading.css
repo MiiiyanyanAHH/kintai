@@ -14,9 +14,17 @@ body {
     height: 100vh;/*ビューポート指定で画面の高さを100％確保*/
 }
 
-
 .pie-loader {
     width: 40px; height: 40px;
     border-radius: 50%;
     animation: pie-load-dynamic 1.7s linear infinite; 
 }
+ 
+ @keyframes pie-load-dynamic {
+    0% { background: conic-gradient(#33d9d6 0deg, transparent 0deg); }
+    25% { background: conic-gradient(#33d9d6 90deg, transparent 90deg); }
+    50% { background: conic-gradient(#33d9d6 180deg, transparent 180deg); }
+    75% { background: conic-gradient(#33d9d6 270deg, transparent 270deg); }
+    100% { background: conic-gradient(#33d9d6 360deg, transparent 360deg); }
+} 
+

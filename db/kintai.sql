@@ -5,7 +5,8 @@ CREATE TABLE employees(
   employee_id CHAR(6) PRIMARY KEY,
   employee_name VARCHAR(100) NOT NULL,
   hire_date DATE NOT NULL,
-  retire_date DATE
+  retire_date DATE,
+  qr_date DATE NOT NULL  --追加
 );
 
 --管理者テーブル
@@ -19,13 +20,6 @@ CREATE TABLE administrators(
   FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
 );
 
---QRコードテーブル
-CREATE TABLE qr_codes(
-  employee_id CHAR(6) NOT NULL,
-  qr_date DATE NOT NULL,
-  PRIMARY KEY (employee_id,qr_date),
-  FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
-);
 
 --勤怠テーブル
 CREATE TABLE attendance (
