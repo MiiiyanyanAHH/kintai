@@ -7,10 +7,9 @@
 </head>
 
 <body>
-  <div class = "loading">
-    <div class="pie-loader">
-      <p>Loading...</p>
-    </div>
+  <div class = "loading"><!--画面中央配置等-->
+    <div class="pie-loader"><!--ローディングアニメーション--></div>
+    <p>Loading...</p>
   </div>
 
   

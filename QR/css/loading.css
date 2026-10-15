@@ -5,23 +5,23 @@ body {
 }
 
 .loading {
-    text-align: center;
-    font-size: 250%;
-    /*画面全体を上下左右中央に*/
-    display:flex;
+    display: flex;/*フレックスボックスを使えるようにして*/
+    flex-direction: column;/*縦方向で並べる*/
+    font-size: 290%;
     justify-content: center;/*左右中央*/
     align-items: center;/*上下中央*/
     height: 100vh;/*ビューポート指定で画面の高さを100％確保*/
 }
 
 .pie-loader {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    animation: pie-load-dynamic 1.7s linear infinite; 
+    width: 70px;
+    height: 70px;
+    border-radius: 50%; /*角を丸くして円形に*/
+    animation: pie-load-dynamic 1.7s linear infinite; /*アニメーション時間、一定、繰り返し*/
 }
  
  @keyframes pie-load-dynamic {
-    0% { background: conic-gradient(#33d9d6 0deg, transparent 0deg); }
+    0% { background: conic-gradient(#33d9d6 0deg, transparent 0deg); }/*degは角度。*/
     25% { background: conic-gradient(#33d9d6 90deg, transparent 90deg); }
     50% { background: conic-gradient(#33d9d6 180deg, transparent 180deg); }
     75% { background: conic-gradient(#33d9d6 270deg, transparent 270deg); }
