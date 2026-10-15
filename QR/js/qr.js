@@ -13,25 +13,25 @@ const video = document.getElementById('video');
 let contentWidth;
 let contentHeight;
 //映像を取得、音声はなし映像のサイズを指定
-const media = navigator.mediaDevices.getUserMedia({ audio: false, video: {width:640,height:480}}).then((stream) =>{
+const media = navigator.mediaDevices.getUserMedia({ audio: false, video: { width: 640, height: 480 } }).then((stream) => {
   video.srcObject = stream;
-  video.onloadeddata = () =>{
+  video.onloadeddata = () => {
     contentWidth = video.clientWidth;
     contentHeight = video.clientHeight;
     canvasUpdate();
     checkImage();
   }
-}).catch((e)=> {
+}).catch((e) => {
   console.log(e);
 });
 
 //videoカメラ映像のキャンバス表示
 const cvs = document.getElementById('camera-canvas');
 const ctx = cvs.getContext('2d');
-const canvasUpdate = () =>{
+const canvasUpdate = () => {
   cvs.width = contentWidth;
   cvs.height = contentHeight;
-  ctx.drawImage(video, 0,0,contentWidth,contentHeight);
+  ctx.drawImage(video, 0, 0, contentWidth, contentHeight);
   requestAnimationFrame(canvasUpdate);
 }
 
@@ -40,35 +40,35 @@ const rectCvs = document.getElementById('rect-canvas');
 const rectCtx = rectCvs.getContext('2d');
 const checkImage = () => {
   //映像の画像データの取り出し
-  const imageData = ctx.getImageData(0,0,contentWidth,contentHeight);
+  const imageData = ctx.getImageData(0, 0, contentWidth, contentHeight);
   //jsQRが画像解析し、解析した文字列をcodeに返す
   const code = jsQR(imageData.data, contentWidth, contentHeight);
-  //データを配列に分けて格納
-  const qrData = code.data.split(",");
-  const employeeId = qrData[0];
-  const qrIssueDate = qrData[1]; 
+  
 
-  //phpに情報を送信
-  fetch("qr_attendance.php",{
-    method: "POST", headers:{
-      "Content-Type": "application/json"},
+  //検出結果に合わせて処理を実施
+  if (code) {
+    const qrData = code.data.split(",");
+    const employeeId = qrData[0];
+    const qrIssueDate = qrData[1];
+    //phpに情報を送信
+    fetch("http://localhost/kintai/QR/php/qr_attendance.php", {
+      method: "POST", headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         employeeId: employeeId,
         qrIssueDate: qrIssueDate
       })
-  });
-  
-  //検出結果に合わせて処理を実施
-  if(code){
+    });
     console.log("QRcodeが見つかりました", code);
     drawRect(code.location);
     document.getElementById('qr-msg').textContent = `QRコード：${code.data}`;
   } else {
     console.log("QRcodeが見つかりません", code);
-    rectCtx.clearRect(0,0,contentWidth, contentHeight);
+    rectCtx.clearRect(0, 0, contentWidth, contentHeight);
     document.getElementById('qr-msg').textContent = `QRコード：見つかりません`;
   }
-  setTimeout(()=>{checkImage()},500);//0.5秒
+  setTimeout(() => { checkImage() }, 3000);//3秒
 }
 
 //四辺形の描画
@@ -82,13 +82,13 @@ const drawRect = (location) => {
 }
 
 //線の描画
-const drawLine = (begin,end) => {
+const drawLine = (begin, end) => {
   rectCtx.lineWidth = 4;
-   rectCtx.strokeStyle = "#F00";
-   rectCtx.beginPath();
-   rectCtx.moveTo(begin.x, begin.y);
-   rectCtx.lineTo(end.x, end.y);
-   rectCtx.stroke();
+  rectCtx.strokeStyle = "#F00";
+  rectCtx.beginPath();
+  rectCtx.moveTo(begin.x, begin.y);
+  rectCtx.lineTo(end.x, end.y);
+  rectCtx.stroke();
 }
 
 
