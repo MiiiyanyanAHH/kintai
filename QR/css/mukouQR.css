@@ -1,6 +1,5 @@
 body{
   margin:0;
-  background-color: #ffffff;
   font-family: sans-serif;
 }
 
@@ -17,6 +16,7 @@ body{
     display: flex;
     align-items: center;/*横方向の中央にそろえる*/
     gap: 10px;/*図と文字の間あける*/
+    font-weight: 500;
 }
 
 .warning {
