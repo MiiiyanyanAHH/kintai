@@ -68,7 +68,7 @@ const checkImage = () => {
     rectCtx.clearRect(0, 0, contentWidth, contentHeight);
     document.getElementById('qr-msg').textContent = `QRコード：見つかりません`;
   }
-  setTimeout(() => { checkImage() }, 2000);//2秒
+  setTimeout(() => { checkImage() }, 3000);//3秒
 }
 
 //四辺形の描画
