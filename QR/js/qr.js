@@ -51,7 +51,7 @@ const checkImage = () => {
     const employeeId = qrData[0];
     const qrIssueDate = qrData[1];
     //phpに情報を送信
-    fetch("qr_attendance.php", {
+    fetch("http://localhost/kintai/QR/php/qr_attendance.php", {
       method: "POST", headers: {
         "Content-Type": "application/json"
       },
@@ -68,7 +68,7 @@ const checkImage = () => {
     rectCtx.clearRect(0, 0, contentWidth, contentHeight);
     document.getElementById('qr-msg').textContent = `QRコード：見つかりません`;
   }
-  setTimeout(() => { checkImage() }, 500);//0.5秒
+  setTimeout(() => { checkImage() }, 2000);//2秒
 }
 
 //四辺形の描画
