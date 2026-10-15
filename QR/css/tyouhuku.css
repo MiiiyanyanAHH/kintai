@@ -1,0 +1,39 @@
+body{
+  margin:0;
+  background-color: #ffffff;
+  font-family: sans-serif;
+}
+
+.container{
+
+  display: flex;/*フレックスボックスを使えるようにして*/
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  margin: 0 25px;
+}
+
+.message { /*すでに打刻の文字とマーク*/
+    display: flex;
+    align-items: center;/*横方向の中央にそろえる*/
+    justify-content: center;
+    gap: 10px;/*図と文字の間あける*/
+    font-weight: 600;
+}
+
+.warning {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;/*比率あわせ（見切れずに全体収めるために）*/
+}
+
+.message p {/*文字*/
+    margin: 0;
+    font-size: 40px;
+}
+
+.time-message {/*〇時にすでにの文字のみ*/
+    margin-top: 20px;
+    font-size: clamp(18px, 2vw, 26px);/*最低18、基本20px、最大26*/
+    text-align: center;
+}

@@ -1,0 +1,31 @@
+body{
+  margin:0;
+  font-family: sans-serif;
+}
+
+.container{
+
+  display: flex;/*フレックスボックスを使えるようにして*/
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0 25px;
+}
+
+.message {
+    display: flex;
+    align-items: center;/*横方向の中央にそろえる*/
+    gap: 10px;/*図と文字の間あける*/
+    font-weight: 500;
+}
+
+.warning {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;/*比率あわせ（見切れずに全体収めるために）*/
+}
+
+.message p {
+    margin: 0;
+    font-size: 40px;
+}
