@@ -1,0 +1,42 @@
+html,
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+h1 {
+  font-size: clamp(24px, 4vw, 70px); /*最小値、推奨値、最大値の値を指定。画面幅などの変化に合わせて値を自動調整*/
+  text-align: center;
+  margin-top: clamp(20px, 5vw, 100px);
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; /*縦方向に並べる*/
+  box-sizing: border-box; /*幅や高さにpadding・borderを含めて計算する*/
+}
+
+p {
+  margin-left: -50px;
+}
+
+.form-area {
+  margin-left: -80px;
+  text-align: center;
+}
+
+
+footer {
+  flex-shrink: 0;
+  text-align: center; 
+  line-height: 50px; 
+  padding: 0;     
+  font-size: 14px; 
+  color: #f8f8ff;    
+  background-color: #3CC6A6;
+  height: 50px;
+  width: 100%;      
+  box-sizing: border-box;
+}
