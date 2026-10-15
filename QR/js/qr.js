@@ -43,6 +43,20 @@ const checkImage = () => {
   const imageData = ctx.getImageData(0,0,contentWidth,contentHeight);
   //jsQRが画像解析し、解析した文字列をcodeに返す
   const code = jsQR(imageData.data, contentWidth, contentHeight);
+  //データを配列に分けて格納
+  const qrData = code.data.split(",");
+  const employeeId = qrData[0];
+  const qrIssueDate = qrData[1]; 
+
+  //phpに情報を送信
+  fetch("qr_attendance.php",{
+    method: "POST", headers:{
+      "Content-Type": "application/json"},
+      body: JSON.stringify({
+        employeeId: employeeId,
+        qrIssueDate: qrIssueDate
+      })
+  });
   
   //検出結果に合わせて処理を実施
   if(code){
