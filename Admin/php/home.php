@@ -17,9 +17,10 @@
     </div>
     <div class="sub-btn">
       <a href="kanri.html"><button>管理者画面</button></a>
-      <?php include('footer.php');?>
     </div>
+    <?php include('footer.php');?>
   </div>
+  
 </body>
 
 </html>
