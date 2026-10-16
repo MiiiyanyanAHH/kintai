@@ -19,7 +19,7 @@ footer {
 .header-nav{
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  
   padding: 0 30px;
   font-size: 25px;
   color: #f8f8ff;
@@ -32,16 +32,16 @@ footer {
 
 .site-title{
   font-weight: bold;
+  margin-right: 450px;
 }
 
 .header-nav a {
     color: #f8f8ff;
     text-decoration: none;
-    
-
-
+    margin-right: 400px;
 }
 
 .header-nav a:hover {
     color: #FF69B4;
 }
+
