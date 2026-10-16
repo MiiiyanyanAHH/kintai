@@ -1,12 +1,47 @@
+
+/*フッターの設定*/
+
 footer {
   flex-shrink: 0;
   text-align: center; 
   line-height: 50px; 
   padding: 0;
-  font-size: 14px; 
+  font-size: 16px; 
   color: #f8f8ff;
   background-color: #3CC6A6;
   height: 50px;
   width: 100%;
   box-sizing: border-box;
 }
+
+/*ヘッダーの設定*/
+
+.header-nav{
+  display: flex;
+  align-items: center;
+  
+  padding: 0 30px;
+  font-size: 25px;
+  color: #f8f8ff;
+  background-color: #3CC6A6;
+  height: 60px;
+  width: 100%;
+  box-sizing: border-box;
+  
+}
+
+.site-title{
+  font-weight: bold;
+  margin-right: 450px;
+}
+
+.header-nav a {
+    color: #f8f8ff;
+    text-decoration: none;
+    margin-right: 400px;
+}
+
+.header-nav a:hover {
+    color: #FF69B4;
+}
+

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
-
+  
 <head>
   <link rel="stylesheet" href="../css/common.css">
   <link rel="stylesheet" href="../css/home.css">
@@ -18,7 +18,6 @@
     <div class="sub-btn">
       <a href="kanri.html"><button>管理者画面</button></a>
     </div>
-    <?php include('footer.php');?>
   </div>
 </body>
 
