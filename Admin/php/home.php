@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ja">
-
+  
 <head>
+  <link rel="stylesheet" href="../css/common.css">
   <link rel="stylesheet" href="../css/home.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
