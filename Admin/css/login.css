@@ -2,13 +2,13 @@ html,
 body{
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 100%;
 }
 
 h1 {
-  font-size: clamp(24px, 4vw, 70px); /*最小値、推奨値、最大値の値を指定。画面幅などの変化に合わせて値を自動調整*/
+  font-size: clamp(24px, 4vw, 60px); /*最小値、推奨値、最大値の値を指定。画面幅などの変化に合わせて値を自動調整*/
   text-align: center;
-  margin-top: clamp(20px, 5vw, 100px);
+  margin-top: clamp(10px, 3vw, 500px);
 }
 
 .container {
@@ -18,25 +18,37 @@ h1 {
   box-sizing: border-box; /*幅や高さにpadding・borderを含めて計算する*/
 }
 
-p {
-  margin-left: -50px;
-}
-
 .form-area {
-  margin-left: -80px;
-  text-align: center;
+  width: 200px;
+  max-width: calc(100% - 40px);
+  margin: 0 auto;
+  transform: translateX(-64px);
 }
 
+.form-area p {
+  text-align: left;
+}
 
-footer {
-  flex-shrink: 0;
-  text-align: center; 
-  line-height: 50px; 
-  padding: 0;     
-  font-size: 14px; 
-  color: #f8f8ff;    
-  background-color: #3CC6A6;
-  height: 50px;
-  width: 100%;      
+.form-area input {
+  width: 100%;
   box-sizing: border-box;
+}
+
+.container > footer {
+  margin-top: auto;
+}
+
+button[type="submit"] {
+  display: block;
+  width: 150px;
+  max-width: 50%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 100px auto 0;
+  transform: translateX(64px);
+  background-color: #2563EB;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
 }

@@ -16,7 +16,7 @@
       <a href="dakoku.html"><button>打刻画面</button></a>
     </div>
     <div class="sub-btn">
-      <a href="kanri.html"><button>管理者画面</button></a>
+      <a href="kanri_login.php"><button>管理者画面</button></a>
     </div>
     <?php include('footer.php');?>
   </div>

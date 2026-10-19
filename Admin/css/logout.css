@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    padding: 0; /*余計な余白消し*/
+    min-height: 100vh;/*ページの最小の高さ100％*/
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+}
+
+.container {
+    flex: 1;/*ボディの要素いっぱいにコンテナ伸ばす。*/
+    display: flex;
+    flex-direction: column;/*中の要素を縦方向に並べる*/
+    align-items: center;/*左右の中央*/
+    justify-content: center;/*上下の中央*/
+    box-sizing: border-box;/*余白も含めて全体のサイズ計算*/
+    padding: 30px 20px;/*画面が小さいときに画面崩れ防止*/
+}
+
+.message {
+  text-align: center; 
+}
+.message h1{
+  font-size: 50px;
+}
+.message p{
+  font-size: 30px;
+}
+
+
+.cancel-btn,
+.logout-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 250px;
+    height: 60px;
+
+    font-size: 28px;
+    border-radius: 5px;
+    text-decoration: none;
+    padding: 0;
+}
+
+.cancel-btn {
+  background-color: #ccc;
+  color: #1e1919;
+  margin-right: 40px;
+}
+
+.logout-btn {
+  background-color: #444343;
+  color: #fff;
+}
+
+.cancel-btn:hover{
+  background-color: #75a8cc;
+  color: #fff;
+}
+
+.logout-btn:hover{
+  background-color: #d67272;
+  color: #fff;
+}
