@@ -22,37 +22,55 @@ $sql->execute([$employeeId,$qrIssueDate]);
       $todayLog = $sql->fetch();
       if($todayLog == false){
         //対象IDのログデータがなかった場合
-        echo "出勤しました";
+        // "出勤しました";
         $sql= $pdo->prepare('insert into attendance_logs (employee_id, time_stamp, time_type) values(?,?,?)');
         $sql->execute([
               $employeeId, date('Y-m-d H:i:s'), "出勤"
+          ]);
+          //出勤画面を返す
+          echo json_encode([
+            "page" => "http://localhost/kintai/QR/php/shukin_complete.php"
           ]);
           
       } else {
         //対象IDのログが見つかった場合
          if($todayLog["time_type"] == "出勤"){
           //直前が出勤だった場合
-            echo "退勤しました";
+            // "退勤しました";
         $sql= $pdo->prepare('insert into attendance_logs (employee_id, time_stamp, time_type) values(?,?,?)');
         $sql->execute([
               $employeeId, date('Y-m-d H:i:s'), "退勤"
           ]);
+          //退勤画面を返す
+          echo json_encode([
+            "page" => "http://localhost/kintai/QR/php/taikin_complete.php"
+          ]);
           
          } else if($todayLog["time_type"] == "退勤"){
           //直前が退勤だった場合
-            echo "出勤しました";
+            // "出勤しました";
         $sql= $pdo->prepare('insert into attendance_logs (employee_id, time_stamp, time_type) values(?,?,?)');
         $sql->execute([
               $employeeId, date('Y-m-d H:i:s'), "出勤"
+          ]);
+          //出勤画面を返す
+          echo json_encode([
+            "page" => "http://localhost/kintai/QR/php/shukin_complete.php"
           ]);
          
          }
       }
     } else {
-        echo "無効なIDです(退職済み)";
+        //無効なIDです画面を返す（退職済み）
+          echo json_encode([
+            "page" => "http://localhost/kintai/QR/php/mukouQR.php"
+          ]);
      }
   } else {
-    echo "無効なIDです（無効なQR）";
+        //無効なIDです画面を返す（登録されてない、関係ないQRデーター）
+          echo json_encode([
+            "page" => "http://localhost/kintai/QR/php/mukouQR.php"
+          ]);
   }
 
 
