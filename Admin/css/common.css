@@ -2,40 +2,38 @@
 /*フッターの設定*/
 
 body {
-  margin: 0;
+  margin: 0; /*外側、内側の余白なし*/
   padding: 0;
-  min-height: 100vh;
+  min-height: 100vh; /*最小の高さ（画面の高さの100％）*/
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /*縦方向に並べる*/
   font-family: sans-serif;
 }
 
 footer {
-  flex-shrink: 0;
-  text-align: center;
-  line-height: 50px;
+  flex-shrink: 0; /*フッターが縮むのを防ぐ*/
+  text-align: center;/*文字を左右中央へ*/
+  line-height: 50px;/*行の高さ指定*/
   padding: 0;
   font-size: 16px;
   color: #f8f8ff;
   background-color: #3CC6A6;
   height: 50px;
-  width: 100%;
-  box-sizing: border-box;
+  width: 100%;/*親要素の幅いっぱい*/
+  box-sizing: border-box;/*幅や高さにpadding.borderを含めて計算*/
 }
 
 
 /* ヘッダー */
 .header-nav {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-
+  align-items: center;/*上下中央*/
+  justify-content: space-between;/*左右配置。間に余白*/
+  flex-wrap: nowrap;/*次の行に折り返さない*/
   width: 100%;
-  min-height: 60px;
+  min-height: 60px;/*最低の高さ*/
   padding: 0 10px;
-  box-sizing: border-box;
-
+  box-sizing: border-box;/*幅や高さにpadding.borderを含めて計算*/
   color: #f8f8ff;
   background-color: #3CC6A6;
 }
@@ -43,15 +41,15 @@ footer {
 /* システム名 */
 .site-title {
   font-weight: bold;
-  font-size: clamp(10px, 2vw, 25px);
+  font-size: clamp(10px, 2vw, 25px);/*最小、基本、最大*/
   white-space: nowrap;
 }
 
 /* リンク */
 .header-nav a {
   color: #f8f8ff;
-  text-decoration: none;
-  white-space: nowrap;
+  text-decoration: none;/*下線消し*/
+  white-space: nowrap;/*文字改行なし*/
   font-size: clamp(10px, 1.5vw, 20px);
 }
 
@@ -67,13 +65,14 @@ footer {
 
 
 
-/*←戻るボタンの設定*/
+/* ←戻るボタンの設定 */
 .back-link {
-  position: relative;
-  top: clamp(-400px, -35vw, -300px);
-  left:clamp(5px, 2vw, 10px);
+  position: absolute;/*ほかにpositionやrelativeがあったらそこ基準に動いちゃうから注意！*/
+  top: 40px;/*上から40px*/
+  left: 30px;/*左から40px*/
+
   color: #666;
-  text-decoration: none; /* 下線を消す */
+  text-decoration: none;
 }
 
 .back-link:hover {
