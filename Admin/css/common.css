@@ -1,12 +1,21 @@
 
 /*フッターの設定*/
 
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
 footer {
   flex-shrink: 0;
-  text-align: center; 
-  line-height: 50px; 
+  text-align: center;
+  line-height: 50px;
   padding: 0;
-  font-size: 16px; 
+  font-size: 16px;
   color: #f8f8ff;
   background-color: #3CC6A6;
   height: 50px;
@@ -14,43 +23,55 @@ footer {
   box-sizing: border-box;
 }
 
-/*ヘッダーの設定*/
 
-.header-nav{
+/* ヘッダー */
+.header-nav {
   display: flex;
   align-items: center;
-  
-  padding: 0 30px;
-  font-size: 25px;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+
+  width: 100%;
+  min-height: 60px;
+  padding: 0 10px;
+  box-sizing: border-box;
+
   color: #f8f8ff;
   background-color: #3CC6A6;
-  height: 60px;
-  width: 100%;
-  box-sizing: border-box;
-  
 }
 
-.site-title{
+/* システム名 */
+.site-title {
   font-weight: bold;
-  margin-right: 450px;
+  font-size: clamp(10px, 2vw, 25px);
+  white-space: nowrap;
 }
 
+/* リンク */
 .header-nav a {
-    color: #f8f8ff;
-    text-decoration: none;
-    margin-right: 400px;
+  color: #f8f8ff;
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: clamp(10px, 1.5vw, 20px);
 }
 
 .header-nav a:hover {
-    color: #FF69B4;
+  color: #FF69B4;
 }
+
+/* リンク同士の間隔 */
+.header-nav a + a {
+  margin-left: clamp(4px, 1vw, 20px);
+}
+
+
 
 
 /*←戻るボタンの設定*/
 .back-link {
   position: relative;
   top: clamp(-400px, -35vw, -300px);
-  left: (5px, 2vw, 10px);
+  left:clamp(5px, 2vw, 10px);
   color: #666;
   text-decoration: none; /* 下線を消す */
 }
