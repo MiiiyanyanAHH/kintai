@@ -16,13 +16,8 @@
         </div>
 
         <div class="buttons">
-            <a href="#">
-                <button class="cancel-btn">キャンセル</button>
-            </a>
-
-            <a href="#">
-                <button class="logout-btn">ログアウト</button>
-            </a>
+            <a href="#" class="cancel-btn">キャンセル</a>
+            <a href="#" class="logout-btn">ログアウト</a>
         </div>
         
     </main>

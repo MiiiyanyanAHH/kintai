@@ -29,23 +29,29 @@ body {
 
 
 .cancel-btn,
-.logout-btn{
-  width: 250px;
-  height: 65px;
-  font-size: 30px;
-  border-radius: 5px;
+.logout-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 250px;
+    height: 60px;
+
+    font-size: 28px;
+    border-radius: 5px;
+    text-decoration: none;
+    padding: 0;
 }
 
 .cancel-btn {
   background-color: #ccc;
-  border: none;
+  color: #1e1919;
   margin-right: 40px;
 }
 
 .logout-btn {
   background-color: #444343;
   color: #fff;
-  border: none;
 }
 
 .cancel-btn:hover{
