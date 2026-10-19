@@ -45,3 +45,18 @@ footer {
     color: #FF69B4;
 }
 
+
+/*←戻るボタンの設定*/
+.back-link {
+  position: relative;
+  top: clamp(-400px, -35vw, -300px);
+  left: (5px, 2vw, 10px);
+  color: #666;
+  text-decoration: none; /* 下線を消す */
+}
+
+.back-link:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
