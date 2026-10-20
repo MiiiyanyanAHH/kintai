@@ -5,7 +5,6 @@ body{
 }
 
 .container{
-
   display: flex;/*フレックスボックスを使えるようにして*/
   justify-content: center;
   align-items: center;

@@ -51,13 +51,18 @@ const checkImage = () => {
   if (code != null && isProcessing == false) {//QRが読み取れていて、まだ処理中ではない場合
     //処理中にする
     isProcessing = true;
-    //ローディング画面を表示、場所を取得
-    const frame = document.getElementById("result-frame");
-    //表示画面の所在場所
-    frame.src = "http://localhost/kintai/QR/php/loading.php";
-    //QRコードを読み取ったときにフレーム表示
-    frame.style.display = "block";
+   //ローディング画面を表示、場所を取得
+   const frame = document.getElementById("result-frame");
+   //いったん非表示にする
+   frame.style.display ="none";
     
+    frame.addEventListener("load",()=> {
+                //QRコードを読み取ったときにフレーム表示
+              frame.style.display = "block";
+            },{once:true});
+     //表示画面の所在場所
+    frame.src = "http://localhost/kintai/QR/php/loading.php";
+
     //QRコードのデータをＩＤと識別日に分けて変数へ
     const qrData = code.data.split(",");
     const employeeId = qrData[0];
@@ -77,8 +82,17 @@ const checkImage = () => {
       .then(response => response.json()).then(data => {
         //phpから受け取った画面のURLをframeに設定
         setTimeout(() => {
+            // frame.style.display = "none";
+            //読み込み完了後の処理を登録する
+            frame.addEventListener("load",()=> {
+              //インフレーム内のHTML要素の時刻表示の部分を取得し、表示する文字を指定
+              frame.contentDocument.querySelector(".time").textContent= data.time;
+              frame.style.display = "block";
+            },{once:true});
+            
             //JSONの中にあるpageの値を取り出し、表示するページを更新する
             frame.src = data.page;
+            
 
             //打刻結果画面を3秒表示してQR読み取り画面に戻る
             setTimeout(() => {frame.style.display = "none";
