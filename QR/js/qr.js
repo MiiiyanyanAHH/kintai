@@ -38,19 +38,32 @@ const canvasUpdate = () => {
 //QRコードの検出
 const rectCvs = document.getElementById('rect-canvas');
 const rectCtx = rectCvs.getContext('2d');
+//表示のフラグ
+let isProcessing = false;
 const checkImage = () => {
   //映像の画像データの取り出し
   const imageData = ctx.getImageData(0, 0, contentWidth, contentHeight);
   //jsQRが画像解析し、解析した文字列をcodeに返す
   const code = jsQR(imageData.data, contentWidth, contentHeight);
-  
+
 
   //検出結果に合わせて処理を実施
-  if (code) {
+  if (code != null && isProcessing == false) {//QRが読み取れていて、まだ処理中ではない場合
+    //処理中にする
+    isProcessing = true;
+    //ローディング画面を表示、場所を取得
+    const frame = document.getElementById("result-frame");
+    //表示画面の所在場所
+    frame.src = "http://localhost/kintai/QR/php/loading.php";
+    //QRコードを読み取ったときにフレーム表示
+    frame.style.display = "block";
+    
+    //QRコードのデータをＩＤと識別日に分けて変数へ
     const qrData = code.data.split(",");
     const employeeId = qrData[0];
     const qrIssueDate = qrData[1];
-    //phpに情報を送信
+
+    //phpにＩＤと識別日の情報を送信
     fetch("http://localhost/kintai/QR/php/qr_attendance.php", {
       method: "POST", headers: {
         "Content-Type": "application/json"
@@ -59,17 +72,41 @@ const checkImage = () => {
         employeeId: employeeId,
         qrIssueDate: qrIssueDate
       })
-    });
+    })
+      //phpからかえされたJSONデータを読み取る.thenは前の処理が完了して結果を受け取った後に次の処理を行う仕組み
+      .then(response => response.json()).then(data => {
+        //phpから受け取った画面のURLをframeに設定
+        setTimeout(() => {
+            //JSONの中にあるpageの値を取り出し、表示するページを更新する
+            frame.src = data.page;
+
+            //打刻結果画面を3秒表示してQR読み取り画面に戻る
+            setTimeout(() => {frame.style.display = "none";
+        isProcessing = false;}, 3000);
+        }, 2000);
+      })
+      .catch(error => {
+        console.log("エラー", error);
+        isProcessing = false;
+      })
+      
+
+    //読み取り結果をコンソールに表示
     console.log("QRcodeが見つかりました", code);
+    //読み取ったＱＲコードの周囲に四角形を描画する
     drawRect(code.location);
+    //QRコード：見つかりましたを表示
     document.getElementById('qr-msg').textContent = `QRコード：${code.data}`;
   } else {
+    //QRコードが見つからなかった場合
     console.log("QRcodeが見つかりません", code);
     rectCtx.clearRect(0, 0, contentWidth, contentHeight);
     document.getElementById('qr-msg').textContent = `QRコード：見つかりません`;
   }
+    //QRコードを3秒ごとに読み取る
   setTimeout(() => { checkImage() }, 3000);//3秒
 }
+
 
 //四辺形の描画
 const drawRect = (location) => {

@@ -1,0 +1,93 @@
+/*ページ全体*/
+body{
+    margin: 0;
+    padding: 0; /*余計な余白消し*/
+    min-height: 100vh;/*ページの最小の高さ100％*/
+}
+
+.container {
+    flex: 1;/*ボディの要素いっぱいにコンテナ伸ばす。*/
+    display: flex;
+    flex-direction: column;/*中の要素を縦方向に並べる*/
+    align-items: center;/*左右の中央*/
+    justify-content: center;/*上下の中央*/
+    box-sizing: border-box;/*余白も含めて全体のサイズ計算*/
+    padding: 30px 20px;/*画面が小さいときに画面崩れ防止*/
+}
+
+/* フォームの中身を縦に並べる */
+form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;/*入力欄の幅広げるために追加*/
+    max-width: 100%;
+}
+
+/* ページタイトル */
+h1 {
+text-align: center;
+font-size: 47px;
+font-weight: 590;
+margin: 0 0 35px;
+}
+
+/* フォームの項目名 */
+form label {
+display: block;
+font-size: 28px;
+margin-bottom: 14px;
+font-weight: 590;
+}
+
+/* 社員名・入社年月日の入力欄 */
+input[type="text"],
+input[type="date"] {
+display: block;
+width: 100%;
+max-width: 360px;
+height: 40px;
+box-sizing: border-box;
+margin-bottom: 28px;
+padding: 4px 8px;
+font-size: 20px;
+border: 2px solid #aaa;
+}
+
+/* 権限 */
+form p {
+font-size: 20px;
+margin: 36px 0 35px;
+line-height: 1.9;
+}
+
+/* 権限の見出しのみ */
+.role-title {
+    font-size: 24px;
+    font-weight: 590;
+}
+
+/* ラジオボタン */
+input[type="radio"] {
+margin: 0 5px 0 20px;
+vertical-align: middle;
+}
+
+/* 登録ボタン */
+button[type="submit"] {
+display: block;
+width: 190px;
+height: 49px;
+margin: 0 auto;
+border: none;
+background-color: #cac7c7;
+color: #222;
+font-size: 19px;
+cursor: pointer;
+}
+
+/* 登録ボタンにマウスを乗せたとき */
+button:hover {
+    background-color: #373335;
+    color: white;
+    cursor: pointer;
+}
