@@ -73,6 +73,7 @@ footer {
 
   color: #666;
   text-decoration: none;
+  font-size: clamp(15px, 2.5vw, 30px);/*最小、基本、最大*/
 }
 
 .back-link:hover {
