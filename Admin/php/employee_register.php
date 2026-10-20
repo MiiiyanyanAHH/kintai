@@ -17,19 +17,18 @@
             <input type="text" id="employee_name" name="employee_name" required>
 
             <label for="hire_date">入社年月日</label>
-            <input type="date" id="hire_date" name="hire_date" required>
+            <input type="date" id="hire_date" name="hire_date" required><!--日付選択入力欄-->
 
-            <label for="authority">権限</label>
-            <select id="authority" name="authority" required>
-                <option value="">選択してください</option>
-                <option value="管理者">管理者</option>
-                <option value="正社員">正社員</option>
-                <option value="非正規雇用">非正規雇用</option>
-            </select>
+            	<p>
+                    <span class="role-title">権限</span><br>
+		            <input type="radio" name="role" value="管理者">管理者<br>
+		            <input type="radio" name="role" value="正社員">正社員<br>
+		            <input type="radio" name="role" value="非正規雇用">非正規雇用<br>
+	            </p>
 
             <button type="submit">登録する</button>
         </form>
     </main>
-
+<?php include('footer.php'); ?>
 </body>
 </html>
