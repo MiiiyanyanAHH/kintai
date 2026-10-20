@@ -66,6 +66,7 @@ footer {
 
 
 /* ←戻るボタンの設定 */
+/*<a href="admin.php" class="back-link">← 戻る</a>  ←で使ってね*/
 .back-link {
   position: absolute;/*ほかにpositionやrelativeがあったらそこ基準に動いちゃうから注意！*/
   top: 40px;/*上から40px*/
