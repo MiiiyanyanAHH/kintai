@@ -86,7 +86,7 @@ const checkImage = () => {
             //読み込み完了後の処理を登録する
             frame.addEventListener("load",()=> {
               //インフレーム内のHTML要素の時刻表示の部分を取得し、表示する文字を指定
-              frame.contentDocument.querySelector(".time").textContent= data.time;
+              frame.contentDocument.querySelector(".timetime").textContent= data.time;
               frame.style.display = "block";
             },{once:true});
             

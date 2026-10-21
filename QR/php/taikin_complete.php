@@ -11,7 +11,7 @@
   <img src="../../image/check.jpg" alt="チェックマーク">
   <h3>退勤しました</h3>
   <p class="time_label">打刻時刻</p>
-  <p class="time"></p>
+  <p class="timetime">13:00</p>
   </div>
 </body>
 </html>

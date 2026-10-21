@@ -10,6 +10,7 @@ body{
   align-items: center;
   height: 100vh;
   margin: 0 25px;
+  transform: translateY(-70px);
 }
 
 .message {
@@ -17,6 +18,7 @@ body{
     align-items: center;/*横方向の中央にそろえる*/
     gap: 10px;/*図と文字の間あける*/
     font-weight: 500;
+
 }
 
 .warning {
@@ -27,5 +29,5 @@ body{
 
 .message p {
     margin: 0;
-    font-size: 40px;
+    font-size: 50px;
 }

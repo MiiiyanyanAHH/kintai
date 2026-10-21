@@ -13,7 +13,7 @@
                 <img src="../../image/警告マーク.png" alt="警告マーク" class="warning">
                <p>すでに打刻されています</p>
             </div>
-            <p class="time"></p>
+            <p class="time"><span class="timetime">11:00</span>に打刻されています</p>
     </main>
 </body>
 </html>
