@@ -16,8 +16,9 @@ body{
              clamp(16px,4vw,60px);/*画面が小さいときに画面崩れ防止*/
 }
 .employee-info{
+  margin-top: -70px;
   font-size: clamp(16px, 1.3vw, 28px);
-    margin-bottom: clamp(20px, 3vh, 45px);
+    margin-bottom: clamp(20px, 3vh, 60px);
 }
 
 .container h1{
