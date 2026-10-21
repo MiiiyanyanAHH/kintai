@@ -51,8 +51,6 @@ $pdo = new PDO(
 
 
 
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -69,7 +67,10 @@ $pdo = new PDO(
 
         <form action="" method="post">
             <label for="employee_name">社員名</label><!--名前入力欄-->
-            <input type="text" id="employee_name" name="employee_name" placeholder="例）山田　太郎" required>
+            <!--英字、ひらがな、カタカナ、漢字のみ受け付け-->
+            <input type="text" id="employee_name" name="employee_name" placeholder="例）山田 太郎" 
+             pattern="[a-zA-Z\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]+　[a-zA-Z\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]+$"
+            title="苗字と名前の間に全角スペースを入れてください。数字や記号は使用できません。" required>
 
             <label for="hire_date">入社年月日</label>
             <input type="date" id="hire_date" name="hire_date" required><!--日付選択入力欄-->
