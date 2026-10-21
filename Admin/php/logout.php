@@ -16,7 +16,7 @@
         </div>
 
         <div class="buttons">
-            <a href="#" class="cancel-btn">キャンセル</a>
+            <a href="admin_dashboard.php" class="cancel-btn">キャンセル</a>
             <a href="#" class="logout-btn">ログアウト</a>
         </div>
         

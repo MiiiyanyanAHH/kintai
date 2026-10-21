@@ -1,25 +1,26 @@
+
 body{
-  margin:0;
   background-color: #ffffff;
+  margin: 0;
   font-family: sans-serif;
 }
 
-.container{
-
+.container {
   display: flex;/*フレックスボックスを使えるようにして*/
-  flex-direction: column;
+  flex-direction: column; /* 子要素を縦方向に並べる */
   justify-content: center;
+  align-items: center;
   height: 100vh;
   margin: 0 25px;
 }
 
-.message { /*すでに打刻の文字とマーク*/
+.message {
     display: flex;
     align-items: center;/*横方向の中央にそろえる*/
-    justify-content: center;
     gap: 10px;/*図と文字の間あける*/
-    font-weight: 600;
+    font-weight: 500;
 }
+
 
 .warning {
     width: 80px;
@@ -27,13 +28,19 @@ body{
     object-fit: contain;/*比率あわせ（見切れずに全体収めるために）*/
 }
 
-.message p {/*文字*/
+.message p {
     margin: 0;
-    font-size: 40px;
+    font-size: 50px;
 }
 
-.time-message {/*〇時にすでにの文字のみ*/
-    margin-top: 20px;
-    font-size: clamp(18px, 2vw, 26px);/*最低18、基本20px、最大26*/
-    text-align: center;
+.time {
+  text-align: center;
+  font-size: clamp(18px, 3vw, 32px);
+  color: #000;
+}
+
+
+
+.timetime {/*〇時にすでにの文字のみ*/
+  font-size: clamp(24px, 4vw, 44px);
 }
