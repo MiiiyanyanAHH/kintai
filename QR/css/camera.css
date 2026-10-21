@@ -26,13 +26,6 @@
   z-index: 100;
 }
 
-#qr-msg{
-  position: absolute;
-  top: 500px;
-  left: 0px;
-}
-
-
 #title{
   size: 64px;
   text-align: center;

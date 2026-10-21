@@ -30,14 +30,17 @@ body{
 
 .message p {
     margin: 0;
-    font-size: 40px;
+    font-size: 50px;
+}
+
+.time {
+  text-align: center;
+  font-size: clamp(18px, 3vw, 32px);
+  color: #000;
 }
 
 
-.time {/*〇時にすでにの文字のみ*/
-   position: relative;
-  
-  width: 100%;
-  font-size: clamp(24px, 4vw, 36px);
-  text-align: center;
+
+.timetime {/*〇時にすでにの文字のみ*/
+  font-size: clamp(24px, 4vw, 44px);
 }

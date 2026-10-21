@@ -11,7 +11,8 @@ $sql=$pdo->prepare('select * from employees where employee_id=? and qr_date=?');
 $sql->execute([$employeeId,$qrIssueDate]);
   //検索結果をresultへ
   $result = $sql->fetch();
-  //データが取れた場合
+
+  //データが取れた場合　
   if($result){
     //退職日を検索しNULLだったらログテーブルを検索
     if($result["retire_date"] == NULL){
@@ -33,7 +34,7 @@ $sql->execute([$employeeId,$qrIssueDate]);
             //出勤画面を返す
             echo json_encode([
             "page" => "http://localhost/kintai/QR/php/shukin_complete.php",
-                      "time" => $attendanceTime
+                      "time" => date( "H:i", strtotime($attendanceTime))
             ]);
           
         } else {
@@ -47,7 +48,8 @@ $sql->execute([$employeeId,$qrIssueDate]);
             //重複画面表示
             echo json_encode([
             "page" => "http://localhost/kintai/QR/php/tyouhuku.php",
-            "time" => $todayLog["time_stamp"]
+            //既に登録されているログ
+            "time" => date( "H:i", strtotime($todayLog["time_stamp"]))
             ]);
 
             }else {
@@ -62,7 +64,7 @@ $sql->execute([$employeeId,$qrIssueDate]);
                       //退勤画面を返す
                       echo json_encode([
                       "page" => "http://localhost/kintai/QR/php/taikin_complete.php",
-                      "time" => $attendanceTime
+                      "time" => date( "H:i", strtotime($attendanceTime))
                       ]);
                   //5分以上経過済み,直前が退勤だった場合
                  } else if ($todayLog["time_type"] == "退勤"){
@@ -75,7 +77,7 @@ $sql->execute([$employeeId,$qrIssueDate]);
                       //出勤画面を返す
                       echo json_encode([
                       "page" => "http://localhost/kintai/QR/php/shukin_complete.php",
-                      "time" => $attendanceTime
+                      "time" => date( "H:i", strtotime($attendanceTime))
                       ]);
                  } 
         }

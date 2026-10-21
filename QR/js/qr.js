@@ -86,7 +86,7 @@ const checkImage = () => {
             //読み込み完了後の処理を登録する
             frame.addEventListener("load",()=> {
               //インフレーム内のHTML要素の時刻表示の部分を取得し、表示する文字を指定
-              frame.contentDocument.querySelector(".time").textContent= data.time;
+              frame.contentDocument.querySelector(".timetime").textContent= data.time;
               frame.style.display = "block";
             },{once:true});
             
@@ -109,16 +109,13 @@ const checkImage = () => {
     console.log("QRcodeが見つかりました", code);
     //読み取ったＱＲコードの周囲に四角形を描画する
     drawRect(code.location);
-    //QRコード：見つかりましたを表示
-    document.getElementById('qr-msg').textContent = `QRコード：${code.data}`;
   } else {
     //QRコードが見つからなかった場合
     console.log("QRcodeが見つかりません", code);
     rectCtx.clearRect(0, 0, contentWidth, contentHeight);
-    document.getElementById('qr-msg').textContent = `QRコード：見つかりません`;
   }
-    //QRコードを3秒ごとに読み取る
-  setTimeout(() => { checkImage() }, 3000);//3秒
+    //QRコードを2秒ごとに読み取る
+  setTimeout(() => { checkImage() }, 2000);//3秒
 }
 
 

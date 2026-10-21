@@ -15,22 +15,22 @@ body{
 
 h3 {
   position: relative;
-  top: -50px;
+  top: -75px;
   text-align: center;
-  font-size:  50px;
+  font-size:  55px;
 }
 
 .time_label {
   position: relative;
-  top: -50px;
+  top: -110px;
   width: 100%;
   font-size: clamp(16px, 2.5vw, 36px);
   text-align: center;
 }
 
-.time{
+.timetime{
   position: relative;
-  top: -90px;
+  top: -190px;
   width: 100%;
   font-size: clamp(24px, 4vw, 36px);
   text-align: center;

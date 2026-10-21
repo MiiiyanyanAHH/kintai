@@ -52,3 +52,20 @@ button[type="submit"] {
   border-radius: 3px;
   cursor: pointer;
 }
+
+/* エラーメッセージ用のスタイル */
+   .error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 15px;     /* 下の「管理者ID」との間に少し隙間を空ける */
+    box-sizing: border-box;
+    white-space: nowrap; 
+    display: inline-block;
+}
+
+/*padding-left: 0; 
+width: 100%;              入力欄の幅いっぱいに合わせる */
