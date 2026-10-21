@@ -18,7 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $password = $_POST['password'] ?? '';
 
   // 管理者IDを使ってデータベースを検索
-  $sql = "SELECT admin_id, password
+  //$sql = "SELECT admin_id, password
+  //        FROM administrators
+  //        WHERE admin_id = :id";
+  // ↑activとauthrityも一緒に取得するようsqlを変更する
+
+  $sql = "SELECT admin_id, password, active, authority, employee_id
           FROM administrators
           WHERE admin_id = :id";
 
@@ -30,9 +35,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // 管理者IDが存在し、パスワードが一致するか判定
   if($admin && $password === $admin['password']) {
 
-    // ログイン成功
-    session_regenerate_id(true);
+    // アカウントが無効ならログインさせない
+    if($admin['active'] == 0) {
+      $error = 'このアカウントは無効化されています。';
+    } else {
+      // ログイン成功
+      session_regenerate_id(true);
     $_SESSION['admin_id'] = $admin['admin_id'];
+
+    // セッションに権限(authority)と社員ID(employee_id)を保存する。
+      $_SESSION['authority'] = $admin['authority'];
+      $_SESSION['employee_id'] = $admin['employee_id'];
+    }
 
     // 管理者画面へ移動
     header('Location: admin_dashboard.php');
@@ -58,14 +72,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="container">
   <h1>管理者ログイン</h1>
 
-  <?php if($error !== ''): ?>
+<form action="kanri_login.php" method="post">
+  <div class="form-area">
+
+
+<?php if($error !== ''): ?>
     <p class= "error">
       <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
     </p>
   <?php endif; ?>
 
-<form action="kanri_login.php" method="post">
-  <div class="form-area">
     <p>管理者ID <br><input type="text" name="id" required></p>
     <p>パスワード<br><input type="password" name="password" required></p>
     <button type = "submit">ログイン</button>

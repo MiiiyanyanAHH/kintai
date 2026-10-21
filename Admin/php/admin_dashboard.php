@@ -1,3 +1,11 @@
+<?php session_start(); 
+
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -17,11 +25,19 @@
       <div class="menu-buttons">
         <a href="#" class="menu-btn">月別勤怠修正</a>
         <a href="#" class="menu-btn">ログ</a>
-        <a href="#" class="menu-btn">社員管理</a>
         <a href="#" class="menu-btn">CSV出力</a>
-      </div>
 
-    </main>
+    <?php
+    // 権限が0のときだけ「社員管理」ボタンを表示する
+    if (isset($_SESSION['authority']) && $_SESSION['authority'] == 0) {
+    ?>
+        <a href="#" class="menu-btn">社員管理</a>
+    <?php
+    }
+    ?>
+    
+      </div>
+    </main>   
 
     <?php include('footer.php'); ?>
   </body>

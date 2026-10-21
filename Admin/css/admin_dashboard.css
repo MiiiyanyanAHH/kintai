@@ -46,7 +46,7 @@ body {
   height: 60px;
   width: 300px;
   border-radius: 6px;
-  margin-bottom: 39px;
+  margin-bottom: 15px;
   background-color: #b8b7b7;
   color: #2a2a2a;
   font-size: clamp(18px, 2.5vw, 39px);

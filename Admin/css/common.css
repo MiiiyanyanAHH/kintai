@@ -62,9 +62,6 @@ footer {
   margin-left: clamp(4px, 1vw, 20px);
 }
 
-
-
-
 /* ←戻るボタンの設定 */
 /*<a href="admin.php" class="back-link">← 戻る</a>  ←で使ってね*/
 .back-link {
