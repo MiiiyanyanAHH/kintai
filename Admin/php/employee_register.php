@@ -45,7 +45,7 @@ $pdo = new PDO(
           ':hire_date' => $hire_date,
          ':qr_date' => $qr_date
         ]);
-        
+
 
         //管理者か正社員の場合。ADM+大文字英数（全35種）ランダムでＩＤ生成
         if($role == 0 || $role == 1){
@@ -64,7 +64,34 @@ $pdo = new PDO(
                 $random = rand( 0 , 67 );
                 $random_ps = $random_ps . $ps[ $random ];
             }
+
+            $active = 1;
+            $authority = $role;
+
+            $admin = "INSERT INTO administrators(employee_id, admin_id, password, active,authority)
+            VALUES
+            (:employee_id, :admin_id, :password, :active, :authority)";
+
+        $admin =  $pdo->prepare($admin);
+
+        // データを登録する
+         $admin->execute([
+        ':employee_id' => $employee_id,
+        ':admin_id'    => $random_id,
+        ':password'    => $random_ps,
+        ':active'      => $active,
+        ':authority'   => $authority,
+        ]);
         }
+
+
+
+        //QRコード作成！ｊｓに渡す値を準備する➤Ｊｓに送る
+        //if()
+
+
+            //またここで受け取る
+    
             
 
     }
@@ -103,7 +130,7 @@ $pdo = new PDO(
 		            <input type="radio" name="role" value="2">非正規雇用<br>
 	            </p>
 
-            <button type="submit">登録する</button>
+            <button type="submit" id="QR_new">登録する</button>
         </form>
     </main>
 <?php include('footer.php'); ?>
