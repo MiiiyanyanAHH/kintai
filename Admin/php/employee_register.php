@@ -34,7 +34,7 @@ $pdo = new PDO(
             (employee_id, employee_name, hire_date, qr_date)
             VALUES
             (:employee_id, :employee_name, :hire_date, :qr_date)";
-
+        
           // SQLを準備する
          $stmt = $pdo->prepare($sql);
 
@@ -44,10 +44,55 @@ $pdo = new PDO(
          ':employee_name' => $employee_name,
           ':hire_date' => $hire_date,
          ':qr_date' => $qr_date
+        ]);
 
-         
 
-    ]);
+        //管理者か正社員の場合。ADM+大文字英数（全35種）ランダムでＩＤ生成
+        if($role == 0 || $role == 1){
+            $id = array_merge(range( 'A', 'Z'), range( '0', '9'));
+            $random_id="ADM";
+            //ランダム4文字追加
+            for($i = 0;$i<4;$i++){
+                $random = rand( 0 , 35 );
+                $random_id = $random_id . $id[ $random ];
+            }
+            //パスワード生成
+            $ps = array_merge(range( 'A', 'Z'), range( 'a', 'z'), range( '0', '9'),range( '!', '&'));
+            $random_ps="";
+            //ランダム8文字（英字（大小）数字記号）()
+            for($i = 0;$i<8;$i++){
+                $random = rand( 0 , 67 );
+                $random_ps = $random_ps . $ps[ $random ];
+            }
+
+            $active = 1;
+            $authority = $role;
+
+            $admin = "INSERT INTO administrators(employee_id, admin_id, password, active,authority)
+            VALUES
+            (:employee_id, :admin_id, :password, :active, :authority)";
+
+        $admin =  $pdo->prepare($admin);
+
+        // データを登録する
+         $admin->execute([
+        ':employee_id' => $employee_id,
+        ':admin_id'    => $random_id,
+        ':password'    => $random_ps,
+        ':active'      => $active,
+        ':authority'   => $authority,
+        ]);
+        }
+
+
+
+        //QRコード作成！ｊｓに渡す値を準備する➤Ｊｓに送る
+        //if()
+
+
+            //またここで受け取る
+    
+            
 
     }
 ?>
@@ -80,12 +125,12 @@ $pdo = new PDO(
 
             	<p>
                     <span class="role-title">権限</span><br>
-		            <input type="radio" name="role" value="管理者" required>管理者<br>
-		            <input type="radio" name="role" value="正社員">正社員<br>
-		            <input type="radio" name="role" value="非正規雇用">非正規雇用<br>
+		            <input type="radio" name="role" value="0" required>管理者<br>
+		            <input type="radio" name="role" value="1">正社員<br>
+		            <input type="radio" name="role" value="2">非正規雇用<br>
 	            </p>
 
-            <button type="submit">登録する</button>
+            <button type="submit" id="QR_new">登録する</button>
         </form>
     </main>
 <?php include('footer.php'); ?>
