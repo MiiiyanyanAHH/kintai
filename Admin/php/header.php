@@ -3,8 +3,8 @@
     <div class="site-title">勤怠管理システム　きんたくん</div>
 
     <div class="header-links">
-      <a href="#">ホーム</a>
-      <a href="#">ログアウト</a>
+      <a href="home.php">ホーム</a>
+      <a href="logout.php">ログアウト</a>
     </div>
   </nav>
 </header>
