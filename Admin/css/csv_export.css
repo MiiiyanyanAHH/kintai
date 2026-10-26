@@ -1,0 +1,106 @@
+body {
+  margin: 0; /*外側、内側の余白なし*/
+  padding: 0;
+  min-height: 100vh; /*最小の高さ（画面の高さの100％）*/
+  display: flex;
+  flex-direction: column; /*縦方向に並べる*/
+  font-family: sans-serif;
+}
+
+footer {
+  flex-shrink: 0; /*フッターが縮むのを防ぐ*/
+  text-align: center;/*文字を左右中央へ*/
+  line-height: 50px;/*行の高さ指定*/
+  padding: 0;
+  font-size: 16px;
+  color: #f8f8ff;
+  background-color: #3CC6A6;
+  height: 50px;
+  width: 100%;/*親要素の幅いっぱい*/
+  box-sizing: border-box;/*幅や高さにpadding.borderを含めて計算*/
+}
+
+
+/* ヘッダー */
+.header-nav {
+  display: flex;
+  align-items: center;/*上下中央*/
+  justify-content: space-between;/*左右配置。間に余白*/
+  flex-wrap: nowrap;/*次の行に折り返さない*/
+  width: 100%;
+  min-height: 60px;/*最低の高さ*/
+  padding: 0 10px;
+  box-sizing: border-box;/*幅や高さにpadding.borderを含めて計算*/
+  color: #f8f8ff;
+  background-color: #3CC6A6;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 80px 15px;
+  min-height: 0;
+  justify-content: flex-start;
+  gap: -40px;
+}
+
+h1 {
+  position: relative;
+  top: -50px;
+  text-align: center;
+}
+
+p {
+  font-weight: bold;
+}
+
+/* ボタン共通 */
+.menu-buttons button {
+    width: 140px;
+    min-height: 40px;
+    padding: 10px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    
+}
+
+/* ボタンを縦に並べる */
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    margin-top: 55px;
+}
+
+/* プレビューボタン */
+.preview-btn {
+    background-color: #b8b7b7;
+    color: white;
+}
+.preview-btn:hover {
+  opacity: 0.5;
+}
+
+/* CSV出力ボタン */
+.csv-btn {
+    background-color: #2864e8;
+    color: white;
+}
+.csv-btn:hover {
+  opacity: 0.5;
+}
+
+.container input[type="month"] {
+  font-size: 14px;
+  margin-top: 0;
+}
+
+.grup {
+  margin-top: -50px;
+  margin-left: 30px;
+}
