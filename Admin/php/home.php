@@ -13,7 +13,7 @@
   <div class="container">
     <h1>勤怠管理システム　きんたくん</h1>
     <div class="dakoku-btn">
-      <a href="dakoku.html"><button>打刻画面</button></a>
+      <a href="../../QR/html/camera.html"><button>打刻画面</button></a>
     </div>
     <div class="sub-btn">
       <a href="kanri_login.php"><button>管理者画面</button></a>

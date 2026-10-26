@@ -11,8 +11,8 @@ $sql=$pdo->prepare('select * from employees where employee_id=? and qr_date=?');
 $sql->execute([$employeeId,$qrIssueDate]);
   //検索結果をresultへ
   $result = $sql->fetch();
-  
-  //データが取れた場合
+
+  //データが取れた場合　
   if($result){
     //退職日を検索しNULLだったらログテーブルを検索
     if($result["retire_date"] == NULL){

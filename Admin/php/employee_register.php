@@ -44,6 +44,9 @@ $pdo = new PDO(
          ':employee_name' => $employee_name,
           ':hire_date' => $hire_date,
          ':qr_date' => $qr_date
+
+         
+
     ]);
 
     }

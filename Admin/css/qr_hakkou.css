@@ -1,0 +1,65 @@
+/*ページ全体*/
+body{
+    margin: 0;
+    padding: 0; /*余計な余白消し*/
+    min-height: 100vh;/*ページの最小の高さ100％*/
+}
+
+.container {
+    flex: 1;/*ボディの要素いっぱいにコンテナ伸ばす。*/
+    display: flex;
+    flex-direction: column;/*中の要素を縦方向に並べる*/
+    align-items: center;/*左右の中央*/
+    justify-content: center;/*上下の中央*/
+    box-sizing: border-box;/*余白も含めて全体のサイズ計算*/
+    padding: clamp(20px,3vh,50px)
+             clamp(16px,4vw,60px);/*画面が小さいときに画面崩れ防止*/
+}
+.employee-info{
+  margin-top: -70px;
+  font-size: clamp(16px, 1.3vw, 28px);
+    margin-bottom: clamp(20px, 3vh, 60px);
+}
+
+.container h1{
+  font-size: clamp(1rem, 2vw, 70px);
+  margin-bottom: 19px;
+  margin-top: 0px;
+}
+
+/* QRコード表示エリア */
+.qr-code {
+    width: 270px;
+    height: 260px;
+    background-color: #d9d9d9;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+/* 発行完了メッセージ */
+.success-message {
+    margin: 10px 0 5px;
+    font-size: clamp(1rem, 1.4vw, 2rem);
+}
+
+/* 印刷ボタン */
+.print-btn {
+    width: 170px;
+    padding: 8px;
+    margin-top: 20px;
+    border: none;
+    background-color: #d9d9d9;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 21px;
+}
+
+.print-btn:hover {
+  background-color: #313131;
+    color: rgb(211, 209, 209);
+    
+}
