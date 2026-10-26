@@ -24,7 +24,7 @@
 
       <div class="menu-buttons">
         <a href="#" class="menu-btn">月別勤怠修正</a>
-        <a href="#" class="menu-btn">ログ</a>
+        <a href="admin_dashboard_log.php" class="menu-btn">ログ</a>
         <a href="#" class="menu-btn">CSV出力</a>
 
     <?php
