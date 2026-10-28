@@ -65,6 +65,8 @@ $pdo = new PDO(
                 $random_ps = $random_ps . $ps[ $random ];
             }
 
+
+            //有効１、権限を変数へ
             $active = 1;
             $authority = $role;
 
@@ -72,16 +74,16 @@ $pdo = new PDO(
             VALUES
             (:employee_id, :admin_id, :password, :active, :authority)";
 
-        $admin =  $pdo->prepare($admin);
+            $admin =  $pdo->prepare($admin);
 
-        // データを登録する
-         $admin->execute([
-        ':employee_id' => $employee_id,
-        ':admin_id'    => $random_id,
-        ':password'    => $random_ps,
-        ':active'      => $active,
-        ':authority'   => $authority,
-        ]);
+            // データを登録する
+            $admin->execute([
+            ':employee_id' => $employee_id,
+            ':admin_id'    => $random_id,
+            ':password'    => $random_ps,
+            ':active'      => $active,
+            ':authority'   => $authority,
+            ]);
         }
 
 
