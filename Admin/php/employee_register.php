@@ -1,4 +1,5 @@
 <?php
+session_start();
 //データベースに接続する.
 $pdo = new PDO(
     'mysql:host=localhost;dbname=kinta_db;charset=utf8mb4',
@@ -86,15 +87,24 @@ $pdo = new PDO(
             ]);
         }
 
+        // データをセッション（一時保存箱）に入れておく
+            $_SESSION['employee'] = [
+                'id' => $employee_id,
+                'name' => $employee_name,
+                'date' => $qr_date
+            ];
+        header('Location: qr_hakkou.php');
+exit;
 
 
-        //QRコード作成！ｊｓに渡す値を準備する➤Ｊｓに送る
-        //if()
 
+// QRコード作成！JSに渡す値を準備する
+// if (
+//     isset($employee_id, $qr_date) && $employee_id !== '' && $qr_date !== '') {
+//     // 社員IDとQRコード識別日をカンマでつなげる
+//     $wa = $employee_id . ',' . $qr_date;
 
-            //またここで受け取る
-    
-            
+// }       
 
     }
 ?>
@@ -132,7 +142,7 @@ $pdo = new PDO(
 		            <input type="radio" name="role" value="2">非正規雇用<br>
 	            </p>
 
-            <button type="submit" id="QR_new">登録する</button>
+            <button type="submit" id="QR_new"><a href="qr_hakkou.php"></a>登録する</button>
         </form>
     </main>
 <?php include('footer.php'); ?>

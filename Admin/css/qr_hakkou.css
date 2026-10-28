@@ -27,7 +27,7 @@ body{
   margin-top: 0px;
 }
 
-/* QRコード表示エリア */
+/* QRコード表示エリア 
 .qr-code {
     width: 270px;
     height: 260px;
@@ -38,7 +38,7 @@ body{
     align-items: center;
 
     margin-bottom: 15px;
-}
+}*/
 
 /* 発行完了メッセージ */
 .success-message {
