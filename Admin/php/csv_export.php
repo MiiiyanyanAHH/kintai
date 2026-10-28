@@ -16,8 +16,8 @@
       <p>出力する年月</p>
     <input type="month" name="example">
       <div class="menu-buttons">
-        <button type = "button" class="preview-btn">プレビュー</button>
-        <button type = "button" class="csv-btn">CSVを出力</button>
+        <a href="#"><button type = "button" class="preview-btn">プレビュー</button></a>
+        <a href="#"><button type = "button" class="csv-btn">CSVを出力</button></a>
       </div>
     </div>
     </div>
