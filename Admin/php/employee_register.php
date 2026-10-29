@@ -1,52 +1,85 @@
 <?php
 session_start();
+
+//POST送信された場合
+if($_SERVER['REQUEST_METHOD']=='POST'){
+    //空か、nullかチェック。hashは比較処理の時間が一定。＝＝よりアリ
+    if(
+        empty($_SESSION['POST_TOKEN'])||
+        !isset($_POST['POST_TOKEN']) ||
+        !hash_equals($_SESSION['POST_TOKEN'], $_POST['POST_TOKEN'])
+    ){
+         header('Refresh: 3; URL=home.php');
+
+        echo 'すでに登録済みか、無効な操作です。<br>';
+        echo '3秒後に社員一覧へ戻ります。';
+        exit;
+    }
+
+    //使用済トークン削除
+    unset($_SESSION['POST_TOKEN']);
+}else{
+    //初めて画面を開いたときにトークンを発行
+    $_SESSION['POST_TOKEN']=bin2hex(random_bytes(32));
+}
+
+
+
+
 //データベースに接続する.
 $pdo = new PDO(
     'mysql:host=localhost;dbname=kinta_db;charset=utf8mb4',
     'root','');
 
-    //フォームから送信されたデータを受け取る
-    $employee_name = $_POST['employee_name']??'';
-    $hire_date = $_POST['hire_date']??'';
-    $role = $_POST['role'] ?? '';
-
-    //フォームからPOST送信されたら
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-         // 社員IDの最大番号を取得する。
-         //ID二文字目以降を文字列→数値→一番大きい値取得
-        $sql = "SELECT MAX(CAST(SUBSTRING(employee_id, 2) AS UNSIGNED))
-            FROM employees";
-            //このsqlの指示を使ってDB実行命令。
-        $stmt = $pdo->query($sql);
-
-         // 取得した番号を変数に入れる。取得した単位をintにして代入。
-        $last_number = (int)$stmt->fetchColumn();
-
-        /* 次の社員IDを作る。最大番号に１をたして、頭にE追加。ゼロ埋めID作成。
-        2引数➤全体を5桁に 3➤0埋め 4➤左埋め*/
-        $employee_id = 'E' . str_pad((string)($last_number + 1), 5, '0', STR_PAD_LEFT);
-
-         // QRコードの発行日を入社年月日に設定する
-        $qr_date = $hire_date;
-
-        // 社員情報を登録するSQL
-         $sql = "INSERT INTO employees
-            (employee_id, employee_name, hire_date, qr_date)
-            VALUES
-            (:employee_id, :employee_name, :hire_date, :qr_date)";
+    
         
-          // SQLを準備する
-         $stmt = $pdo->prepare($sql);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        
 
-          // データを登録する
-         $stmt->execute([
-         ':employee_id' => $employee_id,
-         ':employee_name' => $employee_name,
-          ':hire_date' => $hire_date,
-         ':qr_date' => $qr_date
+        //フォームから送信されたデータを受け取る
+         $employee_name = $_POST['employee_name']??'';
+        $hire_date = $_POST['hire_date']??'';
+        $role = $_POST['role'] ?? '';
+
+        //フォームからPOST送信されたら
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            try{
+                //トランザクション開始
+                $pdo->beginTransaction();
+
+                // 社員IDの最大番号を取得する。
+                //ID二文字目以降を文字列→数値→一番大きい値取得
+                 $sql = "SELECT MAX(CAST(SUBSTRING(employee_id, 2) AS UNSIGNED))
+                    FROM employees";
+                    //このsqlの指示を使ってDB実行命令。
+                $stmt = $pdo->query($sql);
+
+                // 取得した番号を変数に入れる。取得した単位をintにして代入。
+                $last_number = (int)$stmt->fetchColumn();
+
+                /* 次の社員IDを作る。最大番号に１をたして、頭にE追加。ゼロ埋めID作成。
+                2引数➤全体を5桁に 3➤0埋め 4➤左埋め*/
+                $employee_id = 'E' . str_pad((string)($last_number + 1), 5, '0', STR_PAD_LEFT);
+
+                // QRコードの発行日を入社年月日に設定する
+                $qr_date = $hire_date;
+
+                // 社員情報を登録するSQL
+                $sql = "INSERT INTO employees
+                    (employee_id, employee_name, hire_date, qr_date)
+                    VALUES
+                    (:employee_id, :employee_name, :hire_date, :qr_date)";
+        
+                // SQLを準備する
+                $stmt = $pdo->prepare($sql);
+
+                // データを登録する
+                $stmt->execute([
+                ':employee_id' => $employee_id,
+                ':employee_name' => $employee_name,
+                ':hire_date' => $hire_date,
+                ':qr_date' => $qr_date
         ]);
-
 
         //管理者か正社員の場合。ADM+大文字英数（全35種）ランダムでＩＤ生成
         if($role == 0 || $role == 1){
@@ -70,14 +103,16 @@ $pdo = new PDO(
             //有効１、権限を変数へ
             $active = 1;
             $authority = $role;
-
+            //管理者テーブルにデータを新しく追加。値を登録
             $admin = "INSERT INTO administrators(employee_id, admin_id, password, active,authority)
             VALUES
             (:employee_id, :admin_id, :password, :active, :authority)";
 
+            //$adminに入っているSQL文の実行準備
             $admin =  $pdo->prepare($admin);
 
             // データを登録する
+            //左側はプレースホルダ
             $admin->execute([
             ':employee_id' => $employee_id,
             ':admin_id'    => $random_id,
@@ -87,26 +122,30 @@ $pdo = new PDO(
             ]);
         }
 
+        //トランザクションコミット
+            $pdo->commit();
+            }catch(Exception $e){
+                //ロールバック
+                $pdo->rollBack();
+                // 3秒後に元の登録画面（このファイル自身）に戻す
+                header('Refresh: 3; URL=employee_register.php');
+                echo '登録に失敗しました。<br>';
+                echo '3秒後に登録画面へ戻ります。';
+                exit;
+            }
+
         // データをセッション（一時保存箱）に入れておく
             $_SESSION['employee'] = [
                 'id' => $employee_id,
                 'name' => $employee_name,
                 'date' => $qr_date
             ];
+            //Locatinヘッダーで遷移先を指定
         header('Location: qr_hakkou.php');
 exit;
-
-
-
-// QRコード作成！JSに渡す値を準備する
-// if (
-//     isset($employee_id, $qr_date) && $employee_id !== '' && $qr_date !== '') {
-//     // 社員IDとQRコード識別日をカンマでつなげる
-//     $wa = $employee_id . ',' . $qr_date;
-
-// }       
-
+      
     }
+    
 ?>
 
 
@@ -141,8 +180,10 @@ exit;
 		            <input type="radio" name="role" value="1">正社員<br>
 		            <input type="radio" name="role" value="2">非正規雇用<br>
 	            </p>
+                
+            <button type="submit" id="QR_new">登録する</button>
+            <input type="hidden" name="POST_TOKEN" value="<?php echo $_SESSION["POST_TOKEN"]; ?>"/>
 
-            <button type="submit" id="QR_new"><a href="qr_hakkou.php"></a>登録する</button>
         </form>
     </main>
 <?php include('footer.php'); ?>

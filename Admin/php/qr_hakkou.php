@@ -2,6 +2,7 @@
 <?php
 session_start();
 
+
 // セッションから社員情報を受け取る
 $employee = $_SESSION['employee'] ?? null;
 
@@ -11,6 +12,7 @@ if ($employee !== null) {
     $employee_name = $employee['name'];
     $qr_date = $employee['date'];
 }
+
 ?>
 
 
@@ -44,13 +46,14 @@ if ($employee !== null) {
             
         </div>
         <p class="success-message">QRコードを発行しました。</p>
-        <button type="button" class="print-btn">印刷</button>
+        <button type="button" class="print-btn" onclick="window.print();">印刷</button>
 
     </main>
 
     <?php include('footer.php'); ?>
 
     
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
 <script src="../js/qr_hakkou.js"></script>
