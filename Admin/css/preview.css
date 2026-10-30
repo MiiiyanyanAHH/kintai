@@ -1,0 +1,58 @@
+/*フッターの設定*/
+
+body {
+  margin: 0; /*外側、内側の余白なし*/
+  padding: 0;
+  min-height: 100vh; /*最小の高さ（画面の高さの100％）*/
+  display: flex;
+  flex-direction: column; /*縦方向に並べる*/
+  font-family: sans-serif;
+}
+
+footer {
+  flex-shrink: 0; /*フッターが縮むのを防ぐ*/
+  text-align: center;/*文字を左右中央へ*/
+  line-height: 50px;/*行の高さ指定*/
+  padding: 0;
+  font-size: 16px;
+  color: #f8f8ff;
+  background-color: #3CC6A6;
+  height: 50px;
+  width: 100%;/*親要素の幅いっぱい*/
+  box-sizing: border-box;/*幅や高さにpadding.borderを含めて計算*/
+}
+
+.back-link {
+  position: absolute;/*ほかにpositionやrelativeがあったらそこ基準に動いちゃうから注意！*/
+  top: 40px;/*上から40px*/
+  left: 30px;/*左から40px*/
+
+  color: #666;
+  text-decoration: none;
+  font-size: clamp(15px, 2.5vw, 30px);/*最小、基本、最大*/
+}
+
+.back-link:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
+main.container { /*main に flex: 1; がないから、内容が少ないときは main が必要な高さしか取らない。
+                    preview.css に flex: 1; を追加すると、main が余ったスペースを埋めてくれる。*/
+  flex: 1;
+  min-width: 0;
+}
+
+p {
+  margin-top: 120px;
+  margin-left: 80px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+table {
+  font-size: 28px;
+  width: 80%;
+  border-collapse: collapse; /*tableのセル同士の枠線を重ねて1本線にするか、離して表示するかを指定するプロパティ*/
+  margin-left: 40px;
+}

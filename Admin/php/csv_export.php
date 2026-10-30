@@ -14,12 +14,14 @@
       <h1>CSV出力</h1> 
       <div class="grup">
       <p>出力する年月</p>
-    <input type="month" name="example">
-      <div class="menu-buttons">
-        <a href="#"><button type = "button" class="preview-btn">プレビュー</button></a>
-        <a href="#"><button type = "button" class="csv-btn">CSVを出力</button></a>
+        <form action="preview.php">
+          <input type="month" name="month">
+              <div class="menu-buttons">
+                <button type = "submit" class="preview-btn">プレビュー</button>
+                <a href="#"><button type = "button" class="csv-btn">CSVを出力</button></a>
+              </div>
+        </form>
       </div>
-    </div>
     </div>
 <?php include('footer.php'); ?>
 </body>
