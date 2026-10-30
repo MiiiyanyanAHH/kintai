@@ -27,7 +27,7 @@ body{
   margin-top: 0px;
 }
 
-/* QRコード表示エリア */
+/* QRコード表示エリア 
 .qr-code {
     width: 270px;
     height: 260px;
@@ -38,7 +38,7 @@ body{
     align-items: center;
 
     margin-bottom: 15px;
-}
+}*/
 
 /* 発行完了メッセージ */
 .success-message {
@@ -62,4 +62,35 @@ body{
   background-color: #313131;
     color: rgb(211, 209, 209);
     
+}
+
+/* 印刷プレビュー */  
+@media print {
+/* QRコード発行画面の全体を縮小 */
+    .container {
+        transform: scale(0.4);
+        transform-origin: top center;
+    }
+     /* 印刷時に戻るリンクを非表示 */
+    .back-link {
+        display: none;
+    }
+    /* 印刷ボタンを非表示 */
+    .print-btn {
+        display: none;
+    }
+    .success-message {
+        display: none;
+    }
+    .container h1{
+        display: none;
+    }
+    .employee-info{
+        transform: scale(1.7);
+    }
+    .qr-code{
+        border: 1px dashed #000;
+        padding: 30px;
+        display: inline-block;
+    }
 }
