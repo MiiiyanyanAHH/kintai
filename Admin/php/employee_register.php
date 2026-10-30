@@ -30,10 +30,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 $pdo = new PDO(
     'mysql:host=localhost;dbname=kinta_db;charset=utf8mb4',
     'root','');
-
-    
-        
-        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         
 
         //フォームから送信されたデータを受け取る

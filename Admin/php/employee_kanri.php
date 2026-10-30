@@ -1,4 +1,31 @@
 
+<?php
+// データベースに接続
+$pdo = new PDO(
+    'mysql:host=localhost;dbname=kinta_db;charset=utf8mb4',
+    'root',
+    ''
+);
+try{
+//エラー発生したら例外発生させる。
+$pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
+// 社員情報を取得
+$sql = "SELECT * FROM employees";
+$stmt = $pdo->query($sql);
+$employees = $stmt->fetchAll(PDO::FETCH_ASSOC);//全部まとめて取り出してPDO::で列名をキーにした配列形式で取得
+
+//管理者情報も取得
+$sql = "SELECT * FROM administrators";
+$stmt = $pdo->query($sql);
+$administrators = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}catch(PDOException $e){
+  //エラー発生時の処理
+  echo "接続失敗:".$e->getMessage();
+  exit();
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -7,7 +34,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>社員一覧</title>
     <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/shusei.css">
+    <link rel="stylesheet" href="../css/employee_kanri.css">
   </head>
 
   <body>
@@ -16,55 +43,33 @@
     <main class="container">
       <div class="shusei-content">
         <h1>社員一覧</h1>
-            <!-- <?php
-              $sql = "select * from employees";
-              $stmt = $pdo->query($sql);
-              $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            ?> -->
-          <div class="grup">
-    <form method="GET">
-            <label>
-              社員名
-                <select name="employee_id">
-                  <!-- <?php foreach($employees as $employee) { ?>
-                      <option value="<?= htmlspecialchars($employee['employee_id'],ENT_QUOTES, 'UTF-8')?>">
-                          <?=htmlspecialchars($employee['employee_name'],ENT_QUOTES,'UTF-8') ?>
-                      </option>
-                  <?php } ?> -->
-               </select>
-            </label>  
-
-            <label>
-              対象年月
-              <input type="month" name="example">
-            </label>
-
-          <button type = "submit" class="preview-btn">表示</button>
-  </form>
-        </div>
       </div>
       <div class="kintai">
           <table>
             <tr>
-              <th>日付</th>
-              <th>出勤予定</th>
-              <th>出勤</th>
-              <th>退勤予定</th>
-              <th>退勤</th>
-              <th>勤務区分</th>
+              <th>社員ID</th>
+              <th>社員名</th>
+              <th>入社年月日</th>
+              <th>退職年月日</th>
+              <th>権限</th>
+              <th>管理者ID</th>
+              <th>操作</th>
             </tr>
-            
-            
-          <!-- <?php 
-          //ここから続き
-                    while($rows->fetch()){
-                          echo '<tr>'.'<td>'.$row['time_stamp'].'</td>';
-                          echo '<td>'.$row['employee_id'].'</td>';
-                          echo '<td>'.$row['employee_name'].'</td>';
-                          echo '<td>'.$row['time_type'].'</td>'.'</tr>';
-                    }
-              ?>  -->
+          <?php foreach($employees as $employee):?>
+            <tr>
+                    <td><?php echo htmlspecialchars($employee['employee_id'], ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?php echo htmlspecialchars($employee['employee_name'], ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?php echo nl2br(htmlspecialchars($employee['hire_date'], ENT_QUOTES, 'UTF-8')); ?></td>
+                </tr>
+            <?php endforeach; ?>
+          
 
+            <?php foreach($administrators as $administrator):?>
+            <tr>
+                    <td><?php echo htmlspecialchars($administrator['active'], ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?php echo htmlspecialchars($administrator['authority'], ENT_QUOTES, 'UTF-8'); ?></td>
+                </tr>
+            <?php endforeach; ?>
 
 
           </table>
