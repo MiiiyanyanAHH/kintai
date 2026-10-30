@@ -93,12 +93,14 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
             
             
           <?php 
-          //ここから続き
-                    while($rows->fetch()){
-                          echo '<tr>'.'<td>'.$row['time_stamp'].'</td>';
-                          echo '<td>'.$row['employee_id'].'</td>';
-                          echo '<td>'.$row['employee_name'].'</td>';
-                          echo '<td>'.$row['time_type'].'</td>'.'</tr>';
+                    foreach($rows as $data){//一行ずつ取り出す
+                          echo '<tr>'.'<td>'.$data['work_date'].'</td>';
+                          echo '<td>'.$data['start_plan'].'</td>';
+                          echo '<td>'.$data['work_date'].'</td>';
+                          echo '<td>'.$data['end_plan'].'</td>';
+                          echo '<td>'.$data['work_date'].'</td>';
+                          echo '<td>'.$data['work_type'].'</td>'
+                          .'</tr>';
                     }
               ?> 
 
