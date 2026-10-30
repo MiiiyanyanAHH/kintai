@@ -1,0 +1,21 @@
+body {
+  margin: 0; /*外側、内側の余白なし*/
+  padding: 0;
+  min-height: 100vh; /*最小の高さ（画面の高さの100％）*/
+  display: flex;
+  flex-direction: column; /*縦方向に並べる*/
+  font-family: sans-serif;
+}
+
+footer {
+  flex-shrink: 0; /*フッターが縮むのを防ぐ*/
+  text-align: center;/*文字を左右中央へ*/
+  line-height: 50px;/*行の高さ指定*/
+  padding: 0;
+  font-size: 16px;
+  color: #f8f8ff;
+  background-color: #3CC6A6;
+  height: 50px;
+  width: 100%;/*親要素の幅いっぱい*/
+  box-sizing: border-box;/*幅や高さにpadding.borderを含めて計算*/
+}
