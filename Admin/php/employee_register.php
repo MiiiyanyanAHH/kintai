@@ -61,6 +61,7 @@ $pdo = new PDO(
                 // QRコードの発行日を入社年月日に設定する
                 $qr_date = $hire_date;
 
+
                 // 社員情報を登録するSQL
                 $sql = "INSERT INTO employees
                     (employee_id, employee_name, hire_date, qr_date)
@@ -76,7 +77,7 @@ $pdo = new PDO(
                 ':employee_name' => $employee_name,
                 ':hire_date' => $hire_date,
                 ':qr_date' => $qr_date
-        ]);
+                ]);
 
         //管理者か正社員の場合。ADM+大文字英数（全35種）ランダムでＩＤ生成
         if($role == 0 || $role == 1){

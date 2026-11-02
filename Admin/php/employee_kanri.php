@@ -10,15 +10,26 @@ try{
 //エラー発生したら例外発生させる。
 $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
-// 社員情報を取得
-$sql = "SELECT * FROM employees";
-$stmt = $pdo->query($sql);
-$employees = $stmt->fetchAll(PDO::FETCH_ASSOC);//全部まとめて取り出してPDO::で列名をキーにした配列形式で取得
+// // 社員情報を取得
+// $sql = "SELECT * FROM employees";
+// $stmt = $pdo->query($sql);
+// $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);//全部まとめて取り出してPDO::で列名をキーにした配列形式で取得
 
-//管理者情報も取得
-$sql = "SELECT * FROM administrators";
-$stmt = $pdo->query($sql);
-$administrators = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// //管理者情報も取得
+// $sql = "SELECT * FROM administrators";
+// $stmt = $pdo->query($sql);
+// $administrators = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+$sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,a.authority
+        FROM employees AS e
+        LEFT JOIN administrators AS a
+        ON e.employee_id = a.employee_id" ;
+
+        $stmt = $pdo->query($sql);
+        $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 }catch(PDOException $e){
   //エラー発生時の処理
   echo "接続失敗:".$e->getMessage();
@@ -55,20 +66,36 @@ $administrators = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <th>管理者ID</th>
               <th>操作</th>
             </tr>
+            
           <?php foreach($employees as $employee):?>
+
+
+            <?php
+              $authorityNames = "";
+              
+            if($employee['authority'] !== null){
+
+              switch((int)$employee['authority']){
+                case 0:
+                  $authorityNames = "管理者";
+                  break;
+                case 1:
+                  $authorityNames = "正社員";
+                  break;
+                case 2:
+                  $authorityNames = "非正規雇用";
+                  break;
+              }
+              }
+            ?>
             <tr>
                     <td><?php echo htmlspecialchars($employee['employee_id'], ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php echo htmlspecialchars($employee['employee_name'], ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php echo nl2br(htmlspecialchars($employee['hire_date'], ENT_QUOTES, 'UTF-8')); ?></td>
-                </tr>
-            <?php endforeach; ?>
-          
-
-            <?php foreach($administrators as $administrator):?>
-            <tr>
-                    <td><?php echo htmlspecialchars($administrator['active'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($administrator['authority'], ENT_QUOTES, 'UTF-8'); ?></td>
-                </tr>
+                    <td><?php echo htmlspecialchars($employee['retire_date']?? '-', ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?php echo htmlspecialchars($administrator['active']?? '-', ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?php echo htmlspecialchars($authorityNames, ENT_QUOTES, 'UTF-8'); ?></td>
+            </tr>
             <?php endforeach; ?>
 
 
