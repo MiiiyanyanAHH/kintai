@@ -20,10 +20,17 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
 
   //２つのテーブルを社員IDと日付で左結合
      $sql = $pdo->prepare(
-      'select * from attendance  left join attendance_logs 
-                on  attendance.employee_id = attendance_logs.employee_id and attendance.work_date = date(attendance_logs.time_stamp)
-                where attendance.employee_id = ? and attendance.work_date is not null and attendance.work_date >= ? and attendance.work_date < ?
-                order by work_date asc'
+             'select max(case when time_type = "出勤" then time_stamp end ) as shukin_time 
+                     ,max(case when time_type = "退勤" then time_stamp end) as taikin_time
+                     ,attendance.work_date
+                     ,max(attendance.start_plan) as start_plan
+                     ,max(attendance.end_plan) as end_plan
+                     ,max(attendance.work_type) as work_type
+             from attendance left join attendance_logs 
+                    on  attendance.employee_id = attendance_logs.employee_id and attendance.work_date = date(attendance_logs.time_stamp)
+                    where attendance.employee_id = ? and attendance.work_date is not null and attendance.work_date >= ? and attendance.work_date < ?
+                    group by attendance.employee_id, attendance.work_date
+                    order by attendance.work_date asc'
                 );
                   $sql->execute([$employee_id, $start_date, $next_month]);
                   //検索結果をまとめて変数に保存する
@@ -64,7 +71,10 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
               社員名
                 <select name="employee_id">
                   <?php foreach($employees as $employee) { ?>
-                      <option value="<?= htmlspecialchars($employee['employee_id'],ENT_QUOTES, 'UTF-8')?>">
+                      <option value="<?= htmlspecialchars($employee['employee_id'],ENT_QUOTES, 'UTF-8')?>"
+                      <?= (isset($employee_id) && $employee_id == $employee['employee_id'])? 'selected':'' ?>
+                      >
+                      
                           <?=htmlspecialchars($employee['employee_name'],ENT_QUOTES,'UTF-8') ?>
                       </option>
                   <?php } ?>
@@ -73,7 +83,7 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
 
             <label>
               対象年月
-              <input type="month" name="example">
+              <input type="month" name="example"  value="<?= htmlspecialchars($example ?? '', ENT_QUOTES, 'UTF-8')?>">
             </label>
 
           <button type = "submit" class="preview-btn">表示</button>
@@ -95,10 +105,10 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
           <?php 
                     foreach($rows as $data){//一行ずつ取り出す
                           echo '<tr>'.'<td>'.$data['work_date'].'</td>';
-                          echo '<td>'.$data['start_plan'].'</td>';
-                          echo '<td>'.$data['work_date'].'</td>';
-                          echo '<td>'.$data['end_plan'].'</td>';
-                          echo '<td>'.$data['work_date'].'</td>';
+                          echo '<td>'.substr($data['start_plan'],0,5).'</td>';
+                          echo '<td>'.substr($data['shukin_time'], 11,5).'</td>';
+                          echo '<td>'.substr($data['end_plan'],0,5).'</td>';
+                          echo '<td>'.substr($data['taikin_time'],11,5).'</td>';
                           echo '<td>'.$data['work_type'].'</td>'
                           .'</tr>';
                     }
