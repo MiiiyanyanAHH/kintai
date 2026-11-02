@@ -20,18 +20,68 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
 
   //２つのテーブルを社員IDと日付で左結合
      $sql = $pdo->prepare(
-             'select max(case when time_type = "出勤" then time_stamp end ) as shukin_time 
-                     ,max(case when time_type = "退勤" then time_stamp end) as taikin_time
-                     ,attendance.work_date
-                     ,max(attendance.start_plan) as start_plan
-                     ,max(attendance.end_plan) as end_plan
-                     ,max(attendance.work_type) as work_type
-             from attendance left join attendance_logs 
-                    on  attendance.employee_id = attendance_logs.employee_id and attendance.work_date = date(attendance_logs.time_stamp)
-                    where attendance.employee_id = ? and attendance.work_date is not null and attendance.work_date >= ? and attendance.work_date < ?
-                    group by attendance.employee_id, attendance.work_date
-                    order by attendance.work_date asc'
-                );
+                          'select * from
+                            (select work_date from attendance where employee_id = ? and work_date >= ? and work_date < ?
+                            union
+                            select DATE(time_stamp) from attendance_logs where employee_id = ? and DATE(time_stamp) >= ? and DATE(time_stamp) < ?)
+                            as dates
+
+                            left join attendance on dates.work_date = attendance.work_date
+                            and attendance.employee_id = ?
+                          
+                            left join attendance_logs on dates.work_date = DATE(attendance_logs.time_stamp)
+                            and attendance_logs.employee_id = ?
+
+                          (select  employee_id
+                                  ,DATE(time_stamp)
+                                  ,time_stamp
+                                  ,row_number() over (
+                                     partition by employee_id,DATE(time_stamp)
+                                     order by time_stamp
+                                   ) as rn
+                          from attendance_logs
+                          where time_type ='出勤')
+
+                          (select  employee_id
+                                  ,DATE(time_stamp)
+                                  ,time_stamp
+                                  ,row_number() over (
+                                     partition by employee_id,DATE(time_stamp)
+                                     order by time_stamp
+                                   ) as rn
+                          from attendance_logs
+                          where time_type ='退勤')
+
+                          left join 
+                            (select  employee_id
+                                  ,DATE(time_stamp)
+                                  ,time_stamp
+                                  ,row_number() over (
+                                     partition by employee_id,DATE(time_stamp)
+                                     order by time_stamp
+                                   ) as rn
+                          from attendance_logs
+                          where time_type ='出勤')as shukin
+
+                          on dates.work_date = shukin.work_date
+
+                          left join(select  employee_id
+                                  ,DATE(time_stamp)
+                                  ,time_stamp
+                                  ,row_number() over (
+                                     partition by employee_id,DATE(time_stamp)
+                                     order by time_stamp
+                                   ) as rn
+                          from attendance_logs
+                          where time_type ='退勤') as taikin
+
+                            on shukin.employee_id = taikin.employee_id
+                            and shukin.work_date = taikin.work_date
+                            and shukin.rn = taikin.rn'
+                            ;
+                  
+
+
                   $sql->execute([$employee_id, $start_date, $next_month]);
                   //検索結果をまとめて変数に保存する
                   $rows = $sql->fetchAll(PDO::FETCH_ASSOC);
