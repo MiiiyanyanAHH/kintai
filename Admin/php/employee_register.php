@@ -158,7 +158,7 @@ exit;
     <link rel="stylesheet" href="../css/employee_register.css">
 </head>
 <body>
-    <a href="admin.php" class="back-link">← 戻る</a>
+    <a href="employee_kanri.php" class="back-link">← 戻る</a>
     <main class="container">
         <h1>新規社員登録</h1>
 

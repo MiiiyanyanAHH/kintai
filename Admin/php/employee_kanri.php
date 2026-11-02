@@ -24,7 +24,8 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,a.authority
         FROM employees AS e
         LEFT JOIN administrators AS a
-        ON e.employee_id = a.employee_id" ;
+        ON e.employee_id = a.employee_id
+         ORDER BY employee_id";
 
         $stmt = $pdo->query($sql);
         $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -52,9 +53,10 @@ $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,
     <?php include('header.php'); ?>
 
     <main class="container">
-      <div class="shusei-content">
+      <div class="kanri-content">
         <h1>社員一覧</h1>
       </div>
+
       <div class="kintai">
           <table>
             <tr>
@@ -67,7 +69,7 @@ $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,
               <th>操作</th>
             </tr>
             
-          <?php foreach($employees as $employee):?>
+           <?php foreach($employees as $employee):?>
 
 
             <?php
@@ -82,10 +84,9 @@ $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,
                 case 1:
                   $authorityNames = "正社員";
                   break;
-                case 2:
-                  $authorityNames = "非正規雇用";
-                  break;
               }
+              }else{
+                $authorityNames = "非正規雇用";
               }
             ?>
             <tr>
@@ -94,7 +95,7 @@ $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,
                     <td><?php echo nl2br(htmlspecialchars($employee['hire_date'], ENT_QUOTES, 'UTF-8')); ?></td>
                     <td><?php echo htmlspecialchars($employee['retire_date']?? '-', ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php echo htmlspecialchars($administrator['active']?? '-', ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($authorityNames, ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?php echo htmlspecialchars($authorityNames,  ENT_QUOTES, 'UTF-8'); ?></td>
             </tr>
             <?php endforeach; ?>
 
