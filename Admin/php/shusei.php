@@ -20,54 +20,33 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
 
   //２つのテーブルを社員IDと日付で左結合
      $sql = $pdo->prepare(
-                          'select * from
-                            (select work_date from attendance where employee_id = ? and work_date >= ? and work_date < ?
+                          "select *, dates.work_date as display_date from
+                            (select employee_id, work_date from attendance where employee_id = ? and work_date >= ? and work_date < ?
                             union
-                            select DATE(time_stamp) from attendance_logs where employee_id = ? and DATE(time_stamp) >= ? and DATE(time_stamp) < ?)
+                            select employee_id, DATE(time_stamp) from attendance_logs where employee_id = ? and DATE(time_stamp) >= ? and DATE(time_stamp) < ?)
                             as dates
 
                             left join attendance on dates.work_date = attendance.work_date
                             and attendance.employee_id = ?
                           
-                            left join attendance_logs on dates.work_date = DATE(attendance_logs.time_stamp)
-                            and attendance_logs.employee_id = ?
-
-                          (select  employee_id
-                                  ,DATE(time_stamp)
-                                  ,time_stamp
-                                  ,row_number() over (
-                                     partition by employee_id,DATE(time_stamp)
-                                     order by time_stamp
-                                   ) as rn
-                          from attendance_logs
-                          where time_type ='出勤')
-
-                          (select  employee_id
-                                  ,DATE(time_stamp)
-                                  ,time_stamp
-                                  ,row_number() over (
-                                     partition by employee_id,DATE(time_stamp)
-                                     order by time_stamp
-                                   ) as rn
-                          from attendance_logs
-                          where time_type ='退勤')
 
                           left join 
                             (select  employee_id
-                                  ,DATE(time_stamp)
-                                  ,time_stamp
+                                  ,DATE(time_stamp) as work_date
+                                  ,time_stamp as shukin_time
                                   ,row_number() over (
                                      partition by employee_id,DATE(time_stamp)
                                      order by time_stamp
                                    ) as rn
                           from attendance_logs
-                          where time_type ='出勤')as shukin
+                          where time_type ='出勤') as shukin
 
                           on dates.work_date = shukin.work_date
+                          and dates.employee_id = shukin.employee_id
 
                           left join(select  employee_id
-                                  ,DATE(time_stamp)
-                                  ,time_stamp
+                                  ,DATE(time_stamp) as work_date
+                                  ,time_stamp as taikin_time
                                   ,row_number() over (
                                      partition by employee_id,DATE(time_stamp)
                                      order by time_stamp
@@ -75,14 +54,21 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
                           from attendance_logs
                           where time_type ='退勤') as taikin
 
-                            on shukin.employee_id = taikin.employee_id
-                            and shukin.work_date = taikin.work_date
-                            and shukin.rn = taikin.rn'
-                            ;
-                  
+                          on dates.work_date = taikin.work_date
+                          and shukin.rn = taikin.rn
+                          and dates.employee_id = taikin.employee_id
+                          
+                          order by dates.work_date asc, shukin.rn asc");
 
-
-                  $sql->execute([$employee_id, $start_date, $next_month]);
+                  $sql->execute([
+                    $employee_id
+                    ,$start_date
+                    ,$next_month
+                    ,$employee_id
+                    ,$start_date
+                    ,$next_month
+                    ,$employee_id
+                    ]);
                   //検索結果をまとめて変数に保存する
                   $rows = $sql->fetchAll(PDO::FETCH_ASSOC);
     
@@ -90,7 +76,7 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
   echo 'エラー';
 }
 
-
+     
 ?>
 
 
@@ -154,7 +140,7 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
             
           <?php 
                     foreach($rows as $data){//一行ずつ取り出す
-                          echo '<tr>'.'<td>'.$data['work_date'].'</td>';
+                          echo '<tr>'.'<td>'.$data['display_date'].'</td>';
                           echo '<td>'.substr($data['start_plan'],0,5).'</td>';
                           echo '<td>'.substr($data['shukin_time'], 11,5).'</td>';
                           echo '<td>'.substr($data['end_plan'],0,5).'</td>';
