@@ -14,11 +14,11 @@
       <h1>CSV出力</h1> 
       <div class="grup">
       <p>出力する年月</p>
-        <form action="preview.php">
-          <input type="month" name="month">
+        <form action="preview.php"><!-- formのデータをpreview.phpに送るためのタグ -->
+          <input type="month" name="month" required>
               <div class="menu-buttons">
                 <button type = "submit" class="preview-btn">プレビュー</button>
-                <a href="#"><button type = "button" class="csv-btn">CSVを出力</button></a>
+                <button type = "submit" class="csv-btn" formaction="csv_download.php">CSVを出力</button>
               </div>
         </form>
       </div>
