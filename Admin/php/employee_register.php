@@ -30,10 +30,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 $pdo = new PDO(
     'mysql:host=localhost;dbname=kinta_db;charset=utf8mb4',
     'root','');
-
-    
-        
-        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         
 
         //フォームから送信されたデータを受け取る
@@ -64,6 +61,7 @@ $pdo = new PDO(
                 // QRコードの発行日を入社年月日に設定する
                 $qr_date = $hire_date;
 
+
                 // 社員情報を登録するSQL
                 $sql = "INSERT INTO employees
                     (employee_id, employee_name, hire_date, qr_date)
@@ -79,7 +77,7 @@ $pdo = new PDO(
                 ':employee_name' => $employee_name,
                 ':hire_date' => $hire_date,
                 ':qr_date' => $qr_date
-        ]);
+                ]);
 
         //管理者か正社員の場合。ADM+大文字英数（全35種）ランダムでＩＤ生成
         if($role == 0 || $role == 1){
@@ -160,7 +158,7 @@ exit;
     <link rel="stylesheet" href="../css/employee_register.css">
 </head>
 <body>
-    <a href="admin.php" class="back-link">← 戻る</a>
+    <a href="employee_kanri.php" class="back-link">← 戻る</a>
     <main class="container">
         <h1>新規社員登録</h1>
 

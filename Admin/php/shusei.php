@@ -20,11 +20,68 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
 
   //２つのテーブルを社員IDと日付で左結合
      $sql = $pdo->prepare(
-      'select * from attendance  left join attendance_logs 
-                on  attendance.employee_id = attendance_logs.employee_id and attendance.work_date = date(attendance_logs.time_stamp)
-                where attendance.employee_id = ? and attendance.work_date is not null and attendance.work_date >= ? and attendance.work_date < ?
-                order by work_date asc'
-                );
+                          'select * from
+                            (select work_date from attendance where employee_id = ? and work_date >= ? and work_date < ?
+                            union
+                            select DATE(time_stamp) from attendance_logs where employee_id = ? and DATE(time_stamp) >= ? and DATE(time_stamp) < ?)
+                            as dates
+
+                            left join attendance on dates.work_date = attendance.work_date
+                            and attendance.employee_id = ?
+                          
+                            left join attendance_logs on dates.work_date = DATE(attendance_logs.time_stamp)
+                            and attendance_logs.employee_id = ?
+
+                          (select  employee_id
+                                  ,DATE(time_stamp)
+                                  ,time_stamp
+                                  ,row_number() over (
+                                     partition by employee_id,DATE(time_stamp)
+                                     order by time_stamp
+                                   ) as rn
+                          from attendance_logs
+                          where time_type ='出勤')
+
+                          (select  employee_id
+                                  ,DATE(time_stamp)
+                                  ,time_stamp
+                                  ,row_number() over (
+                                     partition by employee_id,DATE(time_stamp)
+                                     order by time_stamp
+                                   ) as rn
+                          from attendance_logs
+                          where time_type ='退勤')
+
+                          left join 
+                            (select  employee_id
+                                  ,DATE(time_stamp)
+                                  ,time_stamp
+                                  ,row_number() over (
+                                     partition by employee_id,DATE(time_stamp)
+                                     order by time_stamp
+                                   ) as rn
+                          from attendance_logs
+                          where time_type ='出勤')as shukin
+
+                          on dates.work_date = shukin.work_date
+
+                          left join(select  employee_id
+                                  ,DATE(time_stamp)
+                                  ,time_stamp
+                                  ,row_number() over (
+                                     partition by employee_id,DATE(time_stamp)
+                                     order by time_stamp
+                                   ) as rn
+                          from attendance_logs
+                          where time_type ='退勤') as taikin
+
+                            on shukin.employee_id = taikin.employee_id
+                            and shukin.work_date = taikin.work_date
+                            and shukin.rn = taikin.rn'
+                            ;
+                  
+
+
                   $sql->execute([$employee_id, $start_date, $next_month]);
                   //検索結果をまとめて変数に保存する
                   $rows = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -42,7 +99,7 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理者ダッシュボード</title>
+    <title>月別勤怠修正</title>
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/shusei.css">
   </head>
@@ -64,7 +121,10 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
               社員名
                 <select name="employee_id">
                   <?php foreach($employees as $employee) { ?>
-                      <option value="<?= htmlspecialchars($employee['employee_id'],ENT_QUOTES, 'UTF-8')?>">
+                      <option value="<?= htmlspecialchars($employee['employee_id'],ENT_QUOTES, 'UTF-8')?>"
+                      <?= (isset($employee_id) && $employee_id == $employee['employee_id'])? 'selected':'' ?>
+                      >
+                      
                           <?=htmlspecialchars($employee['employee_name'],ENT_QUOTES,'UTF-8') ?>
                       </option>
                   <?php } ?>
@@ -73,7 +133,7 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
 
             <label>
               対象年月
-              <input type="month" name="example">
+              <input type="month" name="example"  value="<?= htmlspecialchars($example ?? '', ENT_QUOTES, 'UTF-8')?>">
             </label>
 
           <button type = "submit" class="preview-btn">表示</button>
@@ -93,12 +153,14 @@ if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
             
             
           <?php 
-          //ここから続き
-                    while($rows->fetch()){
-                          echo '<tr>'.'<td>'.$row['time_stamp'].'</td>';
-                          echo '<td>'.$row['employee_id'].'</td>';
-                          echo '<td>'.$row['employee_name'].'</td>';
-                          echo '<td>'.$row['time_type'].'</td>'.'</tr>';
+                    foreach($rows as $data){//一行ずつ取り出す
+                          echo '<tr>'.'<td>'.$data['work_date'].'</td>';
+                          echo '<td>'.substr($data['start_plan'],0,5).'</td>';
+                          echo '<td>'.substr($data['shukin_time'], 11,5).'</td>';
+                          echo '<td>'.substr($data['end_plan'],0,5).'</td>';
+                          echo '<td>'.substr($data['taikin_time'],11,5).'</td>';
+                          echo '<td>'.$data['work_type'].'</td>'
+                          .'</tr>';
                     }
               ?> 
 

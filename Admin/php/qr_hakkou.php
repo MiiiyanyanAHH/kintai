@@ -33,7 +33,7 @@ if ($employee !== null) {
     const qrData = employeeId + ',' + qrDate;
 </script>
 
-    <a href="admin.php" class="back-link">← 戻る</a>
+    <a href="employee_kanri.php" class="back-link">← 戻る</a>
 
     <main class="container">
 
