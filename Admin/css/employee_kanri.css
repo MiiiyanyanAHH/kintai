@@ -47,6 +47,51 @@ footer {
   /* gap: -40px; */
 }
 
+.container2{
+   display: flex;
+}
+
+.btn{
+  text-align: right;
+  white-space: nowrap;
+  padding-right: 40px;
+  text-decoration: none;
+  border-radius: 12px;
+  gap: 10;
+}
+
+.btn1,
+.btn2{
+  text-decoration: none;
+  border-radius: 5px;
+  color: rgb(240, 241, 241);
+  padding: 9px 12px;
+  font-size: 18px;
+  display: inline-block;
+  width: 120px;
+  text-align: center;
+}
+
+.btn1{
+  background-color: #3867c5;
+  margin-right: 20px;
+}
+.btn2{
+  background-color: #c94e4e;
+}
+.btn1:hover{
+  background-color:#284a8e;
+}
+
+.btn2:hover{
+  background-color:#8a3535;
+}
+
+
+
+
+
+
 .kintai table{
   margin-top: 60px;
   width: 80%;

@@ -17,7 +17,7 @@
 
         <div class="buttons">
             <a href="admin_dashboard.php" class="cancel-btn">キャンセル</a>
-            <a href="#" class="logout-btn">ログアウト</a>
+            <a href="kanri_login.php" class="logout-btn">ログアウト</a>
         </div>
         
     </main>
