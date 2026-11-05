@@ -26,6 +26,10 @@
         exit('年月の指定が正しくありません。');
       }
 
+      // 年と月を取り出す
+      $year = date('Y', strtotime($month));
+      $monthnumber = date('n', strtotime($month));
+
       /* 月の初日と翌月の初日を取得する [月末の日付を計算する代わりに、翌月の1日を取得してその日の前のデータを選ぶ。] */
       $startDate = $month. '-01';
       $endDate = date('Y-m-d', strtotime($startDate. '+1month'));
@@ -43,14 +47,14 @@
           /* CASE WHENは、出勤の打刻だった場合だけ、その時刻を取り出す */
           CASE
               WHEN l.time_type = '出勤' /* 打刻区分を確認  */
-              THEN TIME(l.time_stamp)  /* 打刻日時から時刻を取り出す  */
+              THEN DATE_FORMAT(l.time_stamp, '%H:%i') /*TIME()は秒数も表示されるため、DATE_FORMAT()に変更*/
           END
         ) AS start_time ,/* 取得した時刻に start_time という名前を付ける */
 
         Max(
           CASE
               WHEN l.time_type = '退勤'
-              THEN TIME(l.time_stamp)
+              THEN DATE_FORMAT(l.time_stamp, '%H:%i') 
           END
         ) AS end_time
 
@@ -88,17 +92,18 @@
       ]);
 
       // 取得したデータを配列にする
-      $attendanceList = $stmt->fetchAll(PDO::FETCH_ASSOC);            
+      $attendanceList = $stmt->fetchAll(PDO::FETCH_ASSOC);        
 ?>
 
 <body>
   <main class="container">
     <div>
-  <a href="home.php" class="back-link">&larr; 戻る</a>
-<!-- 年月が送られていないときは空欄にしたいからここを変更する。
-      <p>2026年9月 プレビュー</p>                          !-->
-  
-  <table>
+  <a href="csv_export.php" class="back-link">&larr; 戻る</a>
+
+      <p><?= $year ?>年<?= $monthnumber ?>月 プレビュー</p>                          
+
+<div class="table-scroll">      
+  <table class="preview-table">
     <thead>
       <tr>
         <th>社員ID</th>
@@ -115,14 +120,14 @@
     <tbody>
       <?php foreach($attendanceList as $row): ?>
         <tr>
-          <td><?= htmlspecialchars($row['employee_id']) ?> </td>
+          <td><?= htmlspecialchars($row['employee_id'])  ?> </td>
           <td><?= htmlspecialchars($row['employee_name']) ?> </td>
           <td><?= htmlspecialchars($row['work_date']) ?> </td>
-          <td><?= htmlspecialchars($row['start_plan']) ?> </td>
-          <td><?= htmlspecialchars($row['end_plan']) ?> </td>
-          <!--  ?? '' は出勤の打刻がない場合に、エラーにならず空欄で表示するため　 !-->
-          <td><?= htmlspecialchars($row['start_time'] ?? '') ?> </td>
-          <td><?= htmlspecialchars($row['end_time']) ?? '' ?> </td>
+          <td><?= htmlspecialchars(substr($row['start_plan'] ?? '', 0,5)) ?> </td>
+          <td><?= htmlspecialchars(substr($row['end_plan'] ?? '', 0,5)) ?> </td>
+          <!--  ?? '' は出勤の打刻がない場合に、エラーにならず空欄で表示するため !-->
+          <td><?=htmlspecialchars(substr($row['start_time'] ?? '', 0,5)) ?> </td>
+          <td><?= htmlspecialchars(substr($row['end_time'] ?? '' , 0,5)) ?> </td>
           <td><?= htmlspecialchars($row['work_type']) ?> </td>
         </tr>
     
@@ -131,6 +136,7 @@
 
 
 </table>
+</div>
 </div>
 
 </main>

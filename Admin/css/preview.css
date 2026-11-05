@@ -24,9 +24,8 @@ footer {
 
 .back-link {
   position: absolute;/*ほかにpositionやrelativeがあったらそこ基準に動いちゃうから注意！*/
-  top: 40px;/*上から40px*/
-  left: 30px;/*左から40px*/
-
+  margin-top: -30px;
+  left: 30px;
   color: #666;
   text-decoration: none;
   font-size: clamp(15px, 2.5vw, 30px);/*最小、基本、最大*/
@@ -44,7 +43,7 @@ main.container { /*main に flex: 1; がないから、内容が少ないとき�
 }
 
 p {
-  margin-top: 120px;
+  margin-top: 80px;
   margin-left: 80px;
   font-weight: bold;
   font-size: 20px;
@@ -52,7 +51,51 @@ p {
 
 table {
   font-size: 28px;
-  width: 80%;
+  width: 75%; 
   border-collapse: collapse; /*tableのセル同士の枠線を重ねて1本線にするか、離して表示するかを指定するプロパティ*/
   margin-left: 40px;
+}
+
+th {
+  background-color: #2563EB;
+  /*padding: 40px; */
+  width: auto;
+  padding: 8px 0;
+}
+
+.preview-table {
+    width: 90%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* 見出し */
+.preview-table th {
+    background-color: #2563EB;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    white-space: nowrap; /* 文字の改行を防ぐ*/
+    border: none;
+}
+
+/* データ部分 */
+.preview-table td {
+    text-align: center;
+    padding: 8px 0;
+}
+
+/* テーブル部分だけスクロール*/
+.table-scroll {
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.preview-table th {
+  position: sticky; /* 見出しを固定　*/
+  top: 0;
+  z-index: 2; /* z-index でスクロールしてくる勤怠データより見出しを前面に表示*/
+  background-color: #2563EB;
 }
