@@ -1,7 +1,8 @@
 body {
   margin: 0; /*外側、内側の余白なし*/
   padding: 0;
-  min-height: 100vh; /*最小の高さ（画面の高さの100％）*/
+  height: 100vh; 
+  overflow: hidden;
   display: flex;
   flex-direction: column; /*縦方向に並べる*/
   font-family: sans-serif;
@@ -41,15 +42,78 @@ footer {
   flex-direction: column;
   align-items: stretch;
   box-sizing: border-box;
-  padding: 40px 30px;
+  padding: 34px 30px;
   min-height: 0;
-  /* justify-content: flex-start; */
-  /* gap: -40px; */
+  overflow: hidden;
 }
 
 .container2{
    display: flex;
 }
+
+.container2,
+.narabikae {
+  flex-shrink: 0;
+}
+
+.kintai table{
+  margin-top: 0px;
+  width: auto; /* 必要に応じて幅を微調整 */
+  min-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+}
+
+.kintai{
+  font-size: 18px;
+}
+
+/* テーブル部分だけスクロール*/
+#table_scroll {
+   flex: 1;           /* 残りのスペースを全部使う */
+  min-height: 0;     /* 内容に合わせて無制限に伸びない */
+  overflow-y: auto;  /* 縦スクロール */
+  overflow-x: auto;  /* 横スクロール */
+  max-height: none;
+}
+
+.preview-table{
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0;
+}
+
+.preview-table th {
+  position: sticky;
+  height: 40px;
+  top: 0;
+  z-index: 2;
+  background-color: #275259;
+  color: rgb(255, 255, 255);
+}
+
+
+
+.kintai th {
+  /*border-bottom: 2px solid #000;*/
+  white-space: nowrap;
+}
+.kintai td{
+  padding:10px 16px;
+}
+
+/* 各列のテキスト位置を整える 
+nth-child()は親要素の中で何番目にある要素か指定するもの*/
+.kintai th:nth-child(1), .kintai td:nth-child(1) { text-align: center; } /* 社員ID */
+.kintai th:nth-child(2), .kintai td:nth-child(2) { text-align: left; }   /* 社員名 */
+.kintai th:nth-child(3), .kintai td:nth-child(3) { text-align: center; } /* 入社年月日 */
+.kintai th:nth-child(4), .kintai td:nth-child(4) { text-align: center; } /* 退職年月日 */
+.kintai th:nth-child(5), .kintai td:nth-child(5) { text-align: center; } /* 権限 */
+.kintai th:nth-child(6), .kintai td:nth-child(6) { text-align: center; } /* 管理者ID */
+.kintai th:nth-child(7), .kintai td:nth-child(7) { text-align: center; } /* 操作 */
+
 
 .btn{
   text-align: right;
@@ -87,19 +151,13 @@ footer {
   background-color:#8a3535;
 }
 
-
-
-
-
-
-.kintai table{
-  margin-top: 60px;
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  border-collapse: collapse;
-  table-layout: auto;
+#narabi {
+    width: 150px;
+    height: 36px;
+    font-size: 17px;
 }
+
+
 
 .kanri-content{
   width: 100%; 
@@ -109,6 +167,3 @@ footer {
   gap:20px;
 }
 
-.kintai th {
-  border-bottom: 2px solid #000;
-}

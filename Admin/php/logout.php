@@ -1,3 +1,22 @@
+
+<?php
+session_start();
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $_SESSION = [];
+
+    session_destroy();
+
+       // ログイン画面へ移動
+    header('Location: kanri_login.php');
+    exit;
+
+}
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -17,7 +36,9 @@
 
         <div class="buttons">
             <a href="admin_dashboard.php" class="cancel-btn">キャンセル</a>
-            <a href="kanri_login.php" class="logout-btn">ログアウト</a>
+            <form action="logout.php" method = "post">
+            <button type = "submit" class = "logout-btn">ログアウト</button>
+            </form>
         </div>
         
     </main>
