@@ -16,7 +16,7 @@ footer {
   padding: 0;
   font-size: 16px;
   color: #f8f8ff;
-  background-color: #3CC6A6;
+  
   height: 50px;
   width: 100%;/*親要素の幅いっぱい*/
   box-sizing: border-box;/*幅や高さにpadding.borderを含めて計算*/
@@ -33,9 +33,10 @@ footer {
   padding: 0 10px;
   box-sizing: border-box;/*幅や高さにpadding.borderを含めて計算*/
   color: #f8f8ff;
-  background-color: #3CC6A6;
+  
 }
 
+/*全体*/
 .container {
   flex: 1;
   display: flex;
@@ -54,6 +55,14 @@ footer {
 .container2,
 .narabikae {
   flex-shrink: 0;
+}
+
+.kanri-content{
+  width: 100%; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap:20px;
 }
 
 .kintai table{
@@ -90,7 +99,7 @@ footer {
   height: 40px;
   top: 0;
   z-index: 2;
-  background-color: #275259;
+  background-color: #354742;
   color: rgb(255, 255, 255);
 }
 
@@ -159,11 +168,5 @@ nth-child()は親要素の中で何番目にある要素か指定するもの*/
 
 
 
-.kanri-content{
-  width: 100%; 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap:20px;
-}
+
 

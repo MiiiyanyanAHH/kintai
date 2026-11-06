@@ -17,7 +17,7 @@ footer {
   padding: 0;
   font-size: 16px;
   color: #f8f8ff;
-  background-color: #3CC6A6;
+  background-color: #286e5e;
   height: 50px;
   width: 100%;/*親要素の幅いっぱい*/
   box-sizing: border-box;/*幅や高さにpadding.borderを含めて計算*/
@@ -35,7 +35,7 @@ footer {
   padding: 0 10px;
   box-sizing: border-box;/*幅や高さにpadding.borderを含めて計算*/
   color: #f8f8ff;
-  background-color: #3CC6A6;
+  background-color: #286e5e;
 }
 
 /* システム名 */
