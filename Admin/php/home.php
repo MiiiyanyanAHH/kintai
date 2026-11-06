@@ -10,8 +10,12 @@
 </head>
 
 <body>
+  
   <div class="container">
+    <div class = "app-header">
+      <img src="../../image/kintalogo2.png" alt="きんたくんロゴ" class="header-logo">
     <h1>勤怠管理システム　きんたくん</h1>
+    </div>
     <div class="dakoku-btn">
       <a href="../../QR/html/camera.html"><button>打刻画面</button></a>
     </div>

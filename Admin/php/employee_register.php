@@ -170,7 +170,7 @@ exit;
             title="苗字と名前の間に全角スペースを入れてください。数字や記号は使用できません。" required>
 
             <label for="hire_date">入社年月日</label>
-            <input type="date" id="hire_date" name="hire_date" required><!--日付選択入力欄-->
+            <input type="date" id="hire_date" name="hire_date" required><!--日付選択入力欄。typeをdateにしてカレンダー表示-->
 
             	<p>
                     <span class="role-title">権限</span><br>

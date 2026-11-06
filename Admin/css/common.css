@@ -1,5 +1,5 @@
 
-/*フッターの設定*/
+/*ここからフッターの設定*/
 
 body {
   margin: 0; /*外側、内側の余白なし*/
@@ -24,7 +24,7 @@ footer {
 }
 
 
-/* ヘッダー */
+/* ここからヘッダー */
 .header-nav {
   display: flex;
   align-items: center;/*上下中央*/
@@ -36,6 +36,17 @@ footer {
   box-sizing: border-box;/*幅や高さにpadding.borderを含めて計算*/
   color: #f8f8ff;
   background-color: #286e5e;
+}
+.header-brand{
+  display: flex;
+  align-items: center;
+}
+/* ロゴ画像 */
+.header-brand img {
+  height: 30px;
+  width: auto;
+  
+  padding-right: 6px;
 }
 
 /* システム名 */
@@ -53,8 +64,9 @@ footer {
   font-size: clamp(10px, 1.5vw, 20px);
 }
 
+
 .header-nav a:hover {
-  color: #FF69B4;
+  color: #b0a5a5;
 }
 
 /* リンク同士の間隔 */
@@ -62,7 +74,9 @@ footer {
   margin-left: clamp(4px, 1vw, 20px);
 }
 
-/* ←戻るボタンの設定 */
+
+
+/*ここから ←戻るボタンの設定 */
 /*<a href="admin.php" class="back-link">← 戻る</a>  ←で使ってね*/
 .back-link {
   position: absolute;/*ほかにpositionやrelativeがあったらそこ基準に動いちゃうから注意！*/
