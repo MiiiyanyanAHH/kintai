@@ -24,15 +24,6 @@
         <a href="attendance_logs.php" class="menu-btn">出退勤ログ</a>
         <a href="#" class="menu-btn">管理者修正ログ</a>
        
-
-    <?php
-    // 権限が0のときだけ「社員管理」ボタンを表示する
-    if (isset($_SESSION['authority']) && $_SESSION['authority'] == 0) {
-    ?>
-        <a href="#" class="menu-btn">社員管理</a>
-    <?php
-    }
-    ?>
     
       </div>
     </main>   
