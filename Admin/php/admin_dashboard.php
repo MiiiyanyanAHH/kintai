@@ -26,7 +26,7 @@
     // 権限が0のときだけ「社員管理」ボタンを表示する
     if (isset($_SESSION['authority']) && $_SESSION['authority'] == 0) {
     ?>
-        <a href="#" class="menu-btn">社員管理</a>
+        <a href="employee_kanri.php" class="menu-btn">社員管理</a>
     <?php
     }
     ?>

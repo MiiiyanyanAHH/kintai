@@ -9,7 +9,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         !isset($_POST['POST_TOKEN']) ||
         !hash_equals($_SESSION['POST_TOKEN'], $_POST['POST_TOKEN'])
     ){
-         header('Refresh: 3; URL=home.php');
+         header('Refresh: 3; URL=employee_kanri.php');
 
         echo 'すでに登録済みか、無効な操作です。<br>';
         echo '3秒後に社員一覧へ戻ります。';

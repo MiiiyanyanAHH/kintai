@@ -41,17 +41,25 @@ body {
     border-radius: 5px;
     text-decoration: none;
     padding: 0;
+    border: none;
+}
+
+.buttons{
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  gap:40px;
 }
 
 .cancel-btn {
   background-color: #ccc;
   color: #1e1919;
-  margin-right: 40px;
 }
 
 .logout-btn {
   background-color: #444343;
   color: #fff;
+
 }
 
 .cancel-btn:hover{
