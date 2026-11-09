@@ -13,7 +13,7 @@ body{
   color: #ffffff;
   padding: 15px 30px;
   box-shadow: 0 2px 5px rgb(47, 100, 75);
-  height: 180px;
+  height: 120px;
 }
 
 /*ロゴ画像*/
@@ -28,7 +28,7 @@ body{
 h1 {
   font-size: clamp(24px, 4vw, 70px); /*最小値、推奨値、最大値の値を指定。画面幅などの変化に合わせて値を自動調整*/
   text-align: center;
-  margin-top: clamp(20px, 3vw, 40px);
+  margin-top: clamp(20px, 3vw, 35px);
 }
 
 .container {
