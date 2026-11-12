@@ -141,7 +141,7 @@ $pdo = new PDO(
             //Locatinヘッダーで遷移先を指定
         header('Location: qr_hakkou.php');
 exit;
-      
+    
     }
     
 ?>
