@@ -1,14 +1,18 @@
 <?php
 session_start();
 
+
 //POST送信された場合
 if($_SERVER['REQUEST_METHOD']=='POST'){
-    //空か、nullかチェック。hashは比較処理の時間が一定。＝＝よりアリ
+    //空か、nullかチェック。セッション側のトークンと、フォームから送られてきた
+    // トークンが一致しているか確認。hashは比較処理の時間が一定。＝＝よりアリ
     if(
         empty($_SESSION['POST_TOKEN'])||
         !isset($_POST['POST_TOKEN']) ||
+        //ポストのトークンはHTMLでコピーしたやつ
         !hash_equals($_SESSION['POST_TOKEN'], $_POST['POST_TOKEN'])
     ){
+        //トークンが不正なら
          header('Refresh: 3; URL=employee_kanri.php');
 
         echo 'すでに登録済みか、無効な操作です。<br>';
@@ -19,7 +23,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     //使用済トークン削除
     unset($_SESSION['POST_TOKEN']);
 }else{
-    //初めて画面を開いたときにトークンを発行
+    //初めて画面を開いたときにトークンを発行。初めてはGETでアクセスするからここでトークンがつくられる。
     $_SESSION['POST_TOKEN']=bin2hex(random_bytes(32));
 }
 
@@ -180,6 +184,7 @@ exit;
 	            </p>
                 
             <button type="submit" id="QR_new">登録する</button>
+<!--登録ボタン押すとセッションのトークンがフォーム側のトークンにコピーされる。-->
             <input type="hidden" name="POST_TOKEN" value="<?php echo $_SESSION["POST_TOKEN"]; ?>"/>
 
         </form>
