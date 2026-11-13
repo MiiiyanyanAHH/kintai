@@ -23,7 +23,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     //使用済トークン削除
     unset($_SESSION['POST_TOKEN']);
 }else{
-    //初めて画面を開いたときにトークンを発行。初めてはGETでアクセスするからここでトークンがつくられる。
+    //初めて画面を開いたときにトークンを発行。binで16進数文字列へ（人間が読みやすいように）
+    // 初めてはGETでアクセスするからここでトークンがつくられる。
     $_SESSION['POST_TOKEN']=bin2hex(random_bytes(32));
 }
 
@@ -127,7 +128,7 @@ $pdo = new PDO(
         //トランザクションコミット
             $pdo->commit();
             }catch(Exception $e){
-                //ロールバック
+                //ロールバック（登録を一からやり直させる）
                 $pdo->rollBack();
                 // 3秒後に元の登録画面（このファイル自身）に戻す
                 header('Refresh: 3; URL=employee_register.php');
@@ -168,7 +169,7 @@ exit;
 
         <form action="" method="post">
             <label for="employee_name">社員名</label><!--名前入力欄-->
-            <!--英字、ひらがな、カタカナ、漢字のみ受け付け-->
+            <!--英字、ひらがな、カタカナ、漢字のみ受け付け。ユニコードで-->
             <input type="text" id="employee_name" name="employee_name" placeholder="例）山田 太郎" 
              pattern="[a-zA-Z\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]+　[a-zA-Z\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]+$"
             title="苗字と名前の間に全角スペースを入れてください。数字や記号は使用できません。" required>
