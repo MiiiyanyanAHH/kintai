@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           WHERE admin_id = :id";
 
   $stmt = $pdo -> prepare($sql);  // SQLを実行する準備をする
-  $stmt -> execute(['id' => $id]);  // 'id' に $id の値を渡して、SQLを実行する
+  $stmt -> execute(['id' => $id]);  // $id に入っている管理者IDを、SQL文の :id (23行目)に渡している。
   
   $admin = $stmt -> fetch(); // 検索結果から1行分のデータを取得する処理
 
@@ -37,16 +37,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       // ログイン成功 [セッションIDを新しくする処理, ログイン時にセッションIDを再生成することで、セッションIDを悪用されるリスクを減らすセキュリティ対策]
       session_regenerate_id(true);
       // 管理者IDをセッションに保存する
-    $_SESSION['admin_id'] = $admin['admin_id'];
+        $_SESSION['admin_id'] = $admin['admin_id'];
+      // 権限と社員IDをセッションに保存する
+        $_SESSION['authority'] = $admin['authority'];
+        $_SESSION['employee_id'] = $admin['employee_id'];
 
-    // 権限と社員IDをセッションに保存する
-      $_SESSION['authority'] = $admin['authority'];
-      $_SESSION['employee_id'] = $admin['employee_id'];
+      // 管理者画面へ移動
+      header('Location: admin_dashboard.php');
+      exit;
     }
-
-    // 管理者画面へ移動
-    header('Location: admin_dashboard.php');
-    exit;
 
   } else {
     // ログイン失敗
@@ -57,34 +56,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/login.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>管理者ログイン画面</title>
-</head>
-<body>
-  <div class="container">
-  <h1>管理者ログイン</h1>
+  <head>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者ログイン画面</title>
+  </head>
+   <body>
+      <div class="container">
+         <h1>管理者ログイン</h1>
 
-<form action="kanri_login.php" method="post">
-  <div class="form-area">
+         <form action="kanri_login.php" method="post">
+           <div class="form-area">
 
 
-<?php if($error !== ''): ?>
-    <p class= "error">
-      <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
-    </p>
-  <?php endif; ?>
+              <?php if($error !== ''): ?>
+              <p class= "error">
+              <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+              </p>
+              <?php endif; ?>
 
-    <p>管理者ID <br><input type="text" name="id" required></p>
-    <p>パスワード<br><input type="password" name="password" required></p>
-    <button type = "submit">ログイン</button>
-  </div>
-  </form>
-  <a href="home.php" class="back-link">&larr; 戻る</a>
-  <?php include('footer.php');?>
-  </div>
-</body>
+              <div id="text-area">
+                <p><label>管理者ID <br><input type="text" name="id" required></label></p>
+                <p><label>パスワード<br><input type="password" name="password" required></label></p>
+              </div>
+              <button type = "submit">ログイン</button>
+           </div>
+         </form>
+              <a href="home.php" class="back-link">&larr; 戻る</a>
+              <?php include('footer.php');?>
+      </div>
+  </body>
 </html>
