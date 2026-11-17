@@ -24,6 +24,8 @@
 
     <?php
     // 権限が0のときだけ「社員管理」ボタンを表示する
+    // 最初の$_SESSION['authority']:権限情報が設定されているか確認する。二つ目：値が 0 かどうか確認する。
+    // ※ $_SESSION['authority']はログインしている管理者の権限情報を保存している場所。
     if (isset($_SESSION['authority']) && $_SESSION['authority'] == 0) {
     ?>
         <a href="employee_kanri.php" class="menu-btn">社員管理</a>
