@@ -1,14 +1,18 @@
 <?php
 session_start();
 
+
 //POST送信された場合
 if($_SERVER['REQUEST_METHOD']=='POST'){
-    //空か、nullかチェック。hashは比較処理の時間が一定。＝＝よりアリ
+    //空か、nullかチェック。セッション側のトークンと、フォームから送られてきた
+    // トークンが一致しているか確認。hashは比較処理の時間が一定。＝＝よりアリ
     if(
         empty($_SESSION['POST_TOKEN'])||
         !isset($_POST['POST_TOKEN']) ||
+        //ポストのトークンはHTMLでコピーしたやつ
         !hash_equals($_SESSION['POST_TOKEN'], $_POST['POST_TOKEN'])
     ){
+        //トークンが不正なら
          header('Refresh: 3; URL=employee_kanri.php');
 
         echo 'すでに登録済みか、無効な操作です。<br>';
@@ -19,7 +23,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     //使用済トークン削除
     unset($_SESSION['POST_TOKEN']);
 }else{
-    //初めて画面を開いたときにトークンを発行
+    //初めて画面を開いたときにトークンを発行。binで16進数文字列へ（人間が読みやすいように）
+    // 初めてはGETでアクセスするからここでトークンがつくられる。
     $_SESSION['POST_TOKEN']=bin2hex(random_bytes(32));
 }
 
@@ -123,7 +128,7 @@ $pdo = new PDO(
         //トランザクションコミット
             $pdo->commit();
             }catch(Exception $e){
-                //ロールバック
+                //ロールバック（登録を一からやり直させる）
                 $pdo->rollBack();
                 // 3秒後に元の登録画面（このファイル自身）に戻す
                 header('Refresh: 3; URL=employee_register.php');
@@ -141,7 +146,7 @@ $pdo = new PDO(
             //Locatinヘッダーで遷移先を指定
         header('Location: qr_hakkou.php');
 exit;
-      
+    
     }
     
 ?>
@@ -164,13 +169,13 @@ exit;
 
         <form action="" method="post">
             <label for="employee_name">社員名</label><!--名前入力欄-->
-            <!--英字、ひらがな、カタカナ、漢字のみ受け付け-->
+            <!--英字、ひらがな、カタカナ、漢字のみ受け付け。ユニコードで-->
             <input type="text" id="employee_name" name="employee_name" placeholder="例）山田 太郎" 
              pattern="[a-zA-Z\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]+　[a-zA-Z\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]+$"
             title="苗字と名前の間に全角スペースを入れてください。数字や記号は使用できません。" required>
 
             <label for="hire_date">入社年月日</label>
-            <input type="date" id="hire_date" name="hire_date" required><!--日付選択入力欄-->
+            <input type="date" id="hire_date" name="hire_date" required><!--日付選択入力欄。typeをdateにしてカレンダー表示-->
 
             	<p>
                     <span class="role-title">権限</span><br>
@@ -180,6 +185,7 @@ exit;
 	            </p>
                 
             <button type="submit" id="QR_new">登録する</button>
+<!--登録ボタン押すとセッションのトークンがフォーム側のトークンにコピーされる。-->
             <input type="hidden" name="POST_TOKEN" value="<?php echo $_SESSION["POST_TOKEN"]; ?>"/>
 
         </form>

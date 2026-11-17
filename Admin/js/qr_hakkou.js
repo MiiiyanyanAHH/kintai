@@ -1,6 +1,5 @@
 
-//ここでPHPから変数うけとって、ＱＲコード生成する
-// const js_qr = JSON.parse('<?php echo $qrDate;?>');
+
 
 // QRコード作成
 var qrcode = new QRCode('qrcode', {
@@ -9,5 +8,3 @@ var qrcode = new QRCode('qrcode', {
   height: 170,
   correctLevel : QRCode.CorrectLevel.H
 });
-
-//できたらまたＰＨＰに送り返す

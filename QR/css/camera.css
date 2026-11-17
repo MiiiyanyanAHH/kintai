@@ -3,6 +3,43 @@
   position: relative;
 }
 
+body{
+  background-color: #d8d8d8;
+}
+h1{
+  position: relative;
+  top: -15px;
+  margin-left: 270px;
+}
+h2{
+  position: relative;
+  top: -35px;
+}
+
+#t_css{
+  position: relative;
+  top: -43px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 550px;
+  width: 800px;
+  background-color: #ffffff;
+  border-radius:30px;
+}
+
+button{
+  border: none;
+  background-color: #d8d8d8;
+  font-size: 35px;
+  margin-top: 15px;
+  margin-left: 10px;
+}
+
+#container{
+  display: flex;
+
+}
+
 #video{
   position: absolute;
   top: 0px;
@@ -12,10 +49,12 @@
 
 #camera-canvas{
   position: absolute;
-  top: 0px;
+  top: 35px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%) scaleX(-1);
   z-index: 50;/*要素を重ねたとき奥側に表示*/
+  border-radius:30px;
 }
 
 #rect-canvas{
@@ -27,7 +66,8 @@
 }
 
 #title{
-  size: 64px;
+  
+  font-size: 50px;
   text-align: center;
 }
 

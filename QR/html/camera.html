@@ -6,12 +6,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/camera.css">
+  <link rel="stylesheet" href="../../Admin/css/common.css">
+  <link rel="stylesheet" href="../css/responsive.css" media="screen and (min-width:1600px)">
   <title>QR読み取り画面</title>
 </head>
 
 <body>
+  <div id="container">
+  <a href="../../Admin/php/home.php"><button>←戻る</button></a>
   <h1 id="title">勤怠管理システム　きんたくん</h1>
+  </div>
   <h2 id="subtitle">QRコードをかざしてください</h2>
+  <div id="t_css">
   <div id="wrapper">
     <!--QR読み込みのためのカメラ映像を表示するvideo要素-->
     <video id="video" autoplay muted playsinline></video>
@@ -19,6 +25,7 @@
     <canvas id="camera-canvas"></canvas>
     <!--QRコードの周りに赤枠を表示するためのcanvas要素-->
     <canvas id="rect-canvas"></canvas>
+  </div>
   </div>
   <script src="../js/jsQR.js"></script>
   <script src="../js/qr.js"></script>

@@ -18,7 +18,7 @@
       <h1>管理者ダッシュボード</h1>
 
       <div class="menu-buttons">
-        <a href="#" class="menu-btn">月別勤怠修正</a>
+        <a href="shusei.php" class="menu-btn">月別勤怠修正</a>
         <a href="admin_dashboard_log.php" class="menu-btn">ログ</a>
         <a href="csv_export.php" class="menu-btn">CSV出力</a>
 
