@@ -27,7 +27,7 @@ if ($employee !== null) {
 </head>
 <body>
     <script>
-    //phpの値をJSON形式へ
+    //phpの値をJSON形式へ（QRコードの文字列作成）
     const employeeId = <?= json_encode($employee_id) ?>;
     const qrDate = <?= json_encode($qr_date) ?>;
     const qrData = employeeId + ',' + qrDate;
@@ -52,7 +52,7 @@ if ($employee !== null) {
 
     <?php include('footer.php'); ?>
 
-
+<!--QRコード作成の外部ライブラリ読み込み-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
 <script src="../js/qr_hakkou.js"></script>
 </body>

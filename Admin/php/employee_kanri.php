@@ -60,7 +60,7 @@ $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,
       <!--新規社員登録と退職者一覧ボタン-->
       <div class = "btn">
         <a href="employee_register.php" class = "btn1">新規社員登録</a>
-        <a href="#" class = "btn2">退職者一覧</a>
+        <a href="retired_list.php" class = "btn2">退職者一覧</a>
       </div>
      </div> 
 
@@ -132,7 +132,7 @@ $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,
                     <td><?php echo nl2br(htmlspecialchars($employee['hire_date'], ENT_QUOTES, 'UTF-8')); ?></td>                    
                     <td><?php echo htmlspecialchars($authorityNames,  ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php echo htmlspecialchars($activeNames, ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><a href="#" class="syousai">詳細</a></td>
+                    <td><a href="employee_detail.php" class="syousai">詳細</a></td>
             </tr>
             <?php endforeach; ?>
             </tbody>

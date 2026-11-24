@@ -169,7 +169,7 @@ nth-child()は親要素の中で何番目にある要素か指定するもの*/
 
 /* 奇数行 */
 .preview-table tbody tr:nth-child(odd) {
-  background-color: #dfefdb;
+  background-color: #e2e9e0;
 }
 
 
