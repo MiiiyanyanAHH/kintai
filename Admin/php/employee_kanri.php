@@ -60,7 +60,7 @@ $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,
       <!--新規社員登録と退職者一覧ボタン-->
       <div class = "btn">
         <a href="employee_register.php" class = "btn1">新規社員登録</a>
-        <a href="#" class = "btn2">退職者一覧</a>
+        <a href="retired_list.php" class = "btn2">退職者一覧</a>
       </div>
      </div> 
 
@@ -82,12 +82,13 @@ $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,
               <th >社員ID</th>
               <th >社員名</th>
               <th >入社年月日</th>
-              <th >退職年月日</th>
               <th >権限</th>
               <th >管理者ID</th>
               <th >操作</th>
             </tr>
             </thead>
+
+            <tbody>
            <!--DBからデータ取り出し-->
            <?php foreach($employees as $employee):?>
 
@@ -128,13 +129,13 @@ $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,
             <tr>
                     <td><?php echo htmlspecialchars($employee['employee_id'], ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php echo htmlspecialchars($employee['employee_name'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo nl2br(htmlspecialchars($employee['hire_date'], ENT_QUOTES, 'UTF-8')); ?></td>
-                    <td><?php echo htmlspecialchars($employee['retire_date']?? '-', ENT_QUOTES, 'UTF-8'); ?></td>
+                    <td><?php echo nl2br(htmlspecialchars($employee['hire_date'], ENT_QUOTES, 'UTF-8')); ?></td>                    
                     <td><?php echo htmlspecialchars($authorityNames,  ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php echo htmlspecialchars($activeNames, ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><a href="#" class="syousai">詳細</a></td>
+                    <td><a href="employee_detail.php" class="syousai">詳細</a></td>
             </tr>
             <?php endforeach; ?>
+            </tbody>
 
           </table>
 
