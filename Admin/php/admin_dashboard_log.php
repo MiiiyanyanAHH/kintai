@@ -22,7 +22,7 @@
 
       <div class="menu-buttons">
         <a href="attendance_logs.php" class="menu-btn">出退勤ログ</a>
-        <a href="#" class="menu-btn">管理者修正ログ</a>
+        <a href="admin_correction_logs.php" class="menu-btn">管理者修正ログ</a>
        
     
       </div>

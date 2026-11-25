@@ -98,7 +98,7 @@
 <body>
   <main class="container">
     <div>
-  <a href="csv_export.php" class="back-link">&larr; 戻る</a>
+  <a href="csv_export.php?month=<?= htmlspecialchars($month, ENT_QUOTES, 'UTF-8')?>" class="back-link">&larr; 戻る</a>
 
       <p><?= $year ?>年<?= $monthnumber ?>月 プレビュー</p>                          
 
