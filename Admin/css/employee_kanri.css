@@ -65,6 +65,35 @@ footer {
   gap:20px;
 }
 
+.kazoe_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.kazoe{
+  font-size: 20px;
+  margin-bottom: 19px;
+  margin-left: 30px;
+  background-color: #7f8d722d;
+  padding: 3px 60px;
+  border-radius: 19px;
+}
+.count-number {
+    color: rgb(32, 155, 15);
+    font-size: 23px;
+}
+.yoko_con{
+   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#narabi{
+  position: absolute;
+  left: 30px;
+  margin-top: -10px;
+}
+
 .kintai table{
   margin-top: 0px;
   width: auto; /* 必要に応じて幅を微調整 */

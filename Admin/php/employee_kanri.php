@@ -24,6 +24,7 @@ $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,
         FROM employees AS e
         LEFT JOIN administrators AS a
         ON e.employee_id = a.employee_id
+        WHERE e.retire_date IS NULL
         ORDER BY employee_id $sort";
 
         $stmt = $pdo->query($sql);
@@ -64,6 +65,7 @@ $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,
       </div>
      </div> 
 
+     <div class="yoko_con">
       <!--並び替え-->
       <form action="" method="GET" class = "narabikae">
         <select name="sort" id="narabi" onchange="this.form.submit()">
@@ -72,7 +74,16 @@ $sql = "SELECT e.employee_id,e.employee_name,e.hire_date,e.retire_date,a.active,
         </select>
       </form>
 
-      
+          <div class="kazoe_container">
+            <div class="kazoe">
+              在籍社員数：
+              <span class="count-number">
+                <?php echo count($employees); ?> 
+              </span>
+              名
+            </div>
+          </div>
+    </div>
 
       <!--項目名-->
       <div class="kintai" id="table_scroll">
