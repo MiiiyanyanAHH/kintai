@@ -46,16 +46,16 @@ $sql = $pdo->prepare(
     shukin AS (
         SELECT
             employee_id,
-            DATE(time_stamp) AS work_date,
+            DATE(time_stamp- INTERVAL 4 HOUR - INTERVAL 1 SECOND) AS work_date,
             time_stamp AS shukin_time,
             ROW_NUMBER() OVER (
-                PARTITION BY employee_id, DATE(time_stamp)
+                PARTITION BY employee_id, DATE(time_stamp- INTERVAL 4 HOUR - INTERVAL 1 SECOND)
                 ORDER BY time_stamp
             ) AS rn
         FROM attendance_logs
         WHERE employee_id = ?
-          AND DATE(time_stamp) >= ?
-          AND DATE(time_stamp) < ?
+          AND DATE(time_stamp -INTERVAL 4 HOUR - INTERVAL 1 SECOND) >= ?
+          AND DATE(time_stamp - INTERVAL 4 HOUR - INTERVAL 1 SECOND) < ?
           AND time_type = '出勤'
     ),
 
@@ -63,16 +63,16 @@ $sql = $pdo->prepare(
     taikin AS (
         SELECT
             employee_id,
-            DATE(time_stamp) AS work_date,
+            DATE(time_stamp- INTERVAL 4 HOUR - INTERVAL 1 SECOND) AS work_date,
             time_stamp AS taikin_time,
             ROW_NUMBER() OVER (
-                PARTITION BY employee_id, DATE(time_stamp)
+                PARTITION BY employee_id, DATE(time_stamp - INTERVAL 4 HOUR - INTERVAL 1 SECOND)
                 ORDER BY time_stamp
             ) AS rn
         FROM attendance_logs
         WHERE employee_id = ?
-          AND DATE(time_stamp) >= ?
-          AND DATE(time_stamp) < ?
+          AND DATE(time_stamp - INTERVAL 4 HOUR - INTERVAL 1 SECOND) >= ?
+          AND DATE(time_stamp - INTERVAL 4 HOUR - INTERVAL 1 SECOND) < ?
           AND time_type = '退勤'
     ),
 

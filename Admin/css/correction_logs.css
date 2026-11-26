@@ -42,7 +42,6 @@ body {
   margin-top: 15px;
   align-self: flex-start;
   font-size: 20px;
- 
   max-height: 300px;
   overflow-y: auto;
   overflow-x: auto;
@@ -51,11 +50,18 @@ body {
 .table_1{
   width: 100%;
   border-collapse: collapse;
+  margin: 0 auto;
+  border-collapse: collapse;
+  /*table-layout: fixed;*/
 } 
  
 .table_1 td{
   padding-left: 15px;
   padding-right: 20px;
+}
+
+.table_1 th{
+  text-align: left;
 }
 
 
