@@ -141,7 +141,9 @@ $pdo = new PDO(
             $_SESSION['employee'] = [
                 'id' => $employee_id,
                 'name' => $employee_name,
-                'date' => $qr_date
+                'date' => $qr_date,
+                'admin_id' => $random_id ?? null,
+                'password' => $random_ps ?? null
             ];
             //Locatinヘッダーで遷移先を指定
         header('Location: qr_hakkou.php');
