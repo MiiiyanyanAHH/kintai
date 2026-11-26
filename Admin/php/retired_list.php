@@ -15,7 +15,7 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 $sql = "SELECT employee_id,employee_name,hire_date,retire_date
         FROM employees
         WHERE retire_date IS NOT NULL
-        ORDER BY employee_id DESC";
+        ORDER BY retire_date DESC";
 
         $stmt = $pdo->query($sql);
         $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -43,11 +43,23 @@ $sql = "SELECT employee_id,employee_name,hire_date,retire_date
 
   <body>
     <main class="container">
-      <a href="employee_kanri.php" class="back-link">← 戻る</a>
+      <div class="yoko_con">
+        <a href="employee_kanri.php" class="back-link">← 戻る</a>
 
-      <div h1_container>
-        <h1>退職者一覧</h1>
+        <div class="h1_container">
+          <h1>退職者一覧</h1>
+        </div>
       </div>
+          <div class="kazoe_container">
+            <div class="kazoe">
+              退職者数：
+              <span class="count-number">
+                <?php echo count($employees); ?> 
+              </span>
+              名
+            </div>
+          </div>
+
 
           <!--項目名-->
       <div class="kintai" id="table_scroll">
@@ -61,9 +73,7 @@ $sql = "SELECT employee_id,employee_name,hire_date,retire_date
             </tr>
             </thead>
 
-            <div class="kazoe">
-              退職者数：<?php echo count($employees); ?> 名
-            </div>
+            
 
               <tbody>
                 <!--DBからデータ取り出し-->

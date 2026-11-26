@@ -1,15 +1,41 @@
 <?php session_start(); 
+
+$admin_id = $_SESSION['admin_id']?? '';
+
   $pdo = new PDO(
     'mysql:host=localhost;dbname=kinta_db;charset=utf8mb4',
     'root',
     ''
 );
 
+//社員一覧を取得
+$stmt = $pdo->query("select * from employees");
+$employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$rows = [];
+$employee_name = '';
+
+//表示ボタンが押され、社員IDと対象年月が指定されているか
+if(isset($_GET['search']) && !empty($_GET['employee_id']) && !empty($_GET['example'])){
+  $employee_id = $_GET['employee_id'];
+    $example = $_GET['example'];
+    // 社員IDから社員名を取得
+    foreach ($employees as $employee) {
+        if ($employee['employee_id'] == $employee_id) {
+            $employee_name = $employee['employee_name'];
+            break;
+        }
+    }
+}
+
 
 //表示ボタンを押した後、社員名（社員IDと対象年月を変数に保存する）
 //2つ指定されているか
 $rows = [];
-if (isset ($_GET['employee_id']) && isset ($_GET['example'])){
+if (isset ($_GET['search']) &&
+    !empty($_GET['employee_id']) &&
+    !empty($_GET['example'])
+  ){
     $employee_id = $_GET['employee_id'];
     $example = $_GET['example'];//例2026-10
 
@@ -92,7 +118,9 @@ $sql = $pdo->prepare(
         shukin.shukin_time,
         plan_rows.end_plan,
         taikin.taikin_time,
-        plan_rows.work_type
+        plan_rows.work_type,
+        shukin.shukin_time AS original_start_timestamp,
+        taikin.taikin_time AS original_end_timestamp
 
     FROM slots
 
@@ -130,14 +158,39 @@ $sql->execute([
 ]);
 
 // 検索結果を保存する
-$rows = $sql->fetchAll(PDO::FETCH_ASSOC);
-      
-    
-}else {
-  echo 'エラー';
-}
+$rows = $sql->fetchAll(PDO::FETCH_ASSOC); 
+//修正済みの勤怠データを取得
+$detail_stmt = $pdo->prepare(
+  "select * from attendance_details
+  where employee_id = ?
+  and work_date >= ?
+  and work_date < ?
+  and is_deleted = 0"
+);
 
-     
+$detail_stmt->execute([
+  $employee_id,
+  $start_date,
+  $next_month
+]);
+
+$details = $detail_stmt->fetchAll(PDO::FETCH_ASSOC);
+//元の勤怠データと修正データを照合する
+foreach($rows as &$row){
+  foreach ($details as $detail){
+    if(
+        $row['original_start_timestamp'] == $detail['original_start_timestamp'] &&
+        $row['original_end_timestamp'] == $detail['original_end_timestamp'] &&
+        $row['display_date'] == $detail['work_date']
+    ){
+      //修正データが見つかった場合
+      $row['detail'] = $detail;
+      break;
+    }
+  }
+}
+unset($row);
+}    
 ?>
 
 
@@ -149,6 +202,7 @@ $rows = $sql->fetchAll(PDO::FETCH_ASSOC);
     <title>月別勤怠修正</title>
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/shusei.css">
+    <link rel="stylesheet" href="../css/shusei_modal.css">
   </head>
 
   <body>
@@ -157,11 +211,6 @@ $rows = $sql->fetchAll(PDO::FETCH_ASSOC);
     <main class="container">
       <div class="shusei-content">
         <h1>月別勤怠修正</h1>
-            <?php
-              $sql = "select * from employees";
-              $stmt = $pdo->query($sql);
-              $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            ?>
           <div class="grup">
     <form method="GET">
             <label>
@@ -184,59 +233,295 @@ $rows = $sql->fetchAll(PDO::FETCH_ASSOC);
               <input type="month" name="example"  value="<?= htmlspecialchars($example ?? '', ENT_QUOTES, 'UTF-8')?>">
             </label>
 
-          <button type = "submit" class="preview-btn">表示</button>
+          <button type = "submit" name="search" value="1" class="preview-btn">表示</button>
   </form>
-        </div>
+   </div>
+<!-- 表示後の処理 -->
+ <?php if(isset($_GET['search']) && !empty($example)): ?>
+  <!-- 社員ID・社員名・対象年月 -->
+    <div class="employee-info">
+      <span class="employee-name">
+      <?= htmlspecialchars($employee_id) ?>
+      <?= htmlspecialchars($employee_name) ?>
+      </span> 
+    <span class="employee-month">
+      <?= htmlspecialchars($example) ?>
+    </span>
+    </div>
+    <!-- 操作ボタン -->
+      <div class="attendance-buttons">
+        <!-- 勤怠追加ボタン -->
+        <button type="button" class="add-btn">＋ 勤怠追加</button>
+        <!-- 勤怠削除ボタン -->
+         <button type="button" class="delete-btn">－ 選択した勤怠を削除</button>
       </div>
-      <div class="kintai">
+    <!-- 勤怠一覧（チェックボックス・修正ボタン付き） -->
+    
+    <div class="kintai">
           <table>
             <tr>
+              <th>選択</th>
               <th>日付</th>
               <th>出勤予定</th>
               <th>出勤</th>
               <th>退勤予定</th>
               <th>退勤</th>
               <th>勤務区分</th>
+              <th>操作</th>
             </tr>
             
             
           <?php 
                     foreach($rows as $data){
-                      echo '<tr>';
+                      echo '<tr
+                        data-employee-id="'.htmlspecialchars($employee_id, ENT_QUOTES, 'UTF-8').'"
+                        data-work-date="'.htmlspecialchars($data['display_date'], ENT_QUOTES,'UTF-8').'"
+                        data-original-start="'.htmlspecialchars($data['original_start_timestamp'] ?? '', ENT_QUOTES, 'UTF-8').'"
+                        data-original-end="'.htmlspecialchars($data['original_end_timestamp'] ?? '', ENT_QUOTES, 'UTF-8').'"
+                      >';//各行にID、勤務日、修正前の出勤、退勤を保存する
 
-                      echo '<td>'.$data['display_date'].'</td>';
+                      //チェックボックス
+                      echo '<td><input type="checkbox" name="delete_ids[]" value=""></td>';
+
+                      echo '<td>'.htmlspecialchars($data['display_date'], ENT_QUOTES, 'UTF-8').'</td>';
 
                       // 出勤予定
                       echo '<td>'.(!empty($data['start_plan'])
                           ? substr($data['start_plan'],0,5) : '').'</td>';
 
                       // 実際の出勤
-                      echo '<td>'.(!empty($data['shukin_time'])
-                          ? substr($data['shukin_time'],11,5) : '').'</td>';
+                      echo '<td>'.(
+                          isset($data['detail'])
+                              ? (!empty($data['detail']['start_time'])
+                                  ? substr($data['detail']['start_time'], 0, 5)
+                                  : '')
+                              : (!empty($data['shukin_time'])
+                                  ? substr($data['shukin_time'], 11, 5)
+                                  : '')
+                      ).'</td>';
 
                       // 退勤予定
                       echo '<td>'.(!empty($data['end_plan'])
                           ? substr($data['end_plan'],0,5) : '').'</td>';
 
                       // 実際の退勤
-                      echo '<td>'.(!empty($data['taikin_time'])
-                          ? substr($data['taikin_time'],11,5) : '').'</td>';
+                      echo '<td>'.(
+                          isset($data['detail'])
+                              ? (!empty($data['detail']['end_time'])
+                                  ? substr($data['detail']['end_time'], 0, 5)
+                                  : '')
+                              : (!empty($data['taikin_time'])
+                                  ? substr($data['taikin_time'], 11, 5)
+                                  : '')
+                      ).'</td>';
 
-                      // 勤務区分
-                      echo '<td>'.($data['work_type'] ?? '').'</td>';
+                     // 勤務区分
+                     echo '<td>'.htmlspecialchars(
+                      isset($data['detail'])
+                          ? ($data['detail']['work_type'] ?? '')
+                          : ($data['work_type'] ?? ''),
+                      ENT_QUOTES,
+                      'UTF-8'
+                  ).'</td>';
+                      
+                      //修正ボタン
+                      echo '<td><button type="button" class="edit-btn">修正</button></td>';
 
                       echo '</tr>';
-}
+               }
               ?> 
-
-
-
           </table>
-
       </div>
+
+      <!-- ポップアップ -->
+      <div id="addModal" class="modal" hidden>
+        <div class="modal-content">
+            <h2>勤怠追加</h2>
+
+            <form id="addForm">
+                  <label>
+                    勤務日
+                    <input type="date" id="addDate" required>
+                  </label>
+
+                  <label>
+                    出勤時刻
+                    <input type="time" id="addStartTime">
+                  </label>
+
+                  <label>
+                    退勤時刻
+                    <input type="time" id="addEndTime">
+                  </label>
+
+                  <label>
+                    勤務区分
+                    <select id="addWorkType" required>
+                      <option value="通常勤務">通常勤務</option>
+                      <option value="有給">有給</option>
+                      <option value="欠勤">欠勤</option>
+                    </select>
+                  </label>
+
+                    <div class="modal-buttons">
+                      <button type="button" id="closeModal">キャンセル</button>
+                      <button type="submit">追加する</button>
+                    </div>
+             </form>
+        </div>
+      </div> 
+<?php endif; ?>
+
+        </div>
+     
+      
     </main>   
 
     <?php include('footer.php'); ?>
-  </body>
+    <script>
+      const table = document.querySelector('.kintai table');
 
+      if(table){
+      //テーブル全体にクリックイベントを設定
+      table.addEventListener('click',function(event){
+        //押されたボタンを取得
+        const button = event.target.closest('button');
+
+        if(!button) return;
+
+        //ボタンがある行を取得
+        const row = button.closest('tr');
+        const cells = row.querySelectorAll('td');
+        const actionCell = cells[7];
+
+        //①修正ボタンが押されたとき
+        if(button.classList.contains('edit-btn')){
+          const startTime = cells[3].textContent.trim();
+          const endTime = cells[5].textContent.trim();
+          const workType = cells[6].textContent.trim();
+
+          //修正前の値を保存しておく
+          row.dataset.startTime = startTime;
+          row.dataset.endTime = endTime;
+          row.dataset.workType = workType;
+
+          //出勤時間
+          cells[3].innerHTML = `<input type="time" value="${startTime}">`;
+
+          //退勤時間
+          cells[5].innerHTML = `<input type="time" value="${endTime}">`;
+
+          //勤務区分
+          cells[6].innerHTML = `<select>
+                               <option value="通常勤務" ${workType === '通常勤務' ? 'selected':''}>通常勤務</option>
+                               <option value="有給" ${workType === '有給' ? 'selected' : ''}>有給</option>
+                               <option value="欠勤" ${workType ===  '欠勤' ? 'selected' : ''}>欠勤</option>
+                               </select>
+                            `;
+
+          //操作ボタンを切り替える
+          actionCell.innerHTML = `
+              <button type="button" class="save-btn">保存</button>
+              <button type="button" class="cancel-btn">キャンセル</button>
+          `;
+        }
+
+        //②保存ボタンが押されたとき
+        else if(button.classList.contains('save-btn')){
+            const employeeId = row.dataset.employeeId;
+            const workDate = row.dataset.workDate;
+            const originalStart = row.dataset.originalStart;
+            const originalEnd = row.dataset.originalEnd;
+
+          const newStartTime = cells[3].querySelector('input').value;
+          const newEndTime = cells[5].querySelector('input').value;
+          const newWorkType = cells[6].querySelector('select').value;
+
+        console.log({
+          employeeId,
+          workDate,
+          originalStart,
+          originalEnd,
+          newStartTime,
+          newEndTime,
+          newWorkType
+      });
+
+
+          fetch('shusei_save.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+        employee_id: employeeId,
+        work_date: workDate,
+        original_start_timestamp: originalStart,
+        original_end_timestamp: originalEnd,
+        start_time: newStartTime,
+        end_time: newEndTime,
+        work_type: newWorkType
+    })
+})
+.then(response => response.json())
+.then(data => {
+    console.log(data);
+
+
+    if(data.success){
+    //入力した値を画面に表示
+            cells[3].textContent = newStartTime;
+            cells[5].textContent = newEndTime;
+            cells[6].textContent = newWorkType;
+
+
+            //操作欄を修正ボタンに戻す
+            actionCell.innerHTML = `
+              <button type= "button" class="edit-btn">修正</button>
+            `;
+ }else { 
+  alert(data.message);
+  
+ }
+})
+ .catch(error => {
+    console.error('保存エラー：',error);
+    alert('保存中にエラーが発生しました。');
+ });
+
+ }
+
+        //③キャンセルボタンが押されたとき
+        else if(button.classList.contains('cancel-btn')){
+          //修正前の値に戻す
+            cells[3].textContent = row.dataset.startTime;
+            cells[5].textContent = row.dataset.endTime;
+            cells[6].textContent = row.dataset.workType;
+
+            //操作欄を修正ボタンに戻す
+            actionCell.innerHTML = `
+              <button type="button" class = "edit-btn">修正</button>
+            `;
+        }
+
+      });
+ }
+      //ポップアップを取得する
+      const addModal = document.getElementById('addModal');
+      const addBtn = document.querySelector('.add-btn');
+      const closeModal = document.getElementById('closeModal');
+
+      //クリックしたときにポップアップを開閉する処理
+      //勤怠追加ボタンを押したとき
+      addBtn.addEventListener('click', function(){
+        addModal.hidden = false;
+      });
+
+      //キャンセルボタンを押したとき
+      closeModal.addEventListener('click', function(){
+        addModal.hidden = true;
+      });
+
+    </script>
+  </body>
 </html>

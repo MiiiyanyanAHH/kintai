@@ -1,0 +1,35 @@
+/* ポップアップんｐ背景 */
+.modal{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0, 0, 0.5);
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* ポップアップ本体 */
+.modal-content {
+  background: white;
+  width: 400px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* タイトル */
+.modal-content h2{
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* 入力項目 */
+.modal-content label{
+  display: block;
+  margin-bottom: 15px;
+}
+

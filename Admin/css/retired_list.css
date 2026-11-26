@@ -1,0 +1,138 @@
+body {
+  margin: 0; /*外側、内側の余白なし*/
+  padding: 0;
+  height: 100vh; 
+  overflow: hidden;
+  display: flex;
+  flex-direction: column; /*縦方向に並べる*/
+  font-family: sans-serif;
+}
+
+/*フッター*/
+footer {
+  flex-shrink: 0; /*フッターが縮むのを防ぐ*/
+  text-align: center;/*文字を左右中央へ*/
+  line-height: 50px;/*行の高さ指定*/
+  padding: 0;
+  font-size: 16px;
+  color: #f8f8ff;
+  
+  height: 50px;
+  width: 100%;/*親要素の幅いっぱい*/
+  box-sizing: border-box;/*幅や高さにpadding.borderを含めて計算*/
+}
+
+/*全体*/
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+  padding: 34px 30px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.h1_container{
+
+  font-size: 18px;
+  text-align: center;
+}
+.yoko_con .back-link {
+  position: absolute;
+  left: 0;
+}
+
+.yoko_con{
+  display: flex;
+   align-items: center;
+  justify-content: center;
+  position: relative;
+}
+/* 戻るボタン */
+.yoko_con .back-link {
+  position: absolute;
+  left: 0;
+  top: -5px;
+}
+
+
+
+.kazoe{
+  font-size: 20px;
+  margin-bottom: 19px;
+  margin-left: 30px;
+  background-color: #7e7e7e2d;
+  padding: 3px 60px;
+  border-radius: 19px;
+}
+.count-number {
+    color: rgb(32, 155, 15);
+    font-size: 23px;
+}
+.kazoe_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kintai table{
+  margin-top: 0px;
+  width: auto; /* 必要に応じて幅を微調整 */
+  min-width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+}
+
+.kintai{
+  font-size: 20px;
+}
+
+/* テーブル部分だけスクロール*/
+#table_scroll {
+   flex: 1;           /* 残りのスペースを全部使う */
+  min-height: 0;     /* 内容に合わせて無制限に伸びない */
+  overflow-y: auto;  /* 縦スクロール */
+  overflow-x: auto;  /* 横スクロール */
+  max-height: none;
+}
+
+.preview-table{
+  width: 80%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0 auto;
+}
+
+.preview-table th {
+  position: sticky;
+  height: 40px;
+  top: 0;
+  z-index: 2;
+  background-color: #354742;
+  color: rgb(255, 255, 255);
+}
+
+.kintai th {
+  /*border-bottom: 2px solid #000;*/
+  white-space: nowrap;
+  padding:4px 30px;
+}
+
+.kintai td{
+  padding:10px 47px;
+}
+
+/* 各列のテキスト位置を整える 
+nth-child()は親要素の中で何番目にある要素か指定するもの*/
+.kintai th:nth-child(1), .kintai td:nth-child(1) { text-align: center; } /* 社員ID */
+.kintai th:nth-child(2), .kintai td:nth-child(2) { text-align: left; }   /* 社員名 */
+.kintai th:nth-child(3), .kintai td:nth-child(3) { text-align: center; } /* 入社年月日 */
+.kintai th:nth-child(4), .kintai td:nth-child(4) { text-align: center; } /* 退職年月日 */
+
+/* 奇数行 */
+.preview-table tbody tr:nth-child(odd) {
+  background-color: #e0e8e9;
+}
