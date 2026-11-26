@@ -7,7 +7,7 @@
   height: 100%;
   background: rgba(0,0, 0, 0.5);
   display: flex;
-  justify-self: center;
+  justify-content: center;
   align-items: center;
   z-index: 1000;
 }
@@ -31,5 +31,28 @@
 .modal-content label{
   display: block;
   margin-bottom: 15px;
+}
+
+/* 入力欄 */
+.modal-content input,
+.modal-content select {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  box-sizing: border-box;
+}
+
+/* ボタン */
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+/* hiddenがついているときは非表示にする */
+.modal[hidden]{
+  display: none;
 }
 

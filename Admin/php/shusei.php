@@ -339,6 +339,9 @@ unset($row);
             <h2>勤怠追加</h2>
 
             <form id="addForm">
+                  <input type="hidden" id="addEmployeeId"
+                  value="<?= htmlspecialchars($employee_id,ENT_QUOTES,'UTF-8')?>">     
+
                   <label>
                     勤務日
                     <input type="date" id="addDate" required>
@@ -522,6 +525,29 @@ unset($row);
         addModal.hidden = true;
       });
 
+      //勤怠追加フォーム
+      const addForm = document.getElementById('addForm');
+
+      addForm.addEventListener('submit', function(event){
+        //フォーム送信によるページ更新を防ぐ
+        event.preventDefault();
+
+        //入力内容を取得
+        const employeeId = document.getElementById('addEmployeeId').value;
+        const workDate = document.getElementById('addDate').value;
+        const startTime = document.getElementById('addStartTime').value;
+        const endTime = document.getElementById('addEndTime').value;
+        const workType = document.getElementById('addWorkType').value;
+
+        //取得した内容を確認
+        console.log({
+          employeeId,
+          workDate,
+          startTime,
+          endTime,
+          workType
+        });
+      });
     </script>
   </body>
 </html>
