@@ -61,7 +61,7 @@ const checkImage = () => {
               frame.style.display = "block";
             },{once:true});
      //表示画面の所在場所
-    frame.src = "http://localhost/kintai/QR/php/loading.php";
+    frame.src = "http://localhost/きんたくん/kintai/QR/php/loading.php";
 
     //QRコードのデータをＩＤと識別日に分けて変数へ
     const qrData = code.data.split(",");
@@ -69,7 +69,7 @@ const checkImage = () => {
     const qrIssueDate = qrData[1];
 
     //phpにＩＤと識別日の情報を送信
-    fetch("http://localhost/kintai/QR/php/qr_attendance.php", {
+    fetch("http://localhost/きんたくん/kintai/QR/php/qr_attendance.php", {
       method: "POST", headers: {
         "Content-Type": "application/json"
       },

@@ -52,7 +52,7 @@
         LEFT JOIN attendance_logs AS l 
              ON a.employee_id = l.employee_id 
         
-        AND DATE(l.time_stamp) = a.work_date
+        AND DATE(l.time_stamp - INTERVAL 4 HOUR - INTERVAL 1 SECOND) = a.work_date
         WHERE a.work_date >= :start_date
         AND a.work_date < :end_date
 

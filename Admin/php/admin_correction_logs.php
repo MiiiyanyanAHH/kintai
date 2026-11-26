@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>管理者ダッシュボード</title>
     <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/correction_logs.php.css">
+    <link rel="stylesheet" href="../css/correction_logs.css">
   </head>
 
   <body>
@@ -22,6 +22,16 @@
 
       <div id="table_scroll">
           <table class="table_1">
+              <thead>
+                <tr>
+                  <th>変更日時</th>
+                  <th>変更者ID</th>
+                  <th>対象社員ID</th>
+                  <th>変更項目</th>
+                  <th>変更後の値</th>
+                  <th>操作種別</th>
+                </tr>
+              </thead>
               <?php 
               
                   $pdo = new PDO('mysql:host=localhost;dbname=kinta_db;charset=utf8','root','');
