@@ -65,10 +65,39 @@ footer {
   gap:20px;
 }
 
+.kazoe_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.kazoe{
+  font-size: 20px;
+  margin-bottom: 19px;
+  margin-left: 30px;
+  background-color: #7f8d722d;
+  padding: 3px 60px;
+  border-radius: 19px;
+}
+.count-number {
+    color: rgb(32, 155, 15);
+    font-size: 23px;
+}
+.yoko_con{
+   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#narabi{
+  position: absolute;
+  left: 30px;
+  margin-top: -10px;
+}
+
 .kintai table{
   margin-top: 0px;
   width: auto; /* 必要に応じて幅を微調整 */
-  min-width: 80%;
+  min-width: 75%;
   margin-left: auto;
   margin-right: auto;
   border-collapse: collapse;
@@ -88,10 +117,10 @@ footer {
 }
 
 .preview-table{
-  width: 100%;
+  width: 80%;
   border-collapse: separate;
   border-spacing: 0;
-  margin: 0;
+  margin: 0 auto;
 }
 
 .preview-table th {
@@ -108,9 +137,10 @@ footer {
 .kintai th {
   /*border-bottom: 2px solid #000;*/
   white-space: nowrap;
+  padding:4px 42px;
 }
 .kintai td{
-  padding:10px 16px;
+  padding:10px 42px;
 }
 
 /* 各列のテキスト位置を整える 
@@ -118,10 +148,10 @@ nth-child()は親要素の中で何番目にある要素か指定するもの*/
 .kintai th:nth-child(1), .kintai td:nth-child(1) { text-align: center; } /* 社員ID */
 .kintai th:nth-child(2), .kintai td:nth-child(2) { text-align: left; }   /* 社員名 */
 .kintai th:nth-child(3), .kintai td:nth-child(3) { text-align: center; } /* 入社年月日 */
-.kintai th:nth-child(4), .kintai td:nth-child(4) { text-align: center; } /* 退職年月日 */
-.kintai th:nth-child(5), .kintai td:nth-child(5) { text-align: center; } /* 権限 */
-.kintai th:nth-child(6), .kintai td:nth-child(6) { text-align: center; } /* 管理者ID */
-.kintai th:nth-child(7), .kintai td:nth-child(7) { text-align: center; } /* 操作 */
+.kintai th:nth-child(4), .kintai td:nth-child(4) { text-align: center; } /* 権限 */
+.kintai th:nth-child(5), .kintai td:nth-child(5) { text-align: center; } /* 管理者ID */
+.kintai th:nth-child(6), .kintai td:nth-child(6) { text-align: center; } /* 操作 */
+
 
 
 .btn{
@@ -164,6 +194,11 @@ nth-child()は親要素の中で何番目にある要素か指定するもの*/
     width: 150px;
     height: 36px;
     font-size: 17px;
+}
+
+/* 奇数行 */
+.preview-table tbody tr:nth-child(odd) {
+  background-color: #e2e9e0;
 }
 
 

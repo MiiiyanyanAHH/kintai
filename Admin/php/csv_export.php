@@ -15,7 +15,7 @@
       <div class="grup">
       <p>出力する年月</p>
         <form action="preview.php"><!-- formのデータをpreview.phpに送るためのタグ -->
-          <input type="month" name="month" required>
+          <input type="month" name="month" value="<?= htmlspecialchars($_GET['month']?? '', ENT_QUOTES, 'UTF-8') ?>" required>
               <div class="menu-buttons">
                 <button type = "submit" class="preview-btn">プレビュー</button>
                 <button type = "submit" class="csv-btn" formaction="csv_download.php">CSVを出力</button>
