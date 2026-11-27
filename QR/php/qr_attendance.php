@@ -57,6 +57,7 @@ $sql->execute([$employeeId,$qrIssueDate]);
             ]);
             //出勤画面を返す
             echo json_encode([
+              //保存場所が違う
             "page" => "http://localhost/きんたくん/kintai/QR/php/shukin_complete.php",
                       "time" => date( "H:i", strtotime($attendanceTime))
             ]);

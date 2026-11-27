@@ -1,3 +1,5 @@
+
+/* 画面全体 */
 body {
     margin: 0;
     padding: 0;
@@ -5,56 +7,99 @@ body {
     display: flex;
     flex-direction: column;
     font-family: sans-serif;
+    background-color: #F1F5F2;
 }
 
+/* メイン部分 */
 .container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-  padding: 20px 15px;
-  min-height: 0;
-  justify-content: center;
-
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 40px 15px;
+    min-height: 0;
 }
 
+/* 見出し */
 .container h1 {
-  font-size: clamp(22px, 3vw, 48px);
-  font-weight: bold;
-  text-align: center;
-  margin: 10px 0 30px;
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: bold;
+    text-align: center;
+    color: #315B49;
+    margin: 10px 0 35px;
 }
 
+/* ボタンをまとめる白いカード */
 .menu-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(12px, 2vh, 25px);
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    width: min(90%, 480px);
+    box-sizing: border-box;
+    padding: 35px 30px;
+
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.menu-btns{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+/* ボタン共通 */
+.menu-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    min-height: 65px;
+    box-sizing: border-box;
+
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: clamp(20px, 2.5vw, 30px);
+    text-decoration: none;
+
+    padding: 10px;
+    transition: 0.2s;
+    cursor: pointer;
 }
 
-.menu-btn{
-  display: flex;
-  justify-content: center;
-  height: 60px;
-  width: 300px;
-  border-radius: 6px;
-  margin-bottom: 15px;
-  background-color: #b8b7b7;
-  color: #2a2a2a;
-  font-size: clamp(18px, 2.5vw, 39px);
-  text-decoration: none;
-  padding: 5px;
+/* 月別勤怠修正 */
+.menu-btn:nth-child(1) {
+    background-color: #356B57;
 }
 
-.menu-btn:hover{
-  background-color: #434242;
-  color: #d7d7d7;
+/* ログ */
+.menu-btn:nth-child(2) {
+    background-color: #648257;
+}
+
+/* CSV出力 */
+.menu-btn:nth-child(3) {
+    background-color: #C77D53;
+}
+
+/* 社員管理 */
+.menu-btn:nth-child(4) {
+    background-color: #A58B65;
+}
+
+/* マウスを乗せたとき */
+.menu-btn:hover {
+    opacity: 0.75;
+}
+
+/* 画面が小さい場合 */
+@media (max-width: 480px) {
+    .menu-buttons {
+        padding: 25px 20px;
+        gap: 15px;
+    }
+
+    .menu-btn {
+        min-height: 55px;
+    }
 }

@@ -1,77 +1,131 @@
+
+/* 全体の設定 */
 html,
-body{
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
 }
 
-h1 {
-  font-size: clamp(24px, 4vw, 60px); /*最小値、推奨値、最大値の値を指定。画面幅などの変化に合わせて値を自動調整*/
-  text-align: center;
-  margin-top: clamp(10px, 3vw, 500px);
+body {
+    font-family: sans-serif;
+    background-color: #F3F6F4;
 }
 
+/* 画面全体 */
 .container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column; /*縦方向に並べる*/
-  box-sizing: border-box; /*幅や高さにpadding・borderを含めて計算する*/
-  align-items: center;/*左右の中央*/
-}
-
-.form-area {
-  width: 240px;
-  box-sizing: border-box;
-  /* max-width: calc(100% - 40px); */
-  /* margin: 0 auto; */
-  /* transform: translateX(-64px); */
-}
-
- .form-area p {
-  margin: 0 0 20px;
-  font-size: 20px;
-  text-align: left;
-} 
-
-.form-area input {
-  width: 100%;
-  height: 30px;
-  box-sizing: border-box;
-}
-
-.container > footer {
-  margin-top: auto;
-}
-
-button[type="submit"] {
-  display: block;
-  width: 150px;
-  /* max-width: 50%; */
-  box-sizing: border-box;
-  padding: 10px; 
-  margin: 80px auto 0;
-   /* margin-top: 100px;  */
-  /* transform: translateX(64px); */
-  background-color: #2563EB;
-  color: #fff;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-/* エラーメッセージ用のスタイル */
-   .error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-size: 14px;
-    margin-bottom: 15px;     /* 下の「管理者ID」との間に少し隙間を空ける */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     box-sizing: border-box;
-    white-space: nowrap; 
-    display: inline-block;
+    padding: 20px 15px;
 }
 
-/*padding-left: 0; 
-width: 100%;              入力欄の幅いっぱいに合わせる */
+/* タイトル */
+h1 {
+    font-size: clamp(28px, 4vw, 48px);
+    text-align: center;
+    color: #294D3D;
+    margin: 35px 0 35px;
+}
+
+/* ログインフォーム */
+form {
+    width: 100%;
+    max-width: 460px;
+}
+
+/* 白いカード部分 */
+.form-area {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    padding: 35px 40px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* 入力欄のラベル */
+.form-area p {
+    margin: 0 0 25px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    text-align: left;
+}
+
+/* 入力欄 */
+.form-area input {
+    width: 100%;
+    height: 45px;
+    box-sizing: border-box;
+    margin-top: 8px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #C8D5CC;
+    border-radius: 6px;
+    outline: none;
+}
+
+/* 入力欄を選択したとき */
+.form-area input:focus {
+    border-color: #356B57;
+    box-shadow: 0 0 0 3px rgba(53, 107, 87, 0.12);
+}
+
+/* ログインボタン */
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    box-sizing: border-box;
+    padding: 12px;
+    margin: 35px auto 0;
+    background-color: #356B57;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+/* ボタンにマウスを乗せたとき */
+button[type="submit"]:hover {
+    background-color: #294D3D;
+}
+
+/* エラーメッセージ */
+.error {
+    background-color: #F8D7DA;
+    color: #721C24;
+    border: 1px solid #F5C6CB;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin: 0 0 20px;
+    box-sizing: border-box;
+    width: 100%;
+    white-space: normal;
+}
+
+/* 戻るボタン */
+.back-link {
+    position: absolute;
+    top: 25px;
+    left: 30px;
+    color: #52645B;
+    text-decoration: none;
+    font-size: clamp(18px, 2vw, 28px);
+}
+
+.back-link:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+}
+
+/* フッター */
+.container > footer {
+    margin-top: auto;
+}

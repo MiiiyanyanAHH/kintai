@@ -9,7 +9,8 @@ body{
 .app-header {
   display: flex;
   align-items: center;
-  background-color: #2a5a47; /* 落ち着いたダークネイビー */
+  /* background-color: #2a5a47; 落ち着いたダークネイビー */
+ background-color:#356B57;
   color: #ffffff;
   padding: 15px 30px;
   box-shadow: 0 2px 5px rgb(47, 100, 75);
@@ -58,9 +59,9 @@ h1 {
   height: auto;
   margin-top: 0px;/*50px*/
   border: none;
-  background-color: rgb(98, 112, 106);
+  background-color:  #75A88A; 
   border-radius: 11px;
-  color: #f8f8ff;
+  color: #ffffff;
 }
 
 .sub-btn {
@@ -76,17 +77,19 @@ h1 {
   font-weight: bold;
   font-size: clamp(14px, 1.5vw, 23px);
   border: none;
-  background-color: rgb(98, 112, 106);
+  background-color: #49634C;
   border-radius: 11px;
-  color: #f8f8ff;
+  color: #ffffff;
 }
 
 .sub-btn button:hover {
-  background-color: rgb(61, 73, 68); /* 少しだけ濃い色にする */
+ /* background-color: rgb(61, 73, 68); /* 少しだけ濃い色にする */
+ background-color: #A1A878;
 }
 
 .dakoku-btn button:hover {
-  background-color: rgb(61, 73, 68); /* 少しだけ濃い色にする */
+  background-color:#527F68;
+ /* background-color: rgb(61, 73, 68); /* 少しだけ濃い色にする */
 }
 
 

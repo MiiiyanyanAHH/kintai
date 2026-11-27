@@ -1,73 +1,106 @@
+
+/* 全体の設定 */
 body {
     margin: 0;
-    padding: 0; /*余計な余白消し*/
-    min-height: 100vh;/*ページの最小の高さ100％*/
+    padding: 0;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     font-family: sans-serif;
+    background-color: #F3F6F4;
 }
 
+/* メイン部分 */
 .container {
-    flex: 1;/*ボディの要素いっぱいにコンテナ伸ばす。*/
+    flex: 1;
     display: flex;
-    flex-direction: column;/*中の要素を縦方向に並べる*/
-    align-items: center;/*左右の中央*/
-    justify-content: center;/*上下の中央*/
-    box-sizing: border-box;/*余白も含めて全体のサイズ計算*/
-    padding: 30px 20px;/*画面が小さいときに画面崩れ防止*/
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 30px 20px;
 }
 
+/* 白いカード部分 */
 .message {
-  text-align: center; 
-}
-.message h1{
-  font-size: 50px;
-}
-.message p{
-  font-size: 30px;
+    width: 100%;
+    max-width: 650px;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    border-radius: 14px;
+    padding: 45px 30px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
+/* 見出し */
+.message h1 {
+    font-size: clamp(26px, 4vw, 42px);
+    color: #294D3D;
+    margin: 0 0 25px;
+}
 
+/* 説明文 */
+.message p {
+    font-size: clamp(16px, 2vw, 22px);
+    color: #52645B;
+    margin: 0;
+}
+
+/* ボタン部分 */
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 35px;
+}
+
+/* ボタン共通 */
 .cancel-btn,
 .logout-btn {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-
-    width: 250px;
-    height: 60px;
-
-    font-size: 28px;
-    border-radius: 5px;
+    width: 200px;
+    min-height: 55px;
+    box-sizing: border-box;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 7px;
     text-decoration: none;
-    padding: 0;
+    padding: 10px;
     border: none;
+    cursor: pointer;
 }
 
-.buttons{
-  display:flex;
-  align-items:center;
-  justify-content: center;
-  gap:40px;
-}
-
+/* キャンセルボタン */
 .cancel-btn {
-  background-color: #ccc;
-  color: #1e1919;
+    background-color: #E5EAE6;
+    color: #405047;
 }
 
+.cancel-btn:hover {
+    background-color: #D5DDD7;
+}
+
+/* ログアウトボタン */
 .logout-btn {
-  background-color: #444343;
-  color: #fff;
-
+    background-color: #356B57;
+    color: #FFFFFF;
 }
 
-.cancel-btn:hover{
-  background-color: #75a8cc;
-  color: #fff;
+.logout-btn:hover {
+    background-color: #294D3D;
 }
 
-.logout-btn:hover{
-  background-color: #d67272;
-  color: #fff;
+/* ボタンのアニメーション */
+.cancel-btn,
+.logout-btn {
+    transition: background-color 0.2s;
+}
+
+/* フッター */
+footer {
+    flex-shrink: 0;
 }
