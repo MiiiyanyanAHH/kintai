@@ -59,6 +59,7 @@ $sql->execute([$employeeId,$qrIssueDate]);
             echo json_encode([
               //保存場所が違う
             "page" => "http://localhost/きんたくん/kintai/QR/php/shukin_complete.php",
+            "page" => "http://localhost/kintai/QR/php/shukin_complete.php",
                       "time" => date( "H:i", strtotime($attendanceTime))
             ]);
           
@@ -76,7 +77,7 @@ $sql->execute([$employeeId,$qrIssueDate]);
             //データベースに登録しない
             //重複画面表示
             echo json_encode([
-            "page" => "http://localhost/きんたくん/kintai/QR/php/tyouhuku.php",
+            "page" => "http://localhost/kintai/QR/php/tyouhuku.php",
             //既に登録されているログ
             "time" => date( "H:i", strtotime($todayLog["time_stamp"]))
             ]);
@@ -92,7 +93,7 @@ $sql->execute([$employeeId,$qrIssueDate]);
                       ]);
                       //退勤画面を返す
                       echo json_encode([
-                      "page" => "http://localhost/きんたくん/kintai/QR/php/taikin_complete.php",
+                      "page" => "http://localhost/kintai/QR/php/taikin_complete.php",
                       "time" => date( "H:i", strtotime($attendanceTime))
                       ]);
                   //5分以上経過済み,直前が退勤だった場合
@@ -105,7 +106,7 @@ $sql->execute([$employeeId,$qrIssueDate]);
                       ]);
                       //出勤画面を返す
                       echo json_encode([
-                      "page" => "http://localhost/きんたくん/kintai/QR/php/shukin_complete.php",
+                      "page" => "http://localhost/kintai/QR/php/shukin_complete.php",
                       "time" => date( "H:i", strtotime($attendanceTime))
                       ]);
                  } 
@@ -114,13 +115,13 @@ $sql->execute([$employeeId,$qrIssueDate]);
     } else {
         //無効なIDです画面を返す（退職済み）
         echo json_encode([
-        "page" => "http://localhost/きんたくん/kintai/QR/php/mukouQR.php"
+        "page" => "http://localhost/kintai/QR/php/mukouQR.php"
         ]);
     }
   } else {
       //無効なIDです画面を返す（登録されてない、関係ないQRデーター）
       echo json_encode([
-      "page" => "http://localhost/きんたくん/kintai/QR/php/mukouQR.php"
+      "page" => "http://localhost/kintai/QR/php/mukouQR.php"
       ]);
   }
 
