@@ -190,6 +190,40 @@ foreach($rows as &$row){
   }
 }
 unset($row);
+  //追加された勤怠データを一覧に追加
+  foreach($details as $detail){
+
+  //追加データだけを対象にする
+  if($detail['operation_type'] == '追加'){
+    $rows[] = [
+      'display_date' => $detail['work_date'],
+      'start_plan' => null,
+      'shukin_time' => null,
+      'end_plan' => null,
+      'taikin_time' => null,
+      'work_type' => $detail['work_type'],
+      'original_start_timestamp' => null,
+      'original_end_timestamp' => null,
+      'detail' => $detail
+    ];
+
+  }
+  }
+  //日付順に並び変える（古い日付から新しい日付）
+  usort($rows,function($a, $b){
+    //日付を比較
+    $dateCompare = strcmp($a['display_date'], $b['display_date']);
+
+    //日付が違う場合は日付順を優先
+    if($dateCompare !== 0){
+      return $dateCompare;
+    }
+    //同じ日付なら出勤時刻を比較
+    $timeA = $a['detail']['start_time'] ?? $a['shukin_time'] ?? '';
+    $timeB = $b['detail']['start_time'] ?? $b['shukin_time'] ?? '';
+
+    return strcmp($timeA,$timeB);
+  });
 }    
 ?>
 
@@ -252,15 +286,19 @@ unset($row);
       <div class="attendance-buttons">
         <!-- 勤怠追加ボタン -->
         <button type="button" class="add-btn">＋ 勤怠追加</button>
-        <!-- 勤怠削除ボタン -->
-         <button type="button" class="delete-btn">－ 選択した勤怠を削除</button>
+        <!-- 削除モード開始 -->
+         <button type="button" id="deleteModeBtn">－ 勤怠削除</button>
+
+         <!-- 削除モード中だけ表示 -->
+          <button type="button" id="cancelDeleteBtn" hidden>キャンセル</button>
+          <button type="button" id="confirmDeleteBtn" hidden disabled>選択した勤怠を削除</button>
       </div>
     <!-- 勤怠一覧（チェックボックス・修正ボタン付き） -->
     
     <div class="kintai">
           <table>
             <tr>
-              <th>選択</th>
+              <th class="delete-column" hidden>選択</th>
               <th>日付</th>
               <th>出勤予定</th>
               <th>出勤</th>
@@ -281,7 +319,13 @@ unset($row);
                       >';//各行にID、勤務日、修正前の出勤、退勤を保存する
 
                       //チェックボックス
-                      echo '<td><input type="checkbox" name="delete_ids[]" value=""></td>';
+                      $detail_id = $data['detail']['detail_id'] ?? '';
+
+                      echo '<td class="delete-column" hidden><input type="checkbox"
+                           class="delete-checkbox" name="delete_ids[]"
+                           value="'.htmlspecialchars((string)$detail_id, ENT_QUOTES,'UTF-8').'"
+                           '.($detail_id === '' ? 'disabled' : '').'
+                      ></td>';
 
                       echo '<td>'.htmlspecialchars($data['display_date'], ENT_QUOTES, 'UTF-8').'</td>';
 
@@ -315,18 +359,28 @@ unset($row);
                                   : '')
                       ).'</td>';
 
-                     // 勤務区分
+                     //勤務区分
+                     $work_type = '';
+                     if(isset($data['detail'])){
+                      //管理医者が修正したデータがある場合
+                      $work_type = $data['detail']['work_type'] ?? '';
+                     } elseif(!empty($data['work_type'])){
+                      //勤務予定に勤務区分がある場合
+                      $work_type = $data['work_type'];
+                     } elseif(!empty($data['shukin_time'])|| !empty($data['taikin_time'])){
+                      //QR打刻がある場合
+                      $work_type = '通常勤務';
+                     }
+
+                     //画面に表示
                      echo '<td>'.htmlspecialchars(
-                      isset($data['detail'])
-                          ? ($data['detail']['work_type'] ?? '')
-                          : ($data['work_type'] ?? ''),
+                      $work_type,
                       ENT_QUOTES,
                       'UTF-8'
-                  ).'</td>';
+                     ).'</td>';
                       
                       //修正ボタン
                       echo '<td><button type="button" class="edit-btn">修正</button></td>';
-
                       echo '</tr>';
                }
               ?> 
@@ -472,16 +526,8 @@ unset($row);
 
 
     if(data.success){
-    //入力した値を画面に表示
-            cells[3].textContent = newStartTime;
-            cells[5].textContent = newEndTime;
-            cells[6].textContent = newWorkType;
-
-
-            //操作欄を修正ボタンに戻す
-            actionCell.innerHTML = `
-              <button type= "button" class="edit-btn">修正</button>
-            `;
+      alert('勤怠を保存しました。');
+      location.reload();
  }else { 
   alert(data.message);
   
@@ -539,15 +585,144 @@ unset($row);
         const endTime = document.getElementById('addEndTime').value;
         const workType = document.getElementById('addWorkType').value;
 
-        //取得した内容を確認
-        console.log({
-          employeeId,
-          workDate,
-          startTime,
-          endTime,
-          workType
-        });
+        //入力内容をPHPに送信
+        fetch('shusei_save.php',{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            employee_id: employeeId,
+            work_date: workDate,
+            start_time: startTime,
+            end_time: endTime,
+            work_type:workType,
+            operation_type: '追加'
+
+          })
+        })
+       .then(response => response.json()).then(data=> {
+        console.log(data);
+
+        if(data.success){
+          alert('勤怠を追加しました。');
+          location.reload();
+        } else {
+          alert(data.message);
+        }
+       })
+       .catch(error => {
+        console.error('追加エラー:', error);
+        alert('勤怠の追加に失敗しました。');
       });
+      //submitイベントの終了
+ });
+
+
+ //削除モードのボタンを取得
+ const deleteModeBtn = document.getElementById('deleteModeBtn');
+ const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+ const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+ //チェックボックスがある列を取得
+ const deleteColumns = document.querySelectorAll('.delete-column');
+
+//チェックボックスを取得
+const deleteCheckboxes = document.querySelectorAll('.delete-checkbox');
+
+//チェックされた数に応じて削除ボタンを切り替える
+function updateDeleteButton(){
+  //チェックされているチェックボックスの数を数える
+  const checkedCount = document.querySelectorAll(
+    '.delete-checkbox:checked'
+  ).length;
+
+  //1件以上選択されていれば削除ボタンを有効にする
+  confirmDeleteBtn.disabled = checkedCount == 0;
+}
+
+//チェックボックスに変更があったとき
+deleteCheckboxes.forEach(checkbox => {
+  checkbox.addEventListener('change',updateDeleteButton);
+});
+
+//削除モードを開始
+deleteModeBtn.addEventListener('click', function(){
+  //チェックボックスを表示
+  deleteColumns.forEach(column =>{
+    column.hidden = false;
+  });
+  //ボタンを切り替える
+  deleteModeBtn.hidden = true;
+  cancelDeleteBtn.hidden = false;
+  confirmDeleteBtn.hidden = false;
+});
+
+//削除モードをキャンセル
+cancelDeleteBtn.addEventListener('click', function(){
+  //チェックを全て外す
+  deleteCheckboxes.forEach(checkbox => {
+    checkbox.checked = false;
+  });
+
+  //チェックボックスを非表示
+  deleteColumns.forEach(column => {
+    column.hidden = true;
+  });
+
+  //ボタンをもとに戻す
+  deleteModeBtn.hidden = false;
+  cancelDeleteBtn.hidden = true;
+  confirmDeleteBtn.hidden = true;
+  confirmDeleteBtn.disabled = true;
+});
+
+//選択した勤怠を削除する
+confirmDeleteBtn.addEventListener('click', function(){
+  //チェックされたチェックボックスを取得
+  const checkedBoxes = document.querySelectorAll(
+    '.delete-checkbox:checked'
+  );
+
+  //選択されたdetail_idを配列にする
+  const deleteIds = Array.from(checkedBoxes).map(
+    checkbox => checkbox.value
+  );
+
+  //選択された勤怠がなければ修了
+  if(deleteIds.length === 0){
+    return;
+  }
+  //削除対象を確認
+  //削除前に確認
+  if(!confirm('選択した勤怠を削除しますか？')){
+    return;
+  }
+  //PHPに削除対象のIDを送信
+  fetch('shusei_save.php',{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      operation_type: '削除',
+      detail_ids: deleteIds
+    })
+  })
+  .then(response => response.json())
+  .then(result => {
+    alert(result.message);
+
+    if(result.success){
+      location.reload();
+    }
+  })
+  .catch(error => {
+    console.error('削除エラー：', error);
+    alert('通信に失敗しました。');
+  });
+  
+});
     </script>
   </body>
 </html>
